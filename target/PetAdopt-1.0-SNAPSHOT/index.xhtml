@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <body>
+        <ui:composition template="/template.xhtml"
+                        xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:h="http://xmlns.jcp.org/jsf/html"
+                        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+            <ui:define name="content">
+                <!-- Imagen de fondo -->
+                    <img src="https://estaticosgn-cdn.deia.eus/clip/37ef816f-bb07-46b0-8c6d-6887ba5b8ee6_16-9-discover-aspect-ratio_default_0.jpg"
+                         alt="Familia feliz con un perro en el parque"
+                          style="width: 100vw; height: 100vh; object-fit: cover; filter: brightness(0.4); position: absolute; top: 0; left: 0; z-index: 1;"/>
+
+                    <!-- Contenido centrado -->
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; text-align: center; color: white;">
+                        <h1 class="display-4">Bienvenido a PetAdopt</h1>
+                        <p class="lead">Adopta, conecta y transforma vidas.</p>
+                        <h:link outcome="/auth/login.xhtml">
+                            <button class="btn btn-lg btn-success">Iniciar sesión</button>
+                        </h:link>
+                    </div>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>
