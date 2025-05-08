@@ -1,12 +1,13 @@
 package es.uva.petadopt.dao;
 
 import es.uva.petadopt.model.Mascota;
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-public class MascotaDao {
+public class MascotaDao implements Serializable{
 
     @PersistenceContext
     private EntityManager entityManager;

@@ -3,14 +3,11 @@ package es.uva.petadopt.dao;
 import es.uva.petadopt.model.Cliente;
 import java.io.Serializable;
 import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 @Stateless
-public class ClienteDao {
+public class ClienteDao implements Serializable{
 
     @PersistenceContext(unitName = "PetAdoptPU")
     private EntityManager entityManager;

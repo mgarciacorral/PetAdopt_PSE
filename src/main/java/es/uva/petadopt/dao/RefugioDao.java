@@ -2,11 +2,8 @@ package es.uva.petadopt.dao;
 
 import es.uva.petadopt.model.Refugio;
 import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 @Stateless
 public class RefugioDao {
