@@ -33,6 +33,17 @@
             <artifactId>all-themes</artifactId>
             <version>1.0.10</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>5.5.0</version> <!-- Usa la última versión estable -->
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.5</version> <!-- o la versión más reciente -->
+        </dependency>
+
     </dependencies>
     
      <build>

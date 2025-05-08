@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+        <ui:composition template="/template.xhtml"
+                        xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:h="http://xmlns.jcp.org/jsf/html"
+                        xmlns:p="http://primefaces.org/ui"
+                        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+            <ui:define name="content">
+                <div class="container">
+                    <h2>Buscar Mascotas</h2>
+
+                    <!-- Filtros y barra de búsqueda -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <p:inputText id="search" placeholder="Buscar por especie o nombre" styleClass="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <p:commandButton value="Buscar" icon="pi pi-search" styleClass="btn btn-primary" />
+                        </div>
+                    </div>
+
+                    <!-- Filtros (especie, raza, etc.) -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <p:selectOneMenu value="#{clienteBean.selectedEspecie}" styleClass="form-control">
+                                <f:selectItem itemLabel="Seleccione Especie" itemValue="" />
+                                <f:selectItem itemLabel="Perro" itemValue="perro" />
+                                <f:selectItem itemLabel="Gato" itemValue="gato" />
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="col-md-3">
+                            <p:selectOneMenu value="#{clienteBean.selectedRaza}" styleClass="form-control">
+                                <f:selectItem itemLabel="Seleccione Raza" itemValue="" />
+                                <f:selectItem itemLabel="Labrador" itemValue="labrador" />
+                                <f:selectItem itemLabel="Siames" itemValue="siames" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+
+                    <!-- Tarjetas de Mascotas -->
+                    <div class="row">
+                        <div class="col-md-4 mb-3" v-for="mascota in #{clienteBean.mascotas}">
+                            <p:panel header="#{mascota.nombre}" styleClass="shadow-sm">
+                                <h:outputText value="Especie: #{mascota.especie}" />
+                                <h:outputText value="Raza: #{mascota.raza}" />
+                                <h:outputText value="Edad: #{mascota.edad}" />
+                                <p:commandButton value="Ver más" action="#{clienteBean.verMascota(mascota.id)}" styleClass="btn btn-info" />
+                            </p:panel>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

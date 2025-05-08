@@ -20,7 +20,7 @@
                                      style="margin-top: 40px;">
 
                                 <h:form>
-                                    <p:messages closable="true" />
+                                    <h:messages styleClass="alert alert-danger" />
 
                                     <div class="mb-3">
                                         <p:outputLabel for="email" value="Email" styleClass="form-label" />
@@ -42,6 +42,7 @@
                                         <p:commandButton value="Iniciar sesión"
                                                          action="#{loginBean.login}"
                                                          update="@form"
+                                                         process="@form"
                                                          styleClass="btn btn-primary" />
                                     </div>
 
