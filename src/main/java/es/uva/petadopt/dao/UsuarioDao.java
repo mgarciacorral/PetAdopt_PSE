@@ -5,10 +5,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import static org.springframework.security.crypto.bcrypt.BCrypt.gensalt;
 
 @Stateless
 public class UsuarioDao {
-    private final String fixedSalt = "$2a$12$myFixedSalt1234myFixedSalt1234";
     
     @PersistenceContext(unitName = "PetAdoptPU")
     private EntityManager entityManager;
@@ -20,13 +20,12 @@ public class UsuarioDao {
 
     // Método para comprobar si la contraseña ingresada coincide con la guardada
     public boolean checkPassword(String rawPassword, String hashedPassword) {
-        String pw = BCrypt.hashpw(rawPassword, fixedSalt);
-        return hashedPassword.equals(pw);
+        return BCrypt.checkpw(rawPassword, hashedPassword);
     }
 
     public void save(Usuario usuario) {
         // Ciframos la contraseña antes de guardarla
-        String hashedPassword = BCrypt.hashpw(usuario.getPassword(), fixedSalt);
+        String hashedPassword = BCrypt.hashpw(usuario.getPassword(), gensalt());
         usuario.setPassword(hashedPassword);
         entityManager.persist(usuario);
     }

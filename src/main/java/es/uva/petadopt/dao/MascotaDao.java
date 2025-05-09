@@ -3,10 +3,12 @@ package es.uva.petadopt.dao;
 import es.uva.petadopt.model.Mascota;
 import java.io.Serializable;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+@Stateless
 public class MascotaDao implements Serializable{
 
     @PersistenceContext
