@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 @Stateless
 public class MascotaDao implements Serializable{
@@ -31,6 +32,17 @@ public class MascotaDao implements Serializable{
     public List<Mascota> findByRaza(String raza) {
         Query query = entityManager.createQuery("SELECT m FROM Mascota m WHERE m.raza = :raza");
         query.setParameter("raza", raza);
+        return query.getResultList();
+    }
+    
+    public  List<String> obtenerEspecies(){
+        TypedQuery<String> query = entityManager.createQuery("SELECT DISTINCT m.especie FROM Mascota m", String.class);
+        return query.getResultList();
+    }
+    
+    public  List<String> obtenerRazasPorEspecie(String especie){
+        TypedQuery<String> query = entityManager.createQuery("SELECT DISTINCT m.raza FROM Mascota m WHERE m.especie = :especie", String.class);
+        query.setParameter("especie", especie);
         return query.getResultList();
     }
 }

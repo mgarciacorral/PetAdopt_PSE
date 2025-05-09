@@ -5,6 +5,7 @@ import es.uva.petadopt.dao.MascotaDao;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,7 +20,17 @@ public class ClienteBean implements Serializable {
     private String selectedEspecie;
     private String selectedRaza;
     private List<Mascota> mascotas;
+    private List<String> especies;
+    private List<String> razas;
 
+    
+    @PostConstruct
+    public void init(){
+        buscarMascotas();
+        cargarEspecies();
+        System.out.println(especies);
+    }
+    
     // Método para buscar las mascotas
     public void buscarMascotas() {
         // Realiza la búsqueda con los filtros seleccionados
@@ -34,6 +45,16 @@ public class ClienteBean implements Serializable {
         if ((selectedEspecie == null || selectedEspecie.isEmpty()) && 
             (selectedRaza == null || selectedRaza.isEmpty())) {
             mascotas = mascotaDao.findAll();
+        }
+    }
+    
+    public void cargarEspecies(){
+        this.especies = mascotaDao.obtenerEspecies();
+    }
+    
+    public void cargarRazas(){
+        if (selectedEspecie != null && !selectedEspecie.isEmpty()) {
+            this.razas = mascotaDao.obtenerRazasPorEspecie(selectedEspecie); // Obtener razas según la especie
         }
     }
 

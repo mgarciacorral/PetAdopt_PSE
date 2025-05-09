@@ -5,13 +5,13 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
-        <ui:composition template="/template.xhtml"
+        <ui:composition template="/templates/templateCliente.xhtml"
                         xmlns="http://www.w3.org/1999/xhtml"
                         xmlns:h="http://xmlns.jcp.org/jsf/html"
                         xmlns:p="http://primefaces.org/ui"
                         xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-            <ui:define name="content">
+            <ui:define name="contenidoCliente">
                 <div class="container">
                     <h2>Buscar Mascotas</h2>
 
@@ -30,30 +30,40 @@
                         <div class="col-md-3">
                             <p:selectOneMenu value="#{clienteBean.selectedEspecie}" styleClass="form-control">
                                 <f:selectItem itemLabel="Seleccione Especie" itemValue="" />
-                                <f:selectItem itemLabel="Perro" itemValue="perro" />
-                                <f:selectItem itemLabel="Gato" itemValue="gato" />
+                                <!-- Llenar las opciones dinámicamente desde el bean -->
+                                <ui:repeat value="#{clienteBean.especies}" var="especie">
+                                    <f:selectItem itemLabel="#{especie}" itemValue="#{especie}" />
+                                </ui:repeat>
+                                <p:ajax event="change" listener="#{clienteBean.cargarRazas}" update="razaMenu" />
                             </p:selectOneMenu>
                         </div>
                         <div class="col-md-3">
-                            <p:selectOneMenu value="#{clienteBean.selectedRaza}" styleClass="form-control">
+                            <p:selectOneMenu id="razaMenu" value="#{clienteBean.selectedRaza}" styleClass="form-control">
                                 <f:selectItem itemLabel="Seleccione Raza" itemValue="" />
-                                <f:selectItem itemLabel="Labrador" itemValue="labrador" />
-                                <f:selectItem itemLabel="Siames" itemValue="siames" />
+                                <!-- Llenar las opciones dinámicamente dependiendo de la especie seleccionada -->
+                                <ui:repeat value="#{clienteBean.razas}" var="raza">
+                                    <f:selectItem itemLabel="#{raza}" itemValue="#{raza}" />
+                                </ui:repeat>
                             </p:selectOneMenu>
                         </div>
                     </div>
 
                     <!-- Tarjetas de Mascotas -->
                     <div class="row">
-                        <div class="col-md-4 mb-3" v-for="mascota in #{clienteBean.mascotas}">
-                            <p:panel header="#{mascota.nombre}" styleClass="shadow-sm">
-                                <h:outputText value="Especie: #{mascota.especie}" />
-                                <h:outputText value="Raza: #{mascota.raza}" />
-                                <h:outputText value="Edad: #{mascota.edad}" />
-                                <p:commandButton value="Ver más" action="#{clienteBean.verMascota(mascota.id)}" styleClass="btn btn-info" />
-                            </p:panel>
-                        </div>
+                        <ui:repeat value="#{clienteBean.mascotas}" var="mascota">
+                            <div class="col-md-4 mb-3">
+                                <p:panel header="#{mascota.nombre}" styleClass="shadow-sm">
+                                    <h:outputText value="Especie: #{mascota.especie}" /><br />
+                                    <h:outputText value="Raza: #{mascota.raza}" /><br />
+                                    <h:outputText value="Edad: #{mascota.edad}" /><br />
+                                    <p:commandButton value="Ver más"
+                                                     action="#{clienteBean.verMascota(mascota.idMascota)}"
+                                                     styleClass="btn btn-info" />
+                                </p:panel>
+                            </div>
+                        </ui:repeat>
                     </div>
+
                 </div>
             </ui:define>
         </ui:composition>
