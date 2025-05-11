@@ -26,27 +26,24 @@
                     </div>
 
                     <!-- Filtros (especie, raza, etc.) -->
-                    <div class="row mb-4">
-                        <div class="col-md-3">
-                            <p:selectOneMenu value="#{clienteBean.selectedEspecie}" styleClass="form-control">
-                                <f:selectItem itemLabel="Seleccione Especie" itemValue="" />
-                                <!-- Llenar las opciones dinámicamente desde el bean -->
-                                <ui:repeat value="#{clienteBean.especies}" var="especie">
-                                    <f:selectItem itemLabel="#{especie}" itemValue="#{especie}" />
-                                </ui:repeat>
-                                <p:ajax event="change" listener="#{clienteBean.cargarRazas}" update="razaMenu" />
-                            </p:selectOneMenu>
+                    <h:form id="formCliente">
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <p:selectOneMenu value="#{clienteBean.selectedEspecie}" styleClass="form-control">
+                                    <f:selectItem itemLabel="Seleccione Especie" itemValue="" />
+                                    <f:selectItems value="#{clienteBean.especies}" var="especie" itemLabel="#{especie}" itemValue="#{especie}" />
+                                    <p:ajax event="change" process="@this" listener="#{clienteBean.cargarRazas}" update="formCliente:razaMenu" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="col-md-3">
+                                <p:selectOneMenu id="razaMenu" value="#{clienteBean.selectedRaza}" styleClass="form-control">
+                                    <f:selectItem itemLabel="Seleccione Raza" itemValue="" />
+                                    <f:selectItems value="#{clienteBean.razas}" var="raza" itemLabel="#{raza}" itemValue="#{raza}" />
+                                </p:selectOneMenu>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <p:selectOneMenu id="razaMenu" value="#{clienteBean.selectedRaza}" styleClass="form-control">
-                                <f:selectItem itemLabel="Seleccione Raza" itemValue="" />
-                                <!-- Llenar las opciones dinámicamente dependiendo de la especie seleccionada -->
-                                <ui:repeat value="#{clienteBean.razas}" var="raza">
-                                    <f:selectItem itemLabel="#{raza}" itemValue="#{raza}" />
-                                </ui:repeat>
-                            </p:selectOneMenu>
-                        </div>
-                    </div>
+                    </h:form>
+
 
                     <!-- Tarjetas de Mascotas -->
                     <div class="row">

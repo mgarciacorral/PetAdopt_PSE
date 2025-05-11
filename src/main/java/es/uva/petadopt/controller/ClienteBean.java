@@ -88,4 +88,20 @@ public class ClienteBean implements Serializable {
     public void setMascotas(List<Mascota> mascotas) {
         this.mascotas = mascotas;
     }
+    
+    public List<String> getEspecies() {
+        return especies;
+    }
+
+    public void setEspecies(List<String> especies) {
+        this.especies = especies;
+    }
+    
+    public List<String> getRazas(){
+        return razas;
+    }
+    
+    public void setRazas(List<String> razas){
+        this.razas = razas;
+    }
 }
