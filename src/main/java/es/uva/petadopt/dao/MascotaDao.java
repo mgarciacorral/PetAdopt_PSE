@@ -35,6 +35,13 @@ public class MascotaDao implements Serializable{
         return query.getResultList();
     }
     
+    public List<Mascota> buscarMascotasPorNombre(String nombre) {
+        TypedQuery<Mascota> query = entityManager.createQuery("SELECT m FROM Mascota m WHERE LOWER(m.nombre) LIKE :nombre", Mascota.class);
+        query.setParameter("nombre", "%" + nombre.toLowerCase() + "%");
+        return query.getResultList();
+    }
+
+    
     public  List<String> obtenerEspecies(){
         TypedQuery<String> query = entityManager.createQuery("SELECT DISTINCT m.especie FROM Mascota m", String.class);
         return query.getResultList();

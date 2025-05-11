@@ -19,16 +19,17 @@ public class ClienteBean implements Serializable {
 
     private String selectedEspecie;
     private String selectedRaza;
+    private String filtroBusqueda;
     private List<Mascota> mascotas;
     private List<String> especies;
     private List<String> razas;
+
 
     
     @PostConstruct
     public void init(){
         buscarMascotas();
         cargarEspecies();
-        System.out.println(especies);
     }
     
     // Método para buscar las mascotas
@@ -40,11 +41,22 @@ public class ClienteBean implements Serializable {
         if (selectedRaza != null && !selectedRaza.isEmpty()) {
             mascotas = mascotaDao.findByRaza(selectedRaza);
         }
-
+        
         // Si no se seleccionan filtros, mostramos todas las mascotas
         if ((selectedEspecie == null || selectedEspecie.isEmpty()) && 
             (selectedRaza == null || selectedRaza.isEmpty())) {
             mascotas = mascotaDao.findAll();
+        }
+    }
+    
+    public void buscarPorNombre(){
+        if (filtroBusqueda == null || filtroBusqueda.isEmpty()) {
+            // Si no hay filtro, mostrar todas las mascotas
+            mascotas = mascotaDao.findAll();
+        } else {
+            // Si hay filtro, buscar mascotas por nombre
+            mascotas = mascotaDao.buscarMascotasPorNombre(filtroBusqueda);
+
         }
     }
     
@@ -71,6 +83,14 @@ public class ClienteBean implements Serializable {
 
     public void setSelectedEspecie(String selectedEspecie) {
         this.selectedEspecie = selectedEspecie;
+    }
+    
+    public String getFiltroBusqueda() {
+        return filtroBusqueda;
+    }
+
+    public void setFiltroBusqueda(String filtroBusqueda) {
+        this.filtroBusqueda = filtroBusqueda;
     }
 
     public String getSelectedRaza() {
