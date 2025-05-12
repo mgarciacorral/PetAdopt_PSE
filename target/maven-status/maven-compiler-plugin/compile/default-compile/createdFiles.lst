@@ -5,6 +5,7 @@ es\uva\petadopt\model\Solicitudadopcion.class
 es\uva\petadopt\controller\RegisterBean.class
 es\uva\petadopt\dao\RefugioDao.class
 es\uva\petadopt\model\Mascota.class
+es\uva\petadopt\dao\SolicitudDao.class
 es\uva\petadopt\model\Mensaje.class
 es\uva\petadopt\model\Refugio.class
 es\uva\petadopt\model\Usuario.class
