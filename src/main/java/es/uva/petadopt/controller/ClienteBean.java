@@ -3,6 +3,8 @@ package es.uva.petadopt.controller;
 import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.dao.MascotaDao;
 import es.uva.petadopt.dao.SolicitudDao;
+import es.uva.petadopt.model.Usuario;
+
 
 
 import java.io.Serializable;
@@ -33,6 +35,7 @@ public class ClienteBean implements Serializable {
     private List<Mascota> mascotas;
     private List<String> especies;
     private List<String> razas;
+    private Usuario usuario;
 
 
 
@@ -41,7 +44,7 @@ public class ClienteBean implements Serializable {
     public void init(){
         buscarMascotas();
         cargarEspecies();
- 
+        
     }
     
     // Método para buscar las mascotas
@@ -112,6 +115,7 @@ public class ClienteBean implements Serializable {
     public void setSelectedEspecie(String selectedEspecie) {
         this.selectedEspecie = selectedEspecie;
     }
+    
     
     public Mascota getSelectedMascota(){
         return selectedMascota;
