@@ -47,15 +47,18 @@ public class LoginBean implements Serializable {
         if (usuario != null && usuarioDao.checkPassword(password, usuario.getPassword())) {
             tipoUsuario = usuario.getTipo();
             autenticado = true;
-
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogueado", usuario);
+            
             if (null != tipoUsuario) switch (tipoUsuario) {
                 case "admin":
                     return "/admin/panel.xhtml?faces-redirect=true";
                 case "cliente":
                     cliente = clienteDao.findByEmail(email);
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("clienteLogueado", cliente);
                     return "/cliente/buscar.xhtml?faces-redirect=true";
                 case "refugio":
                     refugio = refugioDao.findByEmail(email);
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("refugioLogueado", refugio);
                     return "/refugio/mascotas.xhtml?faces-redirect=true";
                 default:
                     break;
@@ -73,7 +76,7 @@ public class LoginBean implements Serializable {
         cliente = null;
         refugio = null;
         usuario = null;
-                
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();            
         return "/index.xhtml?faces-redirect=true";
     }
     
