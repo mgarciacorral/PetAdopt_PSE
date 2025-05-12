@@ -60,7 +60,9 @@
                                             <h:outputText value="Raza: #{mascota.raza}" /><br />
                                             <h:outputText value="Edad: #{mascota.edad}" /><br />
                                             <p:commandButton value="Ver más"
-                                                             action="#{clienteBean.verMascota(mascota.idMascota)}"
+                                                             actionListener="#{clienteBean.verMascota(mascota.idMascota)}"
+                                                             update=":formDialog"
+                                                             oncomplete="PF('dialogMascota').show()"
                                                              styleClass="btn btn-info" />
                                         </p:panel>
                                     </div>
@@ -69,6 +71,37 @@
                         </h:panelGroup>
                     </h:form>
                 </div>
+                <h:form id="formDialog">
+                    <p:dialog header="Detalles de la Mascota"
+                              widgetVar="dialogMascota"
+                              modal="false"
+                              closable="true"
+                              resizable="false"
+                              draggable="false"
+                              width="400"
+                              styleClass="z-9999">
+
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputText value="Nombre:" />
+                            <h:outputText value="#{clienteBean.selectedMascota.getNombre()}" />
+
+                            <h:outputText value="Especie:" />
+                            <h:outputText value="#{clienteBean.selectedMascota.getEspecie()}" />
+
+                            <h:outputText value="Raza:" />
+                            <h:outputText value="#{clienteBean.selectedMascota.getRaza()}" />
+
+                            <h:outputText value="Edad:" />
+                            <h:outputText value="#{clienteBean.selectedMascota.getEdad()}" />
+
+                            <h:outputText value="Refugio" />
+                            <h:outputText value="#{clienteBean.selectedMascota.getEmailRefugio()}" />
+
+                            <!-- Agrega más atributos si necesitas -->
+                        </h:panelGrid>
+
+                    </p:dialog>
+                </h:form>
             </ui:define>
         </ui:composition>
     </body>

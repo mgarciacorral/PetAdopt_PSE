@@ -19,6 +19,7 @@ public class ClienteBean implements Serializable {
 
     private String selectedEspecie;
     private String selectedRaza;
+    private Mascota selectedMascota;
     private String filtroBusqueda;
     private List<Mascota> mascotas;
     private List<String> especies;
@@ -70,8 +71,10 @@ public class ClienteBean implements Serializable {
         }
     }
 
-    public String verMascota(int id) {
-        return "/cliente/detalleMascota.xhtml?faces-redirect=true&id=" + id;
+    public void verMascota(int id) {
+        this.selectedMascota = mascotaDao.findById(id);
+        System.out.println(selectedMascota.getNombre());
+
     }
     
     public String verPaginaBusqueda() {
@@ -93,6 +96,14 @@ public class ClienteBean implements Serializable {
 
     public void setSelectedEspecie(String selectedEspecie) {
         this.selectedEspecie = selectedEspecie;
+    }
+    
+    public Mascota getSelectedMascota(){
+        return selectedMascota;
+    }
+    
+    public void setSelectedMascota(Mascota selectedMascota){
+       this.selectedMascota = selectedMascota;
     }
     
     public String getFiltroBusqueda() {
