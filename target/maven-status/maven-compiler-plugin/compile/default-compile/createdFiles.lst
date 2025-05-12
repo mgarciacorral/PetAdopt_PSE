@@ -16,4 +16,3 @@ es\uva\petadopt\dao\UsuarioDao.class
 es\uva\petadopt\dao\MascotaDao.class
 es\uva\petadopt\JAXRSConfiguration.class
 es\uva\petadopt\controller\LoginBean.class
-.netbeans_automatic_build

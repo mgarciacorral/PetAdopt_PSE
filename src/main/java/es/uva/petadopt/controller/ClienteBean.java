@@ -2,15 +2,11 @@ package es.uva.petadopt.controller;
 
 import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.dao.MascotaDao;
-import es.uva.petadopt.dao.SolicitudDao;
-
 
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -20,11 +16,6 @@ public class ClienteBean implements Serializable {
 
     @Inject
     private MascotaDao mascotaDao;
-    
-    @Inject
-    private SolicitudDao solicitudDao;
-    
-    
 
     private String selectedEspecie;
     private String selectedRaza;
@@ -35,13 +26,11 @@ public class ClienteBean implements Serializable {
     private List<String> razas;
 
 
-
     
     @PostConstruct
     public void init(){
         buscarMascotas();
         cargarEspecies();
- 
     }
     
     // Método para buscar las mascotas
@@ -84,12 +73,8 @@ public class ClienteBean implements Serializable {
 
     public void verMascota(int id) {
         this.selectedMascota = mascotaDao.findById(id);
-    }
-    
-    public void solicitarMascota(){
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud enviada", "Hemos enviado tu solicitud al refugio."));
-        
+        System.out.println(selectedMascota.getNombre());
+
     }
     
     public String verPaginaBusqueda() {

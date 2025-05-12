@@ -12,7 +12,7 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class MascotaDao implements Serializable{
 
-    @PersistenceContext(unitName = "PetAdoptPU")
+    @PersistenceContext
     private EntityManager entityManager;
 
     // Buscar todas las mascotas

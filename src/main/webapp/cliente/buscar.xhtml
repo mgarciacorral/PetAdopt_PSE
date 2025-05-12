@@ -95,18 +95,12 @@
                             <h:outputText value="#{clienteBean.selectedMascota.getEdad()}" />
 
                             <h:outputText value="Refugio" />
-                            <h:outputText value="#{clienteBean.selectedMascota.getEmailRefugio().getEmail()}" />
-                            
-                            
+                            <h:outputText value="#{clienteBean.selectedMascota.getEmailRefugio()}" />
 
+                            <!-- Agrega más atributos si necesitas -->
                         </h:panelGrid>
-                        <p:commandButton value="Solicitar adopción"
-                                         actionListener="#{clienteBean.solicitarMascota()}"
-                                         update="growl"
-                                         styleClass="btn btn-info"/>
-                    </p:dialog>
-                    <p:growl id="growl" showDetail="true" life="3000" sticky="false" />
 
+                    </p:dialog>
                 </h:form>
             </ui:define>
         </ui:composition>
