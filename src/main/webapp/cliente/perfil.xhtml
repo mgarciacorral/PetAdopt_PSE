@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../templates/templateCliente.xhtml">
+
+            <ui:define name="contenidoCliente">
+                <div class="container">
+                    <h2>Perfil de Usuario</h2>
+
+                    <!-- Panel con los datos del usuario -->
+                    <p:panel header="Mis Datos" styleClass="shadow p-4 rounded">
+                        <h:form>
+                            <div class="mb-3">
+                                <p:outputLabel for="nombre" value="Nombre" styleClass="form-label" />
+                                <p:outputLabel value="#{loginBean.getNombreCliente}" styleClass="form-control" />
+                            </div>
+
+                            <div class="mb-3">
+                                <p:outputLabel for="apellidos" value="Apellidos" styleClass="form-label" />
+                                <p:outputLabel value="#{loginBean.getApellidosCliente}" styleClass="form-control" />
+                            </div>
+
+                            <div class="mb-3">
+                                <p:outputLabel for="email" value="Email" styleClass="form-label" />
+                                <p:outputLabel value="#{loginBean.email}" styleClass="form-control" />
+                            </div>
+
+                            <!-- Opción para cambiar contraseña -->
+                            <p:commandButton value="Cambiar Contraseña"
+                                             action="#{loginBean.showChangePasswordDialog}"
+                                             styleClass="btn btn-warning" />
+                        </h:form>
+                    </p:panel>
+
+                    <!-- Panel de cambio de contraseña -->
+                    <p:dialog header="Cambiar Contraseña" widgetVar="changePasswordDialog" modal="true" showEffect="fade" hideEffect="fade">
+                        <h:form>
+                            <div class="mb-3">
+                                <p:outputLabel for="currentPassword" value="Contraseña Actual" />
+                                <p:password id="currentPassword" value="#{loginBean.currentPassword}" required="true" styleClass="form-control" />
+                            </div>
+
+                            <div class="mb-3">
+                                <p:outputLabel for="newPassword" value="Nueva Contraseña" />
+                                <p:password id="newPassword" value="#{loginBean.newPassword}" required="true" styleClass="form-control" />
+                            </div>
+
+                            <div class="mb-3">
+                                <p:outputLabel for="confirmPassword" value="Confirmar Contraseña" />
+                                <p:password id="confirmPassword" value="#{loginBean.confirmPassword}" required="true" styleClass="form-control" />
+                            </div>
+
+                            <p:commandButton value="Cambiar Contraseña"
+                                             action="#{loginBean.changePassword}"
+                                             update="@form"
+                                             styleClass="btn btn-success" />
+                            <p:commandButton value="Cancelar"
+                                             onclick="PF('changePasswordDialog').hide()"
+                                             styleClass="btn btn-secondary" />
+                        </h:form>
+                    </p:dialog>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

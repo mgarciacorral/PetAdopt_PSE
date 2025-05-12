@@ -70,10 +70,20 @@ public class ClienteBean implements Serializable {
         }
     }
 
-    // Método para ver el detalle de una mascota
     public String verMascota(int id) {
-        // Redirige a la página de detalle de la mascota
         return "/cliente/detalleMascota.xhtml?faces-redirect=true&id=" + id;
+    }
+    
+    public String verPaginaBusqueda() {
+        return "/cliente/buscar.xhtml?faces-redirect=true";
+    }
+    
+    public String verSolicitudes() {
+        return "/cliente/solicitudes.xhtml?faces-redirect=true";
+    }
+    
+    public String verPerfil() {
+        return "/cliente/perfil.xhtml?faces-redirect=true";
     }
 
     // Getters y setters

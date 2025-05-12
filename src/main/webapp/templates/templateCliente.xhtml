@@ -10,21 +10,23 @@
     <ui:define name="content">
         <p:layout fullPage="false" style="min-height: 500px;">
 
-            <!-- Panel lateral izquierdo -->
             <p:layoutUnit position="west" size="220" header="Menú" resizable="true" collapsible="true">
                 <h:form>
                     <p:menu styleClass="custom-sidebar-menu">
                         <p:submenu label="Cliente">
-                            <p:menuitem value="Inicio"  icon="pi pi-home"/>
-                            <p:menuitem value="Mis datos"  icon="pi pi-user"/>
-                            <p:menuitem value="Mis adopciones"  icon="pi pi-heart"/>
-                            <p:menuitem value="Cerrar sesión"  icon="pi pi-sign-out"/>
+                            <p:menuitem value="Buscar Mascota" icon="pi pi-home"
+                                        action="#{clienteBean.verPaginaBusqueda}" />
+                            <p:menuitem value="Mi Perfil" icon="pi pi-user"
+                                        action="#{clienteBean.verSolicitudes}" />
+                            <p:menuitem value="Mis solicitudes" icon="pi pi-heart"
+                                        action="#{clienteBean.verPerfil}" />
+                            <p:menuitem value="Cerrar sesión" icon="pi pi-sign-out" 
+                                        action="#{loginBean.logout}" />
                         </p:submenu>
                     </p:menu>
                 </h:form>
             </p:layoutUnit>
 
-            <!-- Contenido principal -->
             <p:layoutUnit position="center">
                 <ui:insert name="contenidoCliente" />
             </p:layoutUnit>
