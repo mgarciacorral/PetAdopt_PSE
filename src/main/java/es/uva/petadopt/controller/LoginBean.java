@@ -10,11 +10,9 @@ import es.uva.petadopt.model.Usuario;
 
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.PrimeFaces;
 
 @Named
 @RequestScoped
@@ -33,13 +31,10 @@ public class LoginBean implements Serializable {
     private String password;
     private String tipoUsuario;
     private boolean autenticado;
+    
     private Cliente cliente;
     private Refugio refugio;
     private Usuario usuario;
-    
-    private String currentPassword = null;
-    private String newPassword = null;
-    private String confirmPassword = null;
 
     public String login() {
         usuario = usuarioDao.findByEmail(email);
@@ -79,36 +74,6 @@ public class LoginBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();            
         return "/index.xhtml?faces-redirect=true";
     }
-    
-    public void showChangePasswordDialog() {
-        PrimeFaces.current().executeScript("PF('changePasswordDialog').show()");
-    }
-    
-    public String changePassword() {
-        // Verificar si la contraseña actual es correcta
-        if (usuarioDao.checkPassword(currentPassword, usuario.getPassword()) && newPassword.equals(confirmPassword)) {
-            usuario.setPassword(newPassword);
-
-            usuarioDao.save(usuario);
-
-            currentPassword = null;
-            newPassword = null;
-            confirmPassword = null;
-            usuario.setPassword("brr");
-
-            FacesMessage msg = new FacesMessage("Contraseña cambiada con éxito");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-
-            PrimeFaces.current().executeScript("PF('changePasswordDialog').hide()");
-
-            return null;
-        } else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contraseña actual incorrecta o nueva contraseña no coincide.", null);
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return null;
-        }
-    }
-
 
 
     // Getters y Setters
@@ -134,13 +99,5 @@ public class LoginBean implements Serializable {
 
     public boolean isAutenticado() {
         return autenticado;
-    }
-    
-    public String getNombreCliente(){
-        return cliente.getNombre();
-    }
-    
-    public String getApellidosCliente(){
-        return cliente.getApellidos();
     }
 }

@@ -4,6 +4,7 @@ import es.uva.petadopt.model.Usuario;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import static org.springframework.security.crypto.bcrypt.BCrypt.gensalt;
 
@@ -28,5 +29,27 @@ public class UsuarioDao {
         String hashedPassword = BCrypt.hashpw(usuario.getPassword(), gensalt());
         usuario.setPassword(hashedPassword);
         entityManager.persist(usuario);
+    }
+    
+    @Transactional
+    public boolean changePasswordByEmail(String email, String newPassword) {
+        try {
+            Usuario usuario = entityManager.find(Usuario.class, email);
+            
+            if (usuario == null) {
+                return false;
+            }
+
+            String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+
+            usuario.setPassword(hashedPassword);
+
+            entityManager.merge(usuario);
+            
+            return true;  
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; 
+        }
     }
 }

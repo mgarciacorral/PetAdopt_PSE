@@ -10,7 +10,7 @@
         <ui:composition template="./../templates/templateCliente.xhtml">
 
             <ui:define name="contenidoCliente">
-                <div class="container" rendered="#{loginBean.autenticado}">
+                <div class="container">
                     <h2>Perfil de Usuario</h2>
 
                     <!-- Panel con los datos del usuario -->
@@ -18,53 +18,55 @@
                         <h:form>
                             <div class="mb-3">
                                 <p:outputLabel value="Nombre" styleClass="form-label" />
-                                <h:outputText value="#{loginBean.nombreCliente}" styleClass="form-control" />
+                                <h:outputText value="#{perfilBean.nombreCliente}" styleClass="form-control" />
                             </div>
 
                             <div class="mb-3">
                                 <p:outputLabel value="Apellidos" styleClass="form-label" />
-                                <h:outputText value="#{loginBean.apellidosCliente}" styleClass="form-control" />
+                                <h:outputText value="#{perfilBean.apellidosCliente}" styleClass="form-control" />
                             </div>
 
                             <div class="mb-3">
                                 <p:outputLabel value="Email" styleClass="form-label" />
-                                <h:outputText value="#{loginBean.email}" styleClass="form-control" />
+                                <h:outputText value="#{perfilBean.email}" styleClass="form-control" />
                             </div>
 
                             <!-- Opción para cambiar contraseña -->
                             <p:commandButton value="Cambiar Contraseña"
-                                             action="#{loginBean.showChangePasswordDialog}"
+                                             action="#{perfilBean.showChangePasswordDialog}"
                                              styleClass="btn btn-warning" />
                         </h:form>
                     </p:panel>
-
-                    <!-- Panel de cambio de contraseña -->
-                    <p:dialog header="Cambiar Contraseña" widgetVar="changePasswordDialog" modal="true" showEffect="fade" hideEffect="fade">
+                    
+                    <p:dialog header="Cambiar Contraseña" widgetVar="changePasswordDialog" modal="false" showEffect="fade" hideEffect="fade">
                         <h:form>
                             <div class="mb-3">
                                 <p:outputLabel for="currentPassword" value="Contraseña Actual" />
-                                <p:password id="currentPassword" value="#{loginBean.currentPassword}" required="true" styleClass="form-control" />
+                                <p:password id="currentPassword" value="#{perfilBean.currentPassword}" required="true" styleClass="form-control" />
                             </div>
 
                             <div class="mb-3">
                                 <p:outputLabel for="newPassword" value="Nueva Contraseña" />
-                                <p:password id="newPassword" value="#{loginBean.newPassword}" required="true" styleClass="form-control" />
+                                <p:password id="newPassword" value="#{perfilBean.newPassword}" required="true" styleClass="form-control" />
                             </div>
 
                             <div class="mb-3">
                                 <p:outputLabel for="confirmPassword" value="Confirmar Contraseña" />
-                                <p:password id="confirmPassword" value="#{loginBean.confirmPassword}" required="true" styleClass="form-control" />
+                                <p:password id="confirmPassword" value="#{perfilBean.confirmPassword}" required="true" styleClass="form-control" />
                             </div>
 
                             <p:commandButton value="Cambiar Contraseña"
-                                             action="#{loginBean.changePassword}"
+                                             action="#{perfilBean.changePassword}"
+                                             onclick="PF('changePasswordDialog').hide();"
                                              update="@form"
                                              styleClass="btn btn-success" />
+
                             <p:commandButton value="Cancelar"
-                                             onclick="PF('changePasswordDialog').hide()"
+                                             onclick="PF('changePasswordDialog').hide();"
                                              styleClass="btn btn-secondary" />
                         </h:form>
                     </p:dialog>
+
                 </div>
             </ui:define>
 
