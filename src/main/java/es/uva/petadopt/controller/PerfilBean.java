@@ -3,6 +3,7 @@ package es.uva.petadopt.controller;
 
 import es.uva.petadopt.dao.UsuarioDao;
 import es.uva.petadopt.model.Cliente;
+import es.uva.petadopt.model.Refugio;
 import es.uva.petadopt.model.Usuario;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -20,10 +21,16 @@ public class PerfilBean {
     
     private Usuario usuario;
     private Cliente cliente;
+    private Refugio refugio;
+    
+    private String email;
     
     private String nombreCliente;
     private String apellidosCliente;
-    private String email;
+    
+    private String nombreRefugio;
+    private String direccion;
+    private String telefono;
 
     private String currentPassword = null;
     private String newPassword = null;
@@ -31,12 +38,29 @@ public class PerfilBean {
     
     @PostConstruct
     public void init(){
-        cliente = (Cliente)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("clienteLogueado");
+        setDataUsuario();
+    }
+    
+    public void setDataUsuario(){
         usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuarioLogueado");
-        setDataCliente();
+        
+        if(usuario.getTipo().equals("cliente")){
+            setDataCliente();
+        }else if(usuario.getTipo().equals("refugio")){
+            setDataRefugio();
+        }
+    }
+    
+    public void setDataRefugio(){
+        refugio = (Refugio)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("refugioLogueado");
+        nombreRefugio = refugio.getNombreRefugio();
+        direccion = refugio.getDireccion();
+        telefono = refugio.getTelefono();
+        email = refugio.getEmail();
     }
     
     public void setDataCliente(){
+        cliente = (Cliente)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("clienteLogueado");
         nombreCliente = cliente.getNombre();
         apellidosCliente = cliente.getApellidos();
         email = cliente.getEmail();
@@ -83,6 +107,30 @@ public class PerfilBean {
 
     public String getEmail() {
         return email;
+    }
+    
+    public String getNombreRefugio() {
+        return nombreRefugio;
+    }
+
+    public void setNombreRefugio(String nombreRefugio) {
+        this.nombreRefugio = nombreRefugio;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public void setEmail(String email) {

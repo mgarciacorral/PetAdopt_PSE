@@ -3,6 +3,7 @@ es\uva\petadopt\controller\ClienteBean.class
 es\uva\petadopt\model\UserGroups.class
 es\uva\petadopt\model\Solicitudadopcion.class
 es\uva\petadopt\controller\RegisterBean.class
+es\uva\petadopt\controller\RefugioBean.class
 es\uva\petadopt\dao\RefugioDao.class
 es\uva\petadopt\model\Mascota.class
 es\uva\petadopt\dao\SolicitudDao.class

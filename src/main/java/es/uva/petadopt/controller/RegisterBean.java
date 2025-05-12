@@ -6,7 +6,6 @@ import es.uva.petadopt.dao.UsuarioDao;
 import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Refugio;
 import es.uva.petadopt.model.Usuario;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -81,17 +80,11 @@ public class RegisterBean implements Serializable {
                 usuarioDao.save(usuario);
                 refugioDao.save(refugio);
             }
-
-            if ("cliente".equals(userType)) {
-                return "/cliente/buscar.xhtml?faces-redirect=true";
-            } else if ("refugio".equals(userType)) {
-                return "/refugio/mascotas.xhtml?faces-redirect=true";
-            }
+            
+            return "/auth/login.xhtml?faces-redirect=true";
         } catch (IllegalArgumentException e) {
             return "/registro_error.xhtml?faces-redirect=true";
         }
-
-        return null;
     }
     
     public void onUserTypeChange() {
