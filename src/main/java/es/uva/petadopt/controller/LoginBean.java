@@ -19,7 +19,6 @@ import org.primefaces.PrimeFaces;
 @Named
 @RequestScoped
 public class LoginBean implements Serializable {
-
     @Inject
     private UsuarioDao usuarioDao; 
     
@@ -28,18 +27,22 @@ public class LoginBean implements Serializable {
     
     @Inject
     private RefugioDao refugioDao;
-
+    
+    private Cliente cliente;
+    private String nombreCliente;
+    private String apellidosCliente;
+    
+    private Refugio refugio;
+    
+    private Usuario usuario;
     private String email;
     private String password;
     private String tipoUsuario;
     private boolean autenticado;
-    private Cliente cliente;
-    private Refugio refugio;
-    private Usuario usuario;
     
-    private String currentPassword = null;
-    private String newPassword = null;
-    private String confirmPassword = null;
+    private String currentPassword;
+    private String newPassword;
+    private String confirmPassword;
 
     public String login() {
         usuario = usuarioDao.findByEmail(email);
@@ -53,6 +56,7 @@ public class LoginBean implements Serializable {
                     return "/admin/panel.xhtml?faces-redirect=true";
                 case "cliente":
                     cliente = clienteDao.findByEmail(email);
+                    setDatosCliente();
                     return "/cliente/buscar.xhtml?faces-redirect=true";
                 case "refugio":
                     refugio = refugioDao.findByEmail(email);
@@ -71,6 +75,8 @@ public class LoginBean implements Serializable {
         tipoUsuario = null;
         autenticado = false;
         cliente = null;
+        nombreCliente = null;
+        apellidosCliente = null;
         refugio = null;
         usuario = null;
                 
@@ -82,7 +88,6 @@ public class LoginBean implements Serializable {
     }
     
     public String changePassword() {
-        // Verificar si la contraseña actual es correcta
         if (usuarioDao.checkPassword(currentPassword, usuario.getPassword()) && newPassword.equals(confirmPassword)) {
             usuario.setPassword(newPassword);
 
@@ -133,11 +138,48 @@ public class LoginBean implements Serializable {
         return autenticado;
     }
     
-    public String getNombreCliente(){
-        return cliente.getNombre();
+    public void setDatosCliente(){
+        nombreCliente = cliente.getNombre();
+        apellidosCliente = cliente.getApellidos();
     }
     
-    public String getApellidosCliente(){
-        return cliente.getApellidos();
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public String getApellidosCliente() {
+        return apellidosCliente;
+    }
+
+    public void setApellidosCliente(String apellidosCliente) {
+        this.apellidosCliente = apellidosCliente;
+    }
+
+    public String getCurrentPassword() {
+        return currentPassword;
+    }
+
+    public void setCurrentPassword(String currentPassword) {
+        this.currentPassword = currentPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

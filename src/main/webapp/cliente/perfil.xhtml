@@ -10,25 +10,25 @@
         <ui:composition template="./../templates/templateCliente.xhtml">
 
             <ui:define name="contenidoCliente">
-                <div class="container">
+                <div class="container" rendered="#{loginBean.autenticado}">
                     <h2>Perfil de Usuario</h2>
 
                     <!-- Panel con los datos del usuario -->
                     <p:panel header="Mis Datos" styleClass="shadow p-4 rounded">
                         <h:form>
                             <div class="mb-3">
-                                <p:outputLabel for="nombre" value="Nombre" styleClass="form-label" />
-                                <p:outputLabel value="#{loginBean.getNombreCliente}" styleClass="form-control" />
+                                <p:outputLabel value="Nombre" styleClass="form-label" />
+                                <h:outputText value="#{loginBean.nombreCliente}" styleClass="form-control" />
                             </div>
 
                             <div class="mb-3">
-                                <p:outputLabel for="apellidos" value="Apellidos" styleClass="form-label" />
-                                <p:outputLabel value="#{loginBean.getApellidosCliente}" styleClass="form-control" />
+                                <p:outputLabel value="Apellidos" styleClass="form-label" />
+                                <h:outputText value="#{loginBean.apellidosCliente}" styleClass="form-control" />
                             </div>
 
                             <div class="mb-3">
-                                <p:outputLabel for="email" value="Email" styleClass="form-label" />
-                                <p:outputLabel value="#{loginBean.email}" styleClass="form-control" />
+                                <p:outputLabel value="Email" styleClass="form-label" />
+                                <h:outputText value="#{loginBean.email}" styleClass="form-control" />
                             </div>
 
                             <!-- Opción para cambiar contraseña -->
