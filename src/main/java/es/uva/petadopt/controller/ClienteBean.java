@@ -1,9 +1,11 @@
 package es.uva.petadopt.controller;
 
+import es.uva.petadopt.dao.ChatDao;
 import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.dao.MascotaDao;
 import es.uva.petadopt.dao.SolicitudDao;
 import es.uva.petadopt.model.Cliente;
+import es.uva.petadopt.model.Solicitudadopcion;
 import es.uva.petadopt.model.Usuario;
 import java.io.IOException;
 
@@ -28,6 +30,9 @@ public class ClienteBean implements Serializable {
     
     @Inject
     private SolicitudDao solicitudDao;
+    
+    @Inject
+    private ChatDao chatDao;
     
     
 
@@ -140,6 +145,9 @@ public class ClienteBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud enviada", "Hemos enviado tu solicitud al refugio."));
 
             solicitudDao.createSolicitud(cliente, selectedMascota);
+            Solicitudadopcion solicitud = solicitudDao.getLastSolicitudId(cliente, selectedMascota);
+            chatDao.createChat(cliente, selectedMascota.getEmailRefugio() , solicitud);
+            
         }else{
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ya se ha solicitado está mascota"));

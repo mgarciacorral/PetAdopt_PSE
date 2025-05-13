@@ -1,4 +1,4 @@
-
+/*estilos del modal*/
 .ui-widget-overlay {
     background: rgba(0, 0, 0, 0.5) !important; /* Fondo semitransparente negro */
     z-index: 999 !important;
@@ -7,4 +7,33 @@
 
 .ui-dialog {
     z-index: 1000 !important;
+}
+
+
+
+/*estilos chats*/
+
+.chat-item {
+    display: block;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.chat-item:hover {
+    background-color: #f5f5f5;
+}
+
+.mensaje.cliente {
+    background-color: #d1f7c4;
+    padding: 8px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.mensaje.refugio {
+    background-color: #e0e0e0;
+    padding: 8px;
+    border-radius: 10px;
+    display: inline-block;
 }

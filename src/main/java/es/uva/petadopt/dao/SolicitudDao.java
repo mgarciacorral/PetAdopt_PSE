@@ -1,10 +1,11 @@
 package es.uva.petadopt.dao;
 
+
 import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.model.Solicitudadopcion;
 
-import java.time.LocalDate;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,7 @@ public class SolicitudDao {
     public void createSolicitud(Cliente emailUser, Mascota idMascota){
         
         Solicitudadopcion solicitud = new Solicitudadopcion();
+        
         solicitud.setEmailCliente(emailUser);
         solicitud.setIdMascota(idMascota);
         solicitud.setEstado("pendiente");
@@ -57,6 +59,19 @@ public class SolicitudDao {
         query.setParameter("cliente", cliente);
         return query.getResultList();
     }
+    
+    public Solicitudadopcion getLastSolicitudId(Cliente cliente, Mascota mascota) {
+        
+            Solicitudadopcion solicitud = entityManager.createQuery(
+                    "SELECT s FROM Solicitudadopcion s WHERE s.emailCliente = :cliente AND s.idMascota = :mascota ORDER BY s.idSolicitud DESC",
+                    Solicitudadopcion.class)
+                    .setParameter("cliente", cliente)
+                    .setParameter("mascota", mascota)
+                    .setMaxResults(1)
+                    .getSingleResult();
 
+            return solicitud;
+        
+    }
 
 }

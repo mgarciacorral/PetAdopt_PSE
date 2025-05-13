@@ -1,17 +1,80 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <body>
+    <h:head>
+        <title>Chat</title>
+    </h:head>
+
+    <h:body>
 
         <ui:composition template="./../templates/templateCliente.xhtml">
-
             <ui:define name="contenidoCliente">
-                contenidoCliente
-            </ui:define>
 
+                <h:form style="height: 80vh;">
+
+                    <p:panelGrid columns="2" style="width: 100%; height: 100%;" columnClasses="left-panel,right-panel">
+
+                        <!-- PANEL IZQUIERDO: Lista de chats -->
+                        <p:panel header="Tus chats" style="height: 100%; overflow-y: auto;">
+                            <p:dataList var="chat" value="#{null}" 
+                                        type="none" 
+                                        styleClass="chat-list"
+                                        itemStyleClass="chat-item"
+                                        style="width:100%;">
+                                <!-- LLAMAR A: getChats() -->
+
+                                <p:commandLink 
+                                    style="display: block; padding: 10px; cursor: pointer;"
+                                    update="chatPanel"
+                                    action="#{null}">
+                                    <!-- LLAMAR A: seleccionarChat(chat) -->
+                                    <h:outputText value="<!-- LLAMAR A: chat.nombreRefugio -->" />
+                                </p:commandLink>
+                            </p:dataList>
+                        </p:panel>
+
+                        <!-- PANEL DERECHO: Chat seleccionado -->
+                        <p:panel id="chatPanel" header="Conversación" style="height: 100%; display: flex; flex-direction: column;">
+
+                            <!-- Mensajes -->
+                            <p:outputPanel id="mensajesPanel" style="flex: 1; overflow-y: auto; padding: 10px;">
+                                <ui:repeat var="mensaje" value="#{null}">
+                                    <!-- LLAMAR A: getMensajes() -->
+
+                                    <div style="margin-bottom: 10px;">
+                                        <strong><!-- LLAMAR A: mensaje.remitente.nombre --></strong>:
+                                        <h:outputText value="<!-- LLAMAR A: mensaje.contenido -->" />
+                                        <br />
+                                        <small style="color: gray;">
+                                            <!-- LLAMAR A: mensaje.fecha -->
+                                        </small>
+                                    </div>
+                                </ui:repeat>
+                            </p:outputPanel>
+
+                            <!-- Formulario para enviar nuevo mensaje -->
+                            <div style="margin-top: 10px; display: flex;">
+                                <p:inputText value="#{null}" placeholder="Escribe tu mensaje..." style="flex:1; margin-right: 5px;" />
+                                <!-- LLAMAR A: mensajeNuevo -->
+
+                                <p:commandButton value="Enviar" icon="pi pi-send"
+                                                 action="#{null}" update="chatPanel" />
+                                <!-- LLAMAR A: enviarMensaje() -->
+                            </div>
+
+                        </p:panel>
+
+                    </p:panelGrid>
+
+                </h:form>
+
+            </ui:define>
         </ui:composition>
 
-    </body>
+    </h:body>
 </html>
