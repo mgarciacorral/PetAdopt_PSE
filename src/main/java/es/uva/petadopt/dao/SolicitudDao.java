@@ -42,6 +42,16 @@ public class SolicitudDao {
         
     }   
     
+    public boolean comprobarSolicitud(Cliente cliente, Mascota mascota){
+        
+        List<Solicitudadopcion> solicitudes = entityManager.createQuery("SELECT s FROM Solicitudadopcion s WHERE s.emailCliente = :cliente AND s.idMascota = :mascota")
+                .setParameter("cliente", cliente)
+                .setParameter("mascota", mascota)
+                .getResultList();
+        
+        return solicitudes.isEmpty();
+    }
+    
     public List<Mascota> findSolicitadas(Cliente cliente){
         Query query = entityManager.createQuery("SELECT s.idMascota FROM Solicitudadopcion s WHERE s.emailCliente = :cliente");
         query.setParameter("cliente", cliente);

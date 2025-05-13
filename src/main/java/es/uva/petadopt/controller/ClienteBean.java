@@ -134,10 +134,17 @@ public class ClienteBean implements Serializable {
     }
     
     public void solicitarMascota(){
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud enviada", "Hemos enviado tu solicitud al refugio."));
         
-        solicitudDao.createSolicitud(cliente, selectedMascota);
+        if(solicitudDao.comprobarSolicitud(cliente, selectedMascota)){
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud enviada", "Hemos enviado tu solicitud al refugio."));
+
+            solicitudDao.createSolicitud(cliente, selectedMascota);
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ya se ha solicitado está mascota"));
+        }
+        
     }
     
     public String verPaginaBusqueda() {
