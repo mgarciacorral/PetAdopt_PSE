@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uva.petadopt.rest;
 
 import es.uva.petadopt.model.Refugio;
@@ -20,12 +16,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-/**
- *
- * @author mgarc
- */
+
 @Stateless
-@Path("es.uva.petadopt.model.refugio")
+@Path("refugios")  // Ruta para los refugios
 public class RefugioFacadeREST extends AbstractFacade<Refugio> {
 
     @PersistenceContext(unitName = "PetAdoptPU")
@@ -35,35 +28,49 @@ public class RefugioFacadeREST extends AbstractFacade<Refugio> {
         super(Refugio.class);
     }
 
+    // Método para crear un refugio
     @POST
-    @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Refugio entity) {
-        super.create(entity);
+    public void createRefugio(Refugio refugio) {
+        em.persist(refugio);  // Persistimos el refugio
+    }
+
+    // Método para buscar refugio por email
+    @GET
+    @Path("email/{email}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Refugio findByEmail(@PathParam("email") String email) {
+        return em.find(Refugio.class, email);  // Buscamos el refugio por su email
     }
 
     @PUT
-    @Path("{id}")
+    @Path("{email}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") String id, Refugio entity) {
-        super.edit(entity);
+    public void edit(@PathParam("email") String email, Refugio refugio) {
+        // Aquí se asume que el email es el identificador único para editar un refugio
+        Refugio existingRefugio = em.find(Refugio.class, email);
+        if (existingRefugio != null) {
+            em.merge(refugio);  // Actualizamos el refugio
+        }
     }
 
     @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") String id) {
-        super.remove(super.find(id));
+    @Path("{email}")
+    public void remove(@PathParam("email") String email) {
+        Refugio refugio = em.find(Refugio.class, email);
+        if (refugio != null) {
+            em.remove(refugio);  // Eliminamos el refugio por su email
+        }
     }
 
     @GET
-    @Path("{id}")
+    @Path("{email}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Refugio find(@PathParam("id") String id) {
-        return super.find(id);
+    public Refugio find(@PathParam("email") String email) {
+        return em.find(Refugio.class, email);  // Buscamos el refugio por su email
     }
 
     @GET
-    @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Refugio> findAll() {
         return super.findAll();
@@ -87,5 +94,4 @@ public class RefugioFacadeREST extends AbstractFacade<Refugio> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
 }

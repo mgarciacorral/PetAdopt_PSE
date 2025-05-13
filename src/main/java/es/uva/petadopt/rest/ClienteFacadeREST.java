@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uva.petadopt.rest;
 
 import es.uva.petadopt.model.Cliente;
@@ -20,12 +16,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-/**
- *
- * @author mgarc
- */
+
 @Stateless
-@Path("es.uva.petadopt.model.cliente")
+@Path("clientes")  // Cambié la ruta a clientes para mayor claridad
 public class ClienteFacadeREST extends AbstractFacade<Cliente> {
 
     @PersistenceContext(unitName = "PetAdoptPU")
@@ -35,35 +28,49 @@ public class ClienteFacadeREST extends AbstractFacade<Cliente> {
         super(Cliente.class);
     }
 
+    // Método para crear un cliente
     @POST
-    @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Cliente entity) {
-        super.create(entity);
+    public void createCliente(Cliente cliente) {
+        em.persist(cliente);  // Persistimos el cliente directamente
+    }
+
+    // Método para buscar cliente por email
+    @GET
+    @Path("email/{email}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Cliente findByEmail(@PathParam("email") String email) {
+        return em.find(Cliente.class, email);  // Buscamos al cliente por su email
     }
 
     @PUT
-    @Path("{id}")
+    @Path("{email}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") String id, Cliente entity) {
-        super.edit(entity);
+    public void edit(@PathParam("email") String email, Cliente cliente) {
+        // Aquí se asume que el email es el identificador único para editar un cliente
+        Cliente existingCliente = em.find(Cliente.class, email);
+        if (existingCliente != null) {
+            em.merge(cliente);  // Actualizamos el cliente
+        }
     }
 
     @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") String id) {
-        super.remove(super.find(id));
+    @Path("{email}")
+    public void remove(@PathParam("email") String email) {
+        Cliente cliente = em.find(Cliente.class, email);
+        if (cliente != null) {
+            em.remove(cliente);  // Eliminamos el cliente por su email
+        }
     }
 
     @GET
-    @Path("{id}")
+    @Path("{email}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Cliente find(@PathParam("id") String id) {
-        return super.find(id);
+    public Cliente find(@PathParam("email") String email) {
+        return em.find(Cliente.class, email);  // Buscamos el cliente por su email
     }
 
     @GET
-    @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Cliente> findAll() {
         return super.findAll();
@@ -87,5 +94,4 @@ public class ClienteFacadeREST extends AbstractFacade<Cliente> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
 }

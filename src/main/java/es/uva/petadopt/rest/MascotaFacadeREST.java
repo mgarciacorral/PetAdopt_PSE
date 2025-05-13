@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uva.petadopt.rest;
 
 import es.uva.petadopt.model.Mascota;
@@ -20,12 +16,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-/**
- *
- * @author mgarc
- */
+
 @Stateless
-@Path("es.uva.petadopt.model.mascota")
+@Path("mascotas")
 public class MascotaFacadeREST extends AbstractFacade<Mascota> {
 
     @PersistenceContext(unitName = "PetAdoptPU")
@@ -82,6 +75,51 @@ public class MascotaFacadeREST extends AbstractFacade<Mascota> {
     public String countREST() {
         return String.valueOf(super.count());
     }
+    
+    @GET
+    @Path("especie/{especie}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Mascota> findByEspecie(@PathParam("especie") String especie) {
+        return em.createQuery("SELECT m FROM Mascota m WHERE m.especie = :especie", Mascota.class)
+                .setParameter("especie", especie)
+                .getResultList();
+    }
+
+    @GET
+    @Path("raza/{raza}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Mascota> findByRaza(@PathParam("raza") String raza) {
+        return em.createQuery("SELECT m FROM Mascota m WHERE m.raza = :raza", Mascota.class)
+                .setParameter("raza", raza)
+                .getResultList();
+    }
+
+    @GET
+    @Path("nombre/{nombre}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Mascota> buscarMascotasPorNombre(@PathParam("nombre") String nombre) {
+        return em.createQuery("SELECT m FROM Mascota m WHERE LOWER(m.nombre) LIKE :nombre", Mascota.class)
+                .setParameter("nombre", "%" + nombre.toLowerCase() + "%")
+                .getResultList();
+    }
+
+    @GET
+    @Path("especies")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<String> obtenerEspecies() {
+        return em.createQuery("SELECT DISTINCT m.especie FROM Mascota m", String.class)
+                .getResultList();
+    }
+
+    @GET
+    @Path("razas/{especie}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<String> obtenerRazasPorEspecie(@PathParam("especie") String especie) {
+        return em.createQuery("SELECT DISTINCT m.raza FROM Mascota m WHERE m.especie = :especie", String.class)
+                .setParameter("especie", especie)
+                .getResultList();
+    }
+
 
     @Override
     protected EntityManager getEntityManager() {
