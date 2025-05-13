@@ -8,6 +8,7 @@ package es.uva.petadopt.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -78,10 +79,13 @@ public class Cliente implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
     @JoinColumn(name = "email", referencedColumnName = "email", insertable = false, updatable = false)
-    @OneToOne(optional = false)
+    @JsonbTransient
+    @OneToOne
     private Usuario usuario;
+    @JsonbTransient
     @OneToMany(mappedBy = "emailCliente")
     private Collection<Solicitudadopcion> solicitudadopcionCollection;
+    @JsonbTransient
     @OneToMany(mappedBy = "emailCliente")
     private Collection<Chat> chatCollection;
 

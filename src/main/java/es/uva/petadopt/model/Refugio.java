@@ -7,6 +7,7 @@ package es.uva.petadopt.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -70,6 +71,7 @@ public class Refugio implements Serializable {
     @OneToMany(mappedBy = "emailRefugio")
     private Collection<Mascota> mascotaCollection;
     @JoinColumn(name = "email", referencedColumnName = "email", insertable = false, updatable = false)
+    @JsonbTransient
     @OneToOne(optional = false)
     private Usuario usuario;
 

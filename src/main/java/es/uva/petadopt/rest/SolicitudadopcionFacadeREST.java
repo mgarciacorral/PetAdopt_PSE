@@ -19,6 +19,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 
 
@@ -76,11 +77,15 @@ public class SolicitudadopcionFacadeREST extends AbstractFacade<Solicitudadopcio
     public List<Mascota> findSolicitadas(@PathParam("emailCliente") String emailCliente) {
         Cliente cliente = em.find(Cliente.class, emailCliente);
 
-        // Consultamos todas las mascotas solicitadas por el cliente
+        if (cliente == null) {
+            throw new WebApplicationException("Cliente no encontrado", 404);
+        }
+
         Query query = em.createQuery("SELECT s.idMascota FROM Solicitudadopcion s WHERE s.emailCliente = :cliente");
         query.setParameter("cliente", cliente);
         return query.getResultList();
     }
+
 
     // Método para obtener la última solicitud de adopción de un cliente para una mascota
     @GET

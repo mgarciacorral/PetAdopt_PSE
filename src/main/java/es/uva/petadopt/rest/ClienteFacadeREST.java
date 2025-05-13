@@ -32,7 +32,7 @@ public class ClienteFacadeREST extends AbstractFacade<Cliente> {
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void createCliente(Cliente cliente) {
-        em.persist(cliente);  // Persistimos el cliente directamente
+        super.create(cliente);
     }
 
     // Método para buscar cliente por email

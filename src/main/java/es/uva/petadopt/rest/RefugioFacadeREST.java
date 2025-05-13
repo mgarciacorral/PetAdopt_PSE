@@ -32,7 +32,7 @@ public class RefugioFacadeREST extends AbstractFacade<Refugio> {
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void createRefugio(Refugio refugio) {
-        em.persist(refugio);  // Persistimos el refugio
+        super.create(refugio);
     }
 
     // Método para buscar refugio por email

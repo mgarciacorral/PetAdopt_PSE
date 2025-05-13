@@ -1,5 +1,6 @@
 package es.uva.petadopt.controller;
 
+import es.uva.petadopt.client.SolicitudRestClient;
 import es.uva.petadopt.dao.ChatDao;
 import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.dao.MascotaDao;
@@ -13,7 +14,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.view.ViewScoped;
@@ -27,6 +27,7 @@ public class ClienteBean implements Serializable {
 
     @Inject
     private MascotaDao mascotaDao;
+    SolicitudRestClient solicitud = new SolicitudRestClient();
     
     @Inject
     private SolicitudDao solicitudDao;
@@ -69,7 +70,7 @@ public class ClienteBean implements Serializable {
         String viewId = context.getViewRoot().getViewId();
 
         if (viewId.contains("solicitudes.xhtml")) {
-            mascotas = solicitudDao.findSolicitadas(cliente);
+            mascotas = solicitud.findSolicitadas(cliente.getEmail());
         } else {
             buscarMascotas();
         }
