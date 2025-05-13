@@ -7,6 +7,7 @@ import es.uva.petadopt.model.Solicitudadopcion;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -39,7 +40,13 @@ public class SolicitudDao {
 
         entityManager.persist(solicitud);
         
-}
+    }   
+    
+    public List<Mascota> findSolicitadas(Cliente cliente){
+        Query query = entityManager.createQuery("SELECT s.idMascota FROM Solicitudadopcion s WHERE s.emailCliente = :cliente");
+        query.setParameter("cliente", cliente);
+        return query.getResultList();
+    }
 
 
 }

@@ -1,17 +1,83 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
-
-        <ui:composition template="./../templates/templateCliente.xhtml">
+        <ui:composition template="/templates/templateCliente.xhtml"
+                        xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:h="http://xmlns.jcp.org/jsf/html"
+                        xmlns:p="http://primefaces.org/ui"
+                        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
             <ui:define name="contenidoCliente">
-                contenidoCliente
+                <div class="container">
+                    <h2>Mascotas Solicitadas</h2>
+
+
+                    <h:form id="formFiltros">
+                        
+
+                        <!-- Tarjetas de Mascotas -->
+                        <h:panelGroup id="cards">
+                            <div class="row">
+                                <ui:repeat value="#{clienteBean.mascotas}" var="mascota">
+                                    <div class="col-md-4 mb-3">
+                                        <p:panel header="#{mascota.nombre}" styleClass="shadow-sm">
+                                            <h:outputText value="Especie: #{mascota.especie}" /><br />
+                                            <h:outputText value="Raza: #{mascota.raza}" /><br />
+                                            <h:outputText value="Edad: #{mascota.edad}" /><br />
+                                            <p:commandButton value="Ver más"
+                                                             actionListener="#{clienteBean.verMascota(mascota.idMascota)}"
+                                                             update=":formDialog"
+                                                             oncomplete="PF('dialogMascota').show()"
+                                                             styleClass="btn btn-info" />
+                                        </p:panel>
+                                    </div>
+                                </ui:repeat>
+                            </div>
+                        </h:panelGroup>
+                    </h:form>
+                </div>
+                <h:form id="formDialog">
+                    <p:dialog header="Detalles de la Mascota"
+                              widgetVar="dialogMascota"
+                              modal="false"
+                              closable="true"
+                              resizable="false"
+                              draggable="false"
+                              width="400"
+                              styleClass="z-9999">
+
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputText value="Nombre:" />
+                            <h:outputText value="#{clienteBean.selectedMascota.getNombre()}" />
+
+                            <h:outputText value="Especie:" />
+                            <h:outputText value="#{clienteBean.selectedMascota.getEspecie()}" />
+
+                            <h:outputText value="Raza:" />
+                            <h:outputText value="#{clienteBean.selectedMascota.getRaza()}" />
+
+                            <h:outputText value="Edad:" />
+                            <h:outputText value="#{clienteBean.selectedMascota.getEdad()}" />
+
+                            <h:outputText value="Refugio" />
+                            <h:outputText value="#{clienteBean.selectedMascota.getEmailRefugio().getEmail()}" />
+                            
+                            
+
+                        </h:panelGrid>
+                        <p:commandButton value="Solicitar adopción"
+                                         actionListener="#{clienteBean.solicitarMascota()}"
+                                         update="growl"
+                                         styleClass="btn btn-info"/>
+                    </p:dialog>
+                    <p:growl id="growl" showDetail="true" life="3000" sticky="false" />
+
+                </h:form>
             </ui:define>
-
         </ui:composition>
-
     </body>
 </html>

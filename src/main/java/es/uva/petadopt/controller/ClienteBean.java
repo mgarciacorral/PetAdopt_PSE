@@ -5,6 +5,7 @@ import es.uva.petadopt.dao.MascotaDao;
 import es.uva.petadopt.dao.SolicitudDao;
 import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Usuario;
+import java.io.IOException;
 
 
 import java.io.Serializable;
@@ -12,12 +13,14 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class ClienteBean implements Serializable {
 
     @Inject
@@ -42,18 +45,33 @@ public class ClienteBean implements Serializable {
 
     
     @PostConstruct
-    public void init(){
-        buscarMascotas();
-        cargarEspecies();
-        
-        usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext()
-                    .getSessionMap().get("usuarioLogueado");
-        
-        cliente = (Cliente) FacesContext.getCurrentInstance().getExternalContext()
-                    .getSessionMap().get("clienteLogueado");
-        
+    public void init() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
 
+        usuario = (Usuario) externalContext.getSessionMap().get("usuarioLogueado");
+        cliente = (Cliente) externalContext.getSessionMap().get("clienteLogueado");
+
+        if (usuario == null) {
+            try {
+                externalContext.redirect(externalContext.getRequestContextPath() + "/auth/login.xhtml");
+            } catch (IOException e) {
+                e.printStackTrace(); 
+            }
+            return;
+        }
+
+        String viewId = context.getViewRoot().getViewId();
+
+        if (viewId.contains("solicitudes.xhtml")) {
+            mascotas = solicitudDao.findSolicitadas(cliente);
+        } else {
+            buscarMascotas();
+        }
+
+        cargarEspecies();
     }
+
     
     // Método para buscar las mascotas
     public void buscarMascotas() {
@@ -71,6 +89,24 @@ public class ClienteBean implements Serializable {
             mascotas = mascotaDao.findAll();
         }
     }
+    
+    private void buscarMascotasSolicitadas() {
+        // Realiza la búsqueda con los filtros seleccionados
+        if (selectedEspecie != null && !selectedEspecie.isEmpty()) {
+            mascotas = mascotaDao.findByEspecie(selectedEspecie);
+        }
+        if (selectedRaza != null && !selectedRaza.isEmpty()) {
+            mascotas = mascotaDao.findByRaza(selectedRaza);
+        }
+        
+        // Si no se seleccionan filtros, mostramos todas las mascotas
+        if ((selectedEspecie == null || selectedEspecie.isEmpty()) && 
+            (selectedRaza == null || selectedRaza.isEmpty())) {
+            mascotas = solicitudDao.findSolicitadas(cliente);
+        }
+        
+    }
+
     
     public void buscarPorNombre(){
         if (filtroBusqueda == null || filtroBusqueda.isEmpty()) {
@@ -114,6 +150,10 @@ public class ClienteBean implements Serializable {
     
     public String verPerfil() {
         return "/cliente/perfil.xhtml?faces-redirect=true";
+    }
+    
+    public String verChats(){
+        return "/cliente/chat.xhtml?faces-redirect=true";
     }
 
     // Getters y setters
@@ -181,3 +221,4 @@ public class ClienteBean implements Serializable {
         this.razas = razas;
     }
 }
+    
