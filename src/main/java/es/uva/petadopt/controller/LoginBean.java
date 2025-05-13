@@ -1,5 +1,7 @@
 package es.uva.petadopt.controller;
 
+import es.uva.petadopt.client.ClienteRestClient;
+import es.uva.petadopt.client.RefugioRestClient;
 import es.uva.petadopt.jaas.UserEJB;
 import es.uva.petadopt.model.Usuario;
 import javax.enterprise.context.RequestScoped;
@@ -16,6 +18,10 @@ import javax.servlet.http.HttpSession;
 public class LoginBean {    
     @Inject
     UserEJB userEJB;
+    
+    RefugioRestClient refugioClient = new RefugioRestClient();
+    ClienteRestClient clienteClient = new ClienteRestClient();
+    
     
     private Usuario user;
 
@@ -35,9 +41,12 @@ public class LoginBean {
         }
 
         this.user = userEJB.findByEmail(request.getUserPrincipal().getName());
+        request.getSession().setAttribute("usuarioLogueado", user);
         if (request.isUserInRole("cliente")) {
+            request.getSession().setAttribute("clienteLogueado", clienteClient.findByEmail(user.getEmail()));
             return "/cliente/buscar.xhtml?faces-redirect=true";
         } else if (request.isUserInRole("refugio")) {
+            request.getSession().setAttribute("refugioLogueado", refugioClient.findByEmail(user.getEmail()));
             return "/refugio.mascotas.xhtml?faces-redirect=true";
         } else if (request.isUserInRole("admin")) {
             return "/admin/panel.xhtml?faces-redirect=true";

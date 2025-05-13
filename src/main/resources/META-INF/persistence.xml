@@ -11,6 +11,7 @@
     <class>es.uva.petadopt.model.Solicitudadopcion</class>
     <class>es.uva.petadopt.model.Usuario</class>
     <class>es.uva.petadopt.model.Refugio</class>
+    <class>es.uva.petadopt.model.UserGroups</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/petadopt"/>

@@ -1,5 +1,6 @@
 package es.uva.petadopt.controller;
 
+import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import es.uva.petadopt.client.SolicitudRestClient;
 import es.uva.petadopt.dao.ChatDao;
 import es.uva.petadopt.model.Mascota;
@@ -8,7 +9,7 @@ import es.uva.petadopt.dao.SolicitudDao;
 import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Solicitudadopcion;
 import es.uva.petadopt.model.Usuario;
-import java.io.IOException;
+
 
 
 import java.io.Serializable;
@@ -20,6 +21,8 @@ import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Named
 @ViewScoped
@@ -54,19 +57,14 @@ public class ClienteBean implements Serializable {
     public void init() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
-
-        usuario = (Usuario) externalContext.getSessionMap().get("usuarioLogueado");
-        cliente = (Cliente) externalContext.getSessionMap().get("clienteLogueado");
-
-        if (usuario == null) {
-            try {
-                externalContext.redirect(externalContext.getRequestContextPath() + "/auth/login.xhtml");
-            } catch (IOException e) {
-                e.printStackTrace(); 
-            }
-            return;
+        
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        HttpSession session = request.getSession(false); // false para no crear una nueva si no existe
+        
+        Usuario usuario = null;
+        if (session != null) {
+            usuario = (Usuario) session.getAttribute("usuarioLogueado");
         }
-
         String viewId = context.getViewRoot().getViewId();
 
         if (viewId.contains("solicitudes.xhtml")) {

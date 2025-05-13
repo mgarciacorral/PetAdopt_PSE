@@ -1,22 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uva.petadopt.model;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author mgarc
- */
-@Embeddable
+
+@Entity
+@Table(name = "user_groups")
 public class UserGroups implements Serializable {
 
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
@@ -24,6 +20,7 @@ public class UserGroups implements Serializable {
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "email")
+    @Id
     private String email;
     @Basic(optional = false)
     @NotNull
@@ -79,9 +76,6 @@ public class UserGroups implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "es.uva.petadopt.model.UserGroupsPK[ email=" + email + ", grupo=" + grupo + " ]";
-    }
+   
     
 }
