@@ -6,66 +6,60 @@
 package es.uva.petadopt.model;
 
 import java.io.Serializable;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author mgarc
  */
-@Entity
-@Table(name = "user_groups")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "UserGroups.findAll", query = "SELECT u FROM UserGroups u"),
-    @NamedQuery(name = "UserGroups.findByEmail", query = "SELECT u FROM UserGroups u WHERE u.userGroupsPK.email = :email"),
-    @NamedQuery(name = "UserGroups.findByGrupo", query = "SELECT u FROM UserGroups u WHERE u.userGroupsPK.grupo = :grupo")})
+@Embeddable
 public class UserGroups implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected UserGroupsPK userGroupsPK;
-    @JoinColumn(name = "email", referencedColumnName = "email", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Usuario usuario;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "email")
+    private String email;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "grupo")
+    private String grupo;
 
     public UserGroups() {
     }
 
-    public UserGroups(UserGroupsPK userGroupsPK) {
-        this.userGroupsPK = userGroupsPK;
-    }
-
     public UserGroups(String email, String grupo) {
-        this.userGroupsPK = new UserGroupsPK(email, grupo);
+        this.email = email;
+        this.grupo = grupo;
     }
 
-    public UserGroupsPK getUserGroupsPK() {
-        return userGroupsPK;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserGroupsPK(UserGroupsPK userGroupsPK) {
-        this.userGroupsPK = userGroupsPK;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public String getGrupo() {
+        return grupo;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setGrupo(String grupo) {
+        this.grupo = grupo;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (userGroupsPK != null ? userGroupsPK.hashCode() : 0);
+        hash += (email != null ? email.hashCode() : 0);
+        hash += (grupo != null ? grupo.hashCode() : 0);
         return hash;
     }
 
@@ -76,7 +70,10 @@ public class UserGroups implements Serializable {
             return false;
         }
         UserGroups other = (UserGroups) object;
-        if ((this.userGroupsPK == null && other.userGroupsPK != null) || (this.userGroupsPK != null && !this.userGroupsPK.equals(other.userGroupsPK))) {
+        if ((this.email == null && other.email != null) || (this.email != null && !this.email.equals(other.email))) {
+            return false;
+        }
+        if ((this.grupo == null && other.grupo != null) || (this.grupo != null && !this.grupo.equals(other.grupo))) {
             return false;
         }
         return true;
@@ -84,7 +81,7 @@ public class UserGroups implements Serializable {
 
     @Override
     public String toString() {
-        return "es.uva.petadopt.model.UserGroups[ userGroupsPK=" + userGroupsPK + " ]";
+        return "es.uva.petadopt.model.UserGroupsPK[ email=" + email + ", grupo=" + grupo + " ]";
     }
     
 }

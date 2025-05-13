@@ -6,7 +6,7 @@
 package es.uva.petadopt.rest;
 
 import es.uva.petadopt.model.UserGroups;
-import es.uva.petadopt.model.UserGroupsPK;
+import es.uva.petadopt.model.UserGroups;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,7 +33,7 @@ public class UserGroupsFacadeREST extends AbstractFacade<UserGroups> {
     @PersistenceContext(unitName = "PetAdoptPU")
     private EntityManager em;
 
-    private UserGroupsPK getPrimaryKey(PathSegment pathSegment) {
+    private UserGroups getPrimaryKey(PathSegment pathSegment) {
         /*
          * pathSemgent represents a URI path segment and any associated matrix parameters.
          * URI path part is supposed to be in form of 'somePath;email=emailValue;grupo=grupoValue'.
@@ -41,7 +41,7 @@ public class UserGroupsFacadeREST extends AbstractFacade<UserGroups> {
          * it is ignored in the following code.
          * Matrix parameters are used as field names to build a primary key instance.
          */
-        es.uva.petadopt.model.UserGroupsPK key = new es.uva.petadopt.model.UserGroupsPK();
+        es.uva.petadopt.model.UserGroups key = new es.uva.petadopt.model.UserGroups();
         javax.ws.rs.core.MultivaluedMap<String, String> map = pathSegment.getMatrixParameters();
         java.util.List<String> email = map.get("email");
         if (email != null && !email.isEmpty()) {
@@ -75,7 +75,7 @@ public class UserGroupsFacadeREST extends AbstractFacade<UserGroups> {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") PathSegment id) {
-        es.uva.petadopt.model.UserGroupsPK key = getPrimaryKey(id);
+        es.uva.petadopt.model.UserGroups key = getPrimaryKey(id);
         super.remove(super.find(key));
     }
 
@@ -83,7 +83,7 @@ public class UserGroupsFacadeREST extends AbstractFacade<UserGroups> {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public UserGroups find(@PathParam("id") PathSegment id) {
-        es.uva.petadopt.model.UserGroupsPK key = getPrimaryKey(id);
+        es.uva.petadopt.model.UserGroups key = getPrimaryKey(id);
         return super.find(key);
     }
 

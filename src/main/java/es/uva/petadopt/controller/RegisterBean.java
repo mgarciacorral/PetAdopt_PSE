@@ -1,8 +1,6 @@
 package es.uva.petadopt.controller;
 
-import es.uva.petadopt.dao.ClienteDao;
-import es.uva.petadopt.dao.RefugioDao;
-import es.uva.petadopt.dao.UsuarioDao;
+import es.uva.petadopt.jaas.UserEJB;
 import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Refugio;
 import es.uva.petadopt.model.Usuario;
@@ -10,21 +8,19 @@ import es.uva.petadopt.model.Usuario;
 import java.io.Serializable;
 import java.util.Date;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
 @SessionScoped
-public class RegisterBean implements Serializable {
-
+public class RegisterBean implements Serializable {   
     @Inject
-    private UsuarioDao usuarioDao;
-
-    @Inject
-    private ClienteDao clienteDao;
-
-    @Inject
-    private RefugioDao refugioDao;
+    private UserEJB userEJB;
 
     private String email;
     private String password;
@@ -39,15 +35,8 @@ public class RegisterBean implements Serializable {
     private String direccion;
     private String userType = "cliente";
 
-    // Métodos de registro
     public String register() {
         try {
-            System.out.println(userType);
-            Usuario existingUser = usuarioDao.findByEmail(email);
-            if (existingUser != null) {
-                return "/registro_error.xhtml?faces-redirect=true";
-            }
-
             Usuario usuario = new Usuario();   
             usuario.setEmail(email);
             usuario.setPassword(password);
@@ -64,8 +53,7 @@ public class RegisterBean implements Serializable {
                 cliente.setFechaNacimiento(fechaNacimiento);
                 cliente.setTelefono(telefono);
 
-                usuarioDao.save(usuario);
-                clienteDao.save(cliente);
+                userEJB.createCliente(usuario, cliente);
             } else if ("refugio".equals(userType)) {
                 usuario.setTipo("refugio");
                 Refugio refugio = new Refugio();
@@ -77,13 +65,33 @@ public class RegisterBean implements Serializable {
                 refugio.setDireccion(direccion);
                 refugio.setAutorizado(Boolean.FALSE);
 
-                usuarioDao.save(usuario);
-                refugioDao.save(refugio);
+                userEJB.createRefugio(usuario, refugio);
             }
             
             return "/auth/login.xhtml?faces-redirect=true";
         } catch (IllegalArgumentException e) {
-            return "/registro_error.xhtml?faces-redirect=true";
+            return "/registro.xhtml?faces-redirect=true";
+        }
+    }
+    
+    public void validatePassword(ComponentSystemEvent event) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        UIComponent components = event.getComponent();
+        UIInput uiInputPassword = (UIInput) components.findComponent("password");
+        String password = uiInputPassword.getLocalValue() == null ? "" : uiInputPassword.getLocalValue().toString();
+       
+        if (password.isEmpty()) {
+            return;
+        }
+        
+        UIInput uiInputEmail = (UIInput) components.findComponent("email");
+        String email = uiInputEmail.getLocalValue() == null ? ""
+                : uiInputEmail.getLocalValue().toString();
+        if (userEJB.findByEmail(email) != null) {
+            FacesMessage msg = new FacesMessage("Ya existe un usuario con ese email");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            facesContext.addMessage(uiInputPassword.getClientId(), msg);
+            facesContext.renderResponse();
         }
     }
     

@@ -1,7 +1,9 @@
 package es.uva.petadopt.model;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -9,7 +11,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "usuario")
 @XmlRootElement
-public class Usuario {
+@NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email")
+public class Usuario implements Serializable {
     @Id
     private String email;
     private String password;

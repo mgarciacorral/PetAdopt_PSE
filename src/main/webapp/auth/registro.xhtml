@@ -21,7 +21,8 @@
                                      style="margin-top: 40px;">
 
                                 <h:form id="clientForm">
-                                    <!-- Mostrar mensajes de error -->
+                                    <f:event listener="#{registerBean.validatePassword}" type="postValidate" />
+
                                     <h:messages globalOnly="true" styleClass="alert alert-danger" />
 
                                     <!-- Switcher para elegir entre Cliente o Refugio -->
@@ -38,7 +39,11 @@
                                         <p:inputText id="email"
                                                      value="#{registerBean.email}"
                                                      required="true"
-                                                     styleClass="form-control" />
+                                                     requiredMessage="Por favor, introduce tu email."
+                                                     styleClass="form-control" >
+                                            <f:validator validatorId="emailValidator" />
+                                        </p:inputText>
+                                        <p:message for="email" />
                                     </div>
 
                                     <div class="mb-3">
@@ -46,7 +51,16 @@
                                         <p:password id="password"
                                                     value="#{registerBean.password}"
                                                     required="true"
-                                                    styleClass="form-control" />
+                                                    requiredMessage="Por favor, introduce tu contraseña."
+                                                    validatorMessage="La
+                                                    contraseña debe contener al menos un carácter en minúsculas,
+                                                    un carácter en mayúscula, un número y su longitud debe estar entre 6 y 20
+                                                    caracteres."
+                                                    feedback="true"
+                                                    styleClass="form-control">
+                                            <f:validateRegex pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})" />
+                                        </p:password>
+                                        <p:message for="password" />
                                     </div>
 
                                     <!-- Formulario Cliente -->
@@ -56,6 +70,7 @@
                                             <p:inputText id="nombre"
                                                          value="#{registerBean.nombre}"
                                                          required="true"
+                                                         requiredMessage="Por favor, introduce tu nombre."
                                                          styleClass="form-control" />
                                         </div>
 
@@ -64,6 +79,7 @@
                                             <p:inputText id="apellidos"
                                                          value="#{registerBean.apellidos}"
                                                          required="true"
+                                                         requiredMessage="Por favor, introduce tus apellidos."
                                                          styleClass="form-control" />
                                         </div>
 
@@ -72,6 +88,7 @@
                                             <p:inputText id="nif"
                                                          value="#{registerBean.nif}"
                                                          required="true"
+                                                         requiredMessage="Por favor, introduce tu nif."
                                                          styleClass="form-control" />
                                         </div>
 
@@ -80,6 +97,7 @@
                                             <p:inputText id="domicilio"
                                                          value="#{registerBean.domicilio}"
                                                          required="true"
+                                                         requiredMessage="Por favor, introduce tu domicilio."
                                                          styleClass="form-control" />
                                         </div>
 
@@ -88,6 +106,7 @@
                                             <p:calendar id="fechaNacimiento"
                                                         value="#{registerBean.fechaNacimiento}"
                                                         required="true"
+                                                        requiredMessage="Por favor, introduce tu fecha de nacimiento."
                                                         styleClass="form-control" />
                                         </div>
                                     </p:outputPanel>
@@ -99,6 +118,7 @@
                                             <p:inputText id="nombreRefugio"
                                                          value="#{registerBean.nombreRefugio}"
                                                          required="true"
+                                                         requiredMessage="Por favor, introduce tu refugio."
                                                          styleClass="form-control" />
                                         </div>
 
@@ -107,6 +127,7 @@
                                             <p:inputText id="cif"
                                                          value="#{registerBean.cif}"
                                                          required="true"
+                                                         requiredMessage="Por favor, introduce tu cif."
                                                          styleClass="form-control" />
                                         </div>
 
@@ -115,6 +136,7 @@
                                             <p:inputText id="direccion"
                                                          value="#{registerBean.direccion}"
                                                          required="true"
+                                                         requiredMessage="Por favor, introduce tu direccion."
                                                          styleClass="form-control" />
                                         </div>
                                     </p:outputPanel>
@@ -124,6 +146,7 @@
                                         <p:inputText id="telefono"
                                                      value="#{registerBean.telefono}"
                                                      required="true"
+                                                     requiredMessage="Por favor, introduce tu telefono."
                                                      styleClass="form-control" />
                                     </div>
                                     

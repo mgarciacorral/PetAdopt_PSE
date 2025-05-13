@@ -1,80 +1,63 @@
 package es.uva.petadopt.controller;
 
-import es.uva.petadopt.dao.ClienteDao;
-import es.uva.petadopt.dao.RefugioDao;
-import es.uva.petadopt.dao.UsuarioDao;
-import es.uva.petadopt.model.Cliente;
-import es.uva.petadopt.model.Refugio;
+import es.uva.petadopt.jaas.UserEJB;
 import es.uva.petadopt.model.Usuario;
-
-
-import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Named
 @RequestScoped
-public class LoginBean implements Serializable {
-
+public class LoginBean {    
     @Inject
-    private UsuarioDao usuarioDao; 
+    UserEJB userEJB;
     
-    @Inject
-    private ClienteDao clienteDao;
-    
-    @Inject
-    private RefugioDao refugioDao;
+    private Usuario user;
 
     private String email;
     private String password;
     private String tipoUsuario;
     private boolean autenticado;
-    
-    private Cliente cliente;
-    private Refugio refugio;
-    private Usuario usuario;
 
     public String login() {
-        usuario = usuarioDao.findByEmail(email);
-
-        if (usuario != null && usuarioDao.checkPassword(password, usuario.getPassword())) {
-            tipoUsuario = usuario.getTipo();
-            autenticado = true;
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogueado", usuario);
-            
-            if (null != tipoUsuario) switch (tipoUsuario) {
-                case "admin":
-                    return "/admin/panel.xhtml?faces-redirect=true";
-                case "cliente":
-                    cliente = clienteDao.findByEmail(email);
-                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("clienteLogueado", cliente);
-                    return "/cliente/buscar.xhtml?faces-redirect=true";
-                case "refugio":
-                    refugio = refugioDao.findByEmail(email);
-                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("refugioLogueado", refugio);
-                    return "/refugio/mascotas.xhtml?faces-redirect=true";
-                default:
-                    break;
-            }
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        try {
+            request.login(email, password);
+        } catch (ServletException e) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Login incorrecto!", null));
+            return "login";
         }
 
-        return "/login_error.xhtml?faces-redirect=true";
+        this.user = userEJB.findByEmail(request.getUserPrincipal().getName());
+        if (request.isUserInRole("cliente")) {
+            return "/cliente/buscar.xhtml?faces-redirect=true";
+        } else if (request.isUserInRole("refugio")) {
+            return "/refugio.mascotas.xhtml?faces-redirect=true";
+        } else if (request.isUserInRole("admin")) {
+            return "/admin/panel.xhtml?faces-redirect=true";
+        }else {
+            return "login";
+        }
     }
 
     public String logout() {
-        email = null;
-        password = null;
-        tipoUsuario = null;
-        autenticado = false;
-        cliente = null;
-        refugio = null;
-        usuario = null;
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();            
-        return "/index.xhtml?faces-redirect=true";
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        try {
+            this.user = null;
+            request.logout();
+            ((HttpSession) context.getExternalContext().getSession(false)).invalidate();
+        } catch (ServletException e) {
+            System.out.println("Fallo durante el proceso de logout!");
+        }
+        return "/index?faces-redirect=true";
     }
-
 
     // Getters y Setters
     public String getEmail() {
@@ -88,16 +71,20 @@ public class LoginBean implements Serializable {
     public String getPassword() {
         return password;
     }
+    
+    public Usuario getAuthenticatedUser() {
+        return user;
+    }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getTipoUsuario() {
-        return tipoUsuario;
-    }
-
     public boolean isAutenticado() {
         return autenticado;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
     }
 }
