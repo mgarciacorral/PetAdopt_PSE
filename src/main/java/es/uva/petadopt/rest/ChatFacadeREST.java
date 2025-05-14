@@ -1,6 +1,7 @@
 
 package es.uva.petadopt.rest;
 
+import es.uva.petadopt.dto.ChatDTO;
 import es.uva.petadopt.model.Chat;
 import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Refugio;
@@ -13,7 +14,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -35,7 +35,7 @@ public class ChatFacadeREST extends AbstractFacade<Chat> {
     // Método para crear un chat
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void createChat(CreateChatRequest request) {
+    public void createChat(ChatDTO request) {
         Cliente cliente = em.find(Cliente.class, request.getClienteId());
         Refugio refugio = em.find(Refugio.class, request.getRefugioId());
         Solicitudadopcion solicitud = em.find(Solicitudadopcion.class, request.getSolicitudId());

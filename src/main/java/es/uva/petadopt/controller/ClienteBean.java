@@ -1,6 +1,7 @@
 package es.uva.petadopt.controller;
 
 import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
+import es.uva.petadopt.client.MascotaRestClient;
 import es.uva.petadopt.client.SolicitudRestClient;
 import es.uva.petadopt.dao.ChatDao;
 import es.uva.petadopt.model.Mascota;
@@ -30,7 +31,8 @@ public class ClienteBean implements Serializable {
 
     @Inject
     private MascotaDao mascotaDao;
-    SolicitudRestClient solicitud = new SolicitudRestClient();
+    SolicitudRestClient solicitudClient = new SolicitudRestClient();
+    MascotaRestClient mascotaClient = new MascotaRestClient();
     
     @Inject
     private SolicitudDao solicitudDao;
@@ -61,14 +63,17 @@ public class ClienteBean implements Serializable {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         HttpSession session = request.getSession(false); // false para no crear una nueva si no existe
         
-        Usuario usuario = null;
+        usuario = null;
         if (session != null) {
             usuario = (Usuario) session.getAttribute("usuarioLogueado");
+            cliente = (Cliente) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("clienteLogueado");
+
         }
         String viewId = context.getViewRoot().getViewId();
+        System.out.println(cliente.getEmail());
 
         if (viewId.contains("solicitudes.xhtml")) {
-            mascotas = solicitud.findSolicitadas(cliente.getEmail());
+            mascotas = solicitudClient.findSolicitadas(cliente.getEmail());
         } else {
             buscarMascotas();
         }
@@ -81,32 +86,32 @@ public class ClienteBean implements Serializable {
     public void buscarMascotas() {
         // Realiza la búsqueda con los filtros seleccionados
         if (selectedEspecie != null && !selectedEspecie.isEmpty()) {
-            mascotas = mascotaDao.findByEspecie(selectedEspecie);
+            mascotas = mascotaClient.findByEspecie(selectedEspecie);
         }
         if (selectedRaza != null && !selectedRaza.isEmpty()) {
-            mascotas = mascotaDao.findByRaza(selectedRaza);
+            mascotas = mascotaClient.findByRaza(selectedRaza);
         }
         
         // Si no se seleccionan filtros, mostramos todas las mascotas
         if ((selectedEspecie == null || selectedEspecie.isEmpty()) && 
             (selectedRaza == null || selectedRaza.isEmpty())) {
-            mascotas = mascotaDao.findAll();
+            mascotas = mascotaClient.findAll();
         }
     }
     
     private void buscarMascotasSolicitadas() {
         // Realiza la búsqueda con los filtros seleccionados
         if (selectedEspecie != null && !selectedEspecie.isEmpty()) {
-            mascotas = mascotaDao.findByEspecie(selectedEspecie);
+            mascotas = mascotaClient.findByEspecie(selectedEspecie);
         }
         if (selectedRaza != null && !selectedRaza.isEmpty()) {
-            mascotas = mascotaDao.findByRaza(selectedRaza);
+            mascotas = mascotaClient.findByRaza(selectedRaza);
         }
         
         // Si no se seleccionan filtros, mostramos todas las mascotas
         if ((selectedEspecie == null || selectedEspecie.isEmpty()) && 
             (selectedRaza == null || selectedRaza.isEmpty())) {
-            mascotas = solicitudDao.findSolicitadas(cliente);
+            mascotas = solicitudClient.findSolicitadas(cliente.getEmail());
         }
         
     }
@@ -115,36 +120,36 @@ public class ClienteBean implements Serializable {
     public void buscarPorNombre(){
         if (filtroBusqueda == null || filtroBusqueda.isEmpty()) {
             // Si no hay filtro, mostrar todas las mascotas
-            mascotas = mascotaDao.findAll();
+            mascotas = mascotaClient.findAll();
         } else {
             // Si hay filtro, buscar mascotas por nombre
-            mascotas = mascotaDao.buscarMascotasPorNombre(filtroBusqueda);
+            mascotas = mascotaClient.findByNombre(filtroBusqueda);
 
         }
     }
     
     public void cargarEspecies(){
-        this.especies = mascotaDao.obtenerEspecies();
+        this.especies = mascotaClient.obtenerEspecies();
     }
     
     public void cargarRazas(){
         if (selectedEspecie != null && !selectedEspecie.isEmpty()) {
-            this.razas = mascotaDao.obtenerRazasPorEspecie(selectedEspecie); // Obtener razas según la especie
+            this.razas = mascotaClient.obtenerRazasPorEspecie(selectedEspecie); // Obtener razas según la especie
         }
     }
 
     public void verMascota(int id) {
-        this.selectedMascota = mascotaDao.findById(id);
+        this.selectedMascota = mascotaClient.find(id);
     }
     
     public void solicitarMascota(){
         
-        if(solicitudDao.comprobarSolicitud(cliente, selectedMascota)){
+        if(solicitudClient.comprobarSolicitud(cliente.getEmail(), selectedMascota.getIdMascota())){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud enviada", "Hemos enviado tu solicitud al refugio."));
 
-            solicitudDao.createSolicitud(cliente, selectedMascota);
-            Solicitudadopcion solicitud = solicitudDao.getLastSolicitudId(cliente, selectedMascota);
+            solicitudClient.createSolicitud(cliente, selectedMascota);
+            Solicitudadopcion solicitud = solicitudClient.getLastSolicitudId(cliente.getEmail(), selectedMascota.getIdMascota());
             chatDao.createChat(cliente, selectedMascota.getEmailRefugio() , solicitud);
             
         }else{

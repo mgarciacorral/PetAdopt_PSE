@@ -1,12 +1,14 @@
 
 package es.uva.petadopt.rest;
 
+import es.uva.petadopt.dto.SolicitudDTO;
 import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.model.Solicitudadopcion;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,22 +37,24 @@ public class SolicitudadopcionFacadeREST extends AbstractFacade<Solicitudadopcio
     }
 
     // Método para crear una nueva solicitud de adopción
-    @POST
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void createSolicitud(Solicitudadopcion solicitud) {
-        // Establecer el estado y la fecha de la solicitud
+@POST
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public void createSolicitud(SolicitudDTO dto) {
+        Solicitudadopcion solicitud = new Solicitudadopcion();
         solicitud.setEstado("pendiente");
+        solicitud.setIdMascota(dto.getMascota());
+        solicitud.setEmailCliente(dto.getCliente());
 
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
-        Date soloFecha = cal.getTime();
-        solicitud.setFechaSolicitud(soloFecha);
+        solicitud.setFechaSolicitud(cal.getTime());
 
         em.persist(solicitud);
     }
+
 
     // Método para comprobar si ya existe una solicitud de adopción para un cliente y mascota
     @GET
