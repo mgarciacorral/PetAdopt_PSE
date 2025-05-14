@@ -5,7 +5,6 @@ C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\peta
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\model\Refugio.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\controller\ChatBean.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\dto\SolicitudDTO.java
-C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\JAXRSConfiguration.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\controller\ClienteBean.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\rest\UsuarioFacadeREST.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\controller\PerfilBean.java
@@ -23,7 +22,6 @@ C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\peta
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\controller\RegisterBean.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\jaas\AuthenticationUtils.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\model\Mensaje.java
-C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\resources\JavaEE8Resource.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\client\ClienteRestClient.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\client\RefugioRestClient.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\jaas\UserEJB.java
@@ -33,5 +31,4 @@ C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\peta
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\rest\SolicitudadopcionFacadeREST.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\rest\ClienteFacadeREST.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\model\Solicitudadopcion.java
-C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\Users.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\model\Cliente.java
