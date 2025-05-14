@@ -3,14 +3,18 @@ package es.uva.petadopt.client;
 
 import es.uva.petadopt.model.Mascota;
 import java.util.List;
+import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-
+@Named
+@Dependent
 public class MascotaRestClient {
     
     private static final String BASE_URL = "http://localhost:8080/PetAdopt_PSE/webresources/mascotas";
@@ -95,6 +99,21 @@ public class MascotaRestClient {
         });
     }
     
+    public List<Mascota> findByRefugio(String refugio) {
+        WebTarget target = webTarget.path("refugio").path(refugio);
+
+        Response response = target
+                .request(MediaType.APPLICATION_JSON)
+                .get();
+
+        if (response.getStatus() != 200) {
+            throw new RuntimeException("Error al obtener las mascotas por refugio: " + response.getStatus());
+        }
+
+        return response.readEntity(new GenericType<List<Mascota>>() {
+        });
+    }
+    
     public List<String> obtenerEspecies() {
         Response response = webTarget
                 .path("especies")
@@ -108,7 +127,12 @@ public class MascotaRestClient {
         return response.readEntity(new GenericType<List<String>>() {
         });
     }
-   
+    
+    public void crearMascota(Mascota mascota) {
+        WebTarget resource = webTarget;
+        resource.request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(mascota, MediaType.APPLICATION_JSON));
+    }   
     
     public List<String> obtenerRazasPorEspecie(String especie) {
         Response response = webTarget

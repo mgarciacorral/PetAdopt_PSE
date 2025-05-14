@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../templates/templateRefugio.xhtml">
+
+            <ui:define name="contenidoRefugio">
+                <h2>Datos de la Mascota</h2>
+
+                <h:form>
+                    <p:panel header="Información básica">
+                        <p:messages />
+
+                        <!-- Nombre: solo letras y espacios -->
+                        <p:panelGrid columns="2" layout="grid" styleClass="mb-3">
+
+                            <h:outputLabel for="nombre" value="Nombre:" />
+                            <p:inputText id="nombre" value="#{agregarMascotaFlowBean.nuevaMascota.nombre}" required="true">
+                                <f:validateRegex pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,30}$" />
+                            </p:inputText>
+
+                            <h:outputLabel for="especie" value="Especie:" />
+                            <p:inputText id="especie" value="#{agregarMascotaFlowBean.nuevaMascota.especie}" required="true">
+                                <f:validateRegex pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ]{3,30}$" />
+                            </p:inputText>
+
+                            <h:outputLabel for="raza" value="Raza:" />
+                            <p:inputText id="raza" value="#{agregarMascotaFlowBean.nuevaMascota.raza}" required="true">
+                                <f:validateRegex pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,30}$" />
+                            </p:inputText>
+
+                            <h:outputLabel for="edad" value="Edad:" />
+                            <p:inputText id="edad" value="#{agregarMascotaFlowBean.nuevaMascota.edad}" required="true">
+                                <f:validateLongRange minimum="0" maximum="99" />
+                            </p:inputText>
+
+                            <h:outputLabel for="coste" value="Coste (€):" />
+                            <p:inputText id="coste" value="#{agregarMascotaFlowBean.nuevaMascota.coste}" required="true">
+                                <f:validateLongRange minimum="1" maximum="10000" />
+                            </p:inputText>
+
+                        </p:panelGrid>
+
+
+                        <p:commandButton value="Anterior"
+                                         action="../../../refugio/mascotas.xhtml?faces-redirect=true"
+                                         icon="pi pi-arrow-left"
+                                         styleClass="btn btn-secondary mt-3" />
+                        <p:commandButton value="Siguiente"
+                                         action="imagen"
+                                         icon="pi pi-arrow-right"
+                                         styleClass="btn btn-primary mt-3"
+                                         validateClient="true" />
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

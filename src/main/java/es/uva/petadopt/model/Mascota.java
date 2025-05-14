@@ -1,84 +1,47 @@
 package es.uva.petadopt.model;
 
 import java.io.Serializable;
-import java.util.Collection;
-import javax.json.bind.annotation.JsonbTransient;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-
+import javax.persistence.*;
 
 @Entity
 @Table(name = "mascota")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Mascota.findAll", query = "SELECT m FROM Mascota m"),
     @NamedQuery(name = "Mascota.findByIdMascota", query = "SELECT m FROM Mascota m WHERE m.idMascota = :idMascota"),
-    @NamedQuery(name = "Mascota.findByNombre", query = "SELECT m FROM Mascota m WHERE m.nombre = :nombre"),
-    @NamedQuery(name = "Mascota.findByEspecie", query = "SELECT m FROM Mascota m WHERE m.especie = :especie"),
-    @NamedQuery(name = "Mascota.findByRaza", query = "SELECT m FROM Mascota m WHERE m.raza = :raza"),
-    @NamedQuery(name = "Mascota.findByEdad", query = "SELECT m FROM Mascota m WHERE m.edad = :edad"),
-    @NamedQuery(name = "Mascota.findByFoto", query = "SELECT m FROM Mascota m WHERE m.foto = :foto")})
+    @NamedQuery(name = "Mascota.findByRefugio", query = "SELECT m FROM Mascota m WHERE LOWER(m.refugio) LIKE :refugio")
+})
 public class Mascota implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id_mascota")
     private Integer idMascota;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "nombre")
+
+    @Column(name = "nombre", nullable = false, length = 50)
     private String nombre;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "especie")
+
+    @Column(name = "especie", nullable = false, length = 50)
     private String especie;
-    @Size(max = 100)
-    @Column(name = "raza")
+
+    @Column(name = "raza", nullable = false, length = 50)
     private String raza;
-    @Column(name = "edad")
+
+    @Column(name = "edad", nullable = false)
     private Integer edad;
-    @Size(max = 255)
+
+    @Column(name = "coste", nullable = false)
+    private Integer coste;
+
+    @Column(name = "refugio", nullable = false, length = 100)
+    private String refugio;
+
+    @Lob
     @Column(name = "foto")
-    private String foto;
-    @JsonbTransient
-    @OneToMany(mappedBy = "idMascota")
-    private Collection<Solicitudadopcion> solicitudadopcionCollection;
-    @JoinColumn(name = "email_refugio", referencedColumnName = "email")
-    @JsonbTransient
-    @ManyToOne
-    private Refugio refugio;
+    private byte[] foto;
 
-    public Mascota() {
-    }
-
-    public Mascota(Integer idMascota) {
-        this.idMascota = idMascota;
-    }
-
-    public Mascota(Integer idMascota, String nombre, String especie) {
-        this.idMascota = idMascota;
-        this.nombre = nombre;
-        this.especie = especie;
-    }
+    // === Getters y Setters ===
 
     public Integer getIdMascota() {
         return idMascota;
@@ -120,54 +83,47 @@ public class Mascota implements Serializable {
         this.edad = edad;
     }
 
-    public String getFoto() {
-        return foto;
+    public Integer getCoste() {
+        return coste;
     }
 
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public void setCoste(Integer coste) {
+        this.coste = coste;
     }
 
-    @XmlTransient
-    public Collection<Solicitudadopcion> getSolicitudadopcionCollection() {
-        return solicitudadopcionCollection;
-    }
-
-    public void setSolicitudadopcionCollection(Collection<Solicitudadopcion> solicitudadopcionCollection) {
-        this.solicitudadopcionCollection = solicitudadopcionCollection;
-    }
-
-    public Refugio getRefugio() {
+    public String getRefugio() {
         return refugio;
     }
 
-    public void setEmailRefugio(Refugio refugio) {
+    public void setRefugio(String refugio) {
         this.refugio = refugio;
+    }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (idMascota != null ? idMascota.hashCode() : 0);
-        return hash;
+        return (idMascota != null ? idMascota.hashCode() : 0);
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Mascota)) {
             return false;
         }
         Mascota other = (Mascota) object;
-        if ((this.idMascota == null && other.idMascota != null) || (this.idMascota != null && !this.idMascota.equals(other.idMascota))) {
-            return false;
-        }
-        return true;
+        return (this.idMascota != null || other.idMascota == null) &&
+               (this.idMascota == null || this.idMascota.equals(other.idMascota));
     }
 
     @Override
     public String toString() {
         return "es.uva.petadopt.model.Mascota[ idMascota=" + idMascota + " ]";
     }
-    
 }

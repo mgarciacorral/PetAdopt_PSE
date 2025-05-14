@@ -2,6 +2,7 @@
 package es.uva.petadopt.rest;
 
 import es.uva.petadopt.model.Mascota;
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -15,6 +16,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 
 @Stateless
@@ -46,6 +48,18 @@ public class MascotaFacadeREST extends AbstractFacade<Mascota> {
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
         super.remove(super.find(id));
+    }
+    
+    @GET
+    @Path("{id}/imagen")
+    @Produces({"image/png", "image/jpeg", "image/jpg"})
+    public Response obtenerImagen(@PathParam("id") Integer id) {
+        Mascota mascota = super.find(id);
+        if (mascota == null || mascota.getFoto() == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(new ByteArrayInputStream(mascota.getFoto())).build();
     }
 
     @GET
@@ -100,6 +114,15 @@ public class MascotaFacadeREST extends AbstractFacade<Mascota> {
     public List<Mascota> buscarMascotasPorNombre(@PathParam("nombre") String nombre) {
         return em.createQuery("SELECT m FROM Mascota m WHERE LOWER(m.nombre) LIKE :nombre", Mascota.class)
                 .setParameter("nombre", "%" + nombre.toLowerCase() + "%")
+                .getResultList();
+    }
+    
+    @GET
+    @Path("refugio/{refugio}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Mascota> buscarMascotasPorRefugio(@PathParam("refugio") String refugio) {
+        return em.createQuery("SELECT m FROM Mascota m WHERE LOWER(m.refugio.email) LIKE :refugio", Mascota.class)
+                .setParameter("refugio", "%" + refugio.toLowerCase() + "%")
                 .getResultList();
     }
 

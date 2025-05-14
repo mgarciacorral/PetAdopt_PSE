@@ -131,15 +131,19 @@ public class ClienteBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud enviada", "Hemos enviado tu solicitud al refugio."));
 
             solicitudClient.createSolicitud(cliente, selectedMascota);
-            System.out.println(selectedMascota.getRefugio().getEmail());
             Solicitudadopcion solicitud = solicitudClient.getLastSolicitudId(cliente.getEmail(), selectedMascota.getIdMascota());
-            chatRest.createChat(cliente.getEmail(), selectedMascota.getRefugio().getEmail() , solicitud.getIdSolicitud());
+            chatRest.createChat(cliente.getEmail(), selectedMascota.getRefugio() , solicitud.getIdSolicitud());
             
         }else{
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ya se ha solicitado está mascota"));
         }
         
+    }
+    
+    public String getUrlImagenMascota(Integer idMascota) {
+        return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()
+                + "/webresources/mascota/" + idMascota + "/imagen";
     }
     
     public String verPaginaBusqueda() {
