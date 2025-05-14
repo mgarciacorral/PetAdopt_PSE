@@ -39,7 +39,7 @@ public class UserEJB {
         }
         UserGroups group = new UserGroups();
         group.setEmail(user.getEmail());
-        group.setGrupo("cliente");
+        group.setGrupo("refugio");
         em.persist(user);
         em.persist(group);
         em.persist(refugio);
