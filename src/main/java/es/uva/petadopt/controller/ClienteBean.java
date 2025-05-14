@@ -131,6 +131,7 @@ public class ClienteBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud enviada", "Hemos enviado tu solicitud al refugio."));
 
             solicitudClient.createSolicitud(cliente, selectedMascota);
+            System.out.println(selectedMascota.getRefugio().getEmail());
             Solicitudadopcion solicitud = solicitudClient.getLastSolicitudId(cliente.getEmail(), selectedMascota.getIdMascota());
             chatRest.createChat(cliente.getEmail(), selectedMascota.getRefugio().getEmail() , solicitud.getIdSolicitud());
             

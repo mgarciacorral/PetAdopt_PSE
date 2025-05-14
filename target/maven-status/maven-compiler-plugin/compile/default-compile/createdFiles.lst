@@ -15,8 +15,10 @@ es\uva\petadopt\dto\SolicitudDTO.class
 es\uva\petadopt\client\MascotaRestClient$6.class
 es\uva\petadopt\client\RefugioRestClient.class
 es\uva\petadopt\rest\MensajeFacadeREST.class
+es\uva\petadopt\JAXRSConfiguration.class
 es\uva\petadopt\rest\UserGroupsFacadeREST.class
 es\uva\petadopt\client\ChatRestClient.class
+es\uva\petadopt\resources\JavaEE8Resource.class
 es\uva\petadopt\rest\AbstractFacade.class
 es\uva\petadopt\client\MascotaRestClient$3.class
 es\uva\petadopt\client\MascotaRestClient$1.class
