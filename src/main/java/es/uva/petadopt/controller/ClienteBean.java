@@ -1,18 +1,12 @@
 package es.uva.petadopt.controller;
 
-import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
+import es.uva.petadopt.client.ChatRestClient;
 import es.uva.petadopt.client.MascotaRestClient;
 import es.uva.petadopt.client.SolicitudRestClient;
-import es.uva.petadopt.dao.ChatDao;
 import es.uva.petadopt.model.Mascota;
-import es.uva.petadopt.dao.MascotaDao;
-import es.uva.petadopt.dao.SolicitudDao;
 import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Solicitudadopcion;
 import es.uva.petadopt.model.Usuario;
-
-
-
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -20,7 +14,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,18 +21,10 @@ import javax.servlet.http.HttpSession;
 @Named
 @ViewScoped
 public class ClienteBean implements Serializable {
-
-    @Inject
-    private MascotaDao mascotaDao;
     SolicitudRestClient solicitudClient = new SolicitudRestClient();
     MascotaRestClient mascotaClient = new MascotaRestClient();
     
-    @Inject
-    private SolicitudDao solicitudDao;
-    
-    @Inject
-    private ChatDao chatDao;
-    
+    private final ChatRestClient chatRest = new ChatRestClient();
     
 
     private String selectedEspecie;
@@ -51,8 +36,6 @@ public class ClienteBean implements Serializable {
     private List<String> razas;
     private Usuario usuario;
     private Cliente cliente;
-
-
 
     
     @PostConstruct
@@ -70,7 +53,6 @@ public class ClienteBean implements Serializable {
 
         }
         String viewId = context.getViewRoot().getViewId();
-        System.out.println(cliente.getEmail());
 
         if (viewId.contains("solicitudes.xhtml")) {
             mascotas = solicitudClient.findSolicitadas(cliente.getEmail());
@@ -150,7 +132,7 @@ public class ClienteBean implements Serializable {
 
             solicitudClient.createSolicitud(cliente, selectedMascota);
             Solicitudadopcion solicitud = solicitudClient.getLastSolicitudId(cliente.getEmail(), selectedMascota.getIdMascota());
-            chatDao.createChat(cliente, selectedMascota.getEmailRefugio() , solicitud);
+            chatRest.createChat(cliente.getEmail(), selectedMascota.getRefugio().getEmail() , solicitud.getIdSolicitud());
             
         }else{
             FacesContext.getCurrentInstance().addMessage(null,

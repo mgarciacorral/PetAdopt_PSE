@@ -19,6 +19,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 
 @Stateless
@@ -32,25 +33,30 @@ public class ChatFacadeREST extends AbstractFacade<Chat> {
         super(Chat.class);
     }
 
-    // Método para crear un chat
-    @POST
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void createChat(ChatDTO request) {
-        Cliente cliente = em.find(Cliente.class, request.getClienteId());
-        Refugio refugio = em.find(Refugio.class, request.getRefugioId());
-        Solicitudadopcion solicitud = em.find(Solicitudadopcion.class, request.getSolicitudId());
+     @POST
+    @Path("create")
+    public Response createChat(ChatDTO dto) {
+        try {
+            Cliente cliente = em.find(Cliente.class, dto.getClienteId());
+            Refugio refugio = em.find(Refugio.class, dto.getRefugioId());
+            Solicitudadopcion solicitud = em.find(Solicitudadopcion.class, dto.getSolicitudId());
 
-        // Si alguno de los elementos no se encuentra, lanzamos un error
-        if (cliente == null || refugio == null || solicitud == null) {
-            throw new WebApplicationException("Datos inválidos para crear el chat", 400);
+            if (cliente == null || refugio == null || solicitud == null) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("Datos inválidos").build();
+            }
+
+            Chat chat = new Chat();
+            chat.setEmailCliente(cliente);
+            chat.setEmailRefugio(refugio);
+            chat.setIdSolicitud(solicitud);
+
+            em.persist(chat);
+
+            return Response.status(Response.Status.CREATED).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.serverError().build();
         }
-
-        Chat chat = new Chat();
-        chat.setEmailCliente(cliente);
-        chat.setEmailRefugio(refugio);
-        chat.setIdSolicitud(solicitud);
-
-        em.persist(chat);
     }
 
     @GET

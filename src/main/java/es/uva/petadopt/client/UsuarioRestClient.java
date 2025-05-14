@@ -1,14 +1,13 @@
-
 package es.uva.petadopt.client;
 
 import es.uva.petadopt.model.Usuario;
+import java.security.MessageDigest;
+import java.util.Base64;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 
 public class UsuarioRestClient {
 
@@ -19,13 +18,6 @@ public class UsuarioRestClient {
     public UsuarioRestClient(){
         client = ClientBuilder.newClient();
         webTarget = client.target(BASE_URL);
-    }
-    
-    
-    public void createUsuario(Usuario usuario) {
-        Response response = webTarget
-                .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(usuario, MediaType.APPLICATION_JSON));
     }
 
     public Usuario findByEmail(String email) {
@@ -43,6 +35,16 @@ public class UsuarioRestClient {
                 .path(rawPassword)
                 .request(MediaType.TEXT_PLAIN)
                 .get(String.class); 
+
+        return Boolean.parseBoolean(response);
+    }
+
+    public boolean changePassword(String email, String newPassword) {
+    String response = webTarget
+            .path("change-password")
+            .path(email)
+            .request(MediaType.TEXT_PLAIN)
+            .put(Entity.entity(newPassword, MediaType.TEXT_PLAIN), String.class);
 
         return Boolean.parseBoolean(response);
     }

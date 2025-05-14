@@ -65,7 +65,7 @@ public class Mascota implements Serializable {
     @JoinColumn(name = "email_refugio", referencedColumnName = "email")
     @JsonbTransient
     @ManyToOne
-    private Refugio emailRefugio;
+    private Refugio refugio;
 
     public Mascota() {
     }
@@ -137,12 +137,12 @@ public class Mascota implements Serializable {
         this.solicitudadopcionCollection = solicitudadopcionCollection;
     }
 
-    public Refugio getEmailRefugio() {
-        return emailRefugio;
+    public Refugio getRefugio() {
+        return refugio;
     }
 
-    public void setEmailRefugio(Refugio emailRefugio) {
-        this.emailRefugio = emailRefugio;
+    public void setEmailRefugio(Refugio refugio) {
+        this.refugio = refugio;
     }
 
     @Override

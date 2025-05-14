@@ -1,7 +1,7 @@
 
 package es.uva.petadopt.controller;
 
-import es.uva.petadopt.dao.UsuarioDao;
+import es.uva.petadopt.client.UsuarioRestClient;
 import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Refugio;
 import es.uva.petadopt.model.Usuario;
@@ -9,15 +9,13 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 
 @Named
 @RequestScoped
-public class PerfilBean {
-    @Inject
-    private UsuarioDao usuarioDao; 
+public class PerfilBean {    
+    private final UsuarioRestClient usuarioRest = new UsuarioRestClient();
     
     private Usuario usuario;
     private Cliente cliente;
@@ -71,8 +69,8 @@ public class PerfilBean {
     }
     
     public String changePassword() {
-        if (usuarioDao.checkPassword(currentPassword, usuario.getPassword()) && newPassword.equals(confirmPassword)) {
-            usuarioDao.changePasswordByEmail(email, newPassword);
+        if (usuarioRest.checkPassword(email, currentPassword) && newPassword.equals(confirmPassword)) {
+            usuarioRest.changePassword(email, newPassword);
 
             currentPassword = null;
             newPassword = null;

@@ -1,12 +1,13 @@
 
 package es.uva.petadopt.client;
 
-import es.uva.petadopt.model.Cliente;
-import es.uva.petadopt.model.Refugio;
-import es.uva.petadopt.model.Solicitudadopcion;
+import es.uva.petadopt.dto.ChatDTO;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 public class ChatRestClient {
     
@@ -20,12 +21,21 @@ public class ChatRestClient {
     }
     
     
-    public void createChat(Cliente cliente, Refugio refugio, Solicitudadopcion solicitud){
+    public void createChat(String emailCliente, String emailRefugio, int idSolicitud) {
+        ChatDTO dto = new ChatDTO();
+        dto.setClienteId(emailCliente);
+        dto.setRefugioId(emailRefugio);
+        dto.setSolicitudId(idSolicitud);
+
+        Response response = webTarget
+                .path("chat/create")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(dto, MediaType.APPLICATION_JSON));
         
-        
+        if (response.getStatus() == 201) {
+            System.out.println("Chat creado con éxito.");
+        } else {
+            System.err.println("Error al crear el chat: " + response.getStatus());
+        }
     }
-    
-    
-    
-    
 }

@@ -47,7 +47,7 @@ public class LoginBean {
             return "/cliente/buscar.xhtml?faces-redirect=true";
         } else if (request.isUserInRole("refugio")) {
             request.getSession().setAttribute("refugioLogueado", refugioClient.findByEmail(user.getEmail()));
-            return "/refugio.mascotas.xhtml?faces-redirect=true";
+            return "/refugio/mascotas.xhtml?faces-redirect=true";
         } else if (request.isUserInRole("admin")) {
             return "/admin/panel.xhtml?faces-redirect=true";
         }else {
