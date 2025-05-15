@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <body>
         <ui:composition template="/templates/templateCliente.xhtml"
@@ -13,31 +13,27 @@
             <ui:define name="contenidoCliente">
                 <div class="container">
                     <h2>Mascotas Solicitadas</h2>
-
-
-                    <h:form id="formFiltros">
-                        
-
-                        <!-- Tarjetas de Mascotas -->
-                        <h:panelGroup id="cards">
-                            <div class="row">
-                                <ui:repeat value="#{clienteBean.mascotas}" var="mascota">
-                                    <div class="col-md-4 mb-3">
-                                        <p:panel header="#{mascota.nombre}" styleClass="shadow-sm">
-                                            <h:outputText value="Especie: #{mascota.especie}" /><br />
-                                            <h:outputText value="Raza: #{mascota.raza}" /><br />
-                                            <h:outputText value="Edad: #{mascota.edad}" /><br />
-                                            <p:commandButton value="Ver más"
-                                                             actionListener="#{clienteBean.verMascota(mascota.idMascota)}"
-                                                             update=":formDialog"
-                                                             oncomplete="PF('dialogMascota').show()"
-                                                             styleClass="btn btn-info" />
-                                        </p:panel>
-                                    </div>
-                                </ui:repeat>
-                            </div>
-                        </h:panelGroup>
-                    </h:form>
+                    <h:panelGroup id="cards">
+                        <div class="row">
+                            <ui:repeat value="#{clienteBean.mascotas}" var="mascota">
+                                <div class="col-md-4 mb-3">
+                                    <p:panel header="#{mascota.nombre}" styleClass="shadow-sm">
+                                        <h:graphicImage value="#{clienteBean.getUrlImagenMascota(mascota.idMascota)}"
+                                                            style="width:100%; height:auto; max-height:200px; object-fit:cover; margin-bottom:10px;"
+                                                            alt="Imagen de #{mascota.nombre}" /><br />
+                                        <h:outputText value="Especie: #{mascota.especie}" /><br />
+                                        <h:outputText value="Raza: #{mascota.raza}" /><br />
+                                        <h:outputText value="Edad: #{mascota.edad}" /><br />
+                                        <p:commandButton value="Ver más"
+                                                         actionListener="#{clienteBean.verMascota(mascota.idMascota)}"
+                                                         update=":formDialog"
+                                                         oncomplete="PF('dialogMascota').show()"
+                                                         styleClass="btn btn-info" />
+                                    </p:panel>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                    </h:panelGroup>
                 </div>
                 <h:form id="formDialog">
                     <p:dialog header="Detalles de la Mascota"
@@ -63,12 +59,12 @@
                             <h:outputText value="#{clienteBean.selectedMascota.getEdad()}" />
 
                             <h:outputText value="Refugio" />
-                            <h:outputText value="#{clienteBean.selectedMascota.getRefugio().getEmail()}" />
+                            <h:outputText value="#{clienteBean.selectedMascota.getEmailRefugio()}" />
                             
                             
 
                         </h:panelGrid>
-                        <p:commandButton value="Solicitar adopción"
+                        <p:commandButton value="Chat"
                                          actionListener="#{clienteBean.solicitarMascota()}"
                                          update="growl"
                                          styleClass="btn btn-info"/>

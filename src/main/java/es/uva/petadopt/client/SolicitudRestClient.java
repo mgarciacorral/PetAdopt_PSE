@@ -18,8 +18,8 @@ import javax.ws.rs.core.Response;
 public class SolicitudRestClient {
     
     private static final String BASE_URL = "http://localhost:8080/PetAdopt_PSE/webresources/solicitudes";
-    private Client client;
-    private WebTarget webTarget;
+    private final Client client;
+    private final WebTarget webTarget;
 
     public SolicitudRestClient() {
         client = ClientBuilder.newClient();
@@ -92,9 +92,19 @@ public class SolicitudRestClient {
                 .request(MediaType.APPLICATION_JSON)
                 .get(Solicitudadopcion.class);
     }
+    
+    public List<Mascota> findByMascota(Mascota mascota) {
+        WebTarget target = webTarget.path("por-mascota").path(mascota.getIdMascota());
 
+        Response response = target
+                .request(MediaType.APPLICATION_JSON)
+                .get();
 
+        if (response.getStatus() != 200) {
+            throw new RuntimeException("Error al obtener las mascotas solicitadas: " + response.getStatus());
+        }
 
-
-
+        return response.readEntity(new GenericType<List<Mascota>>() {
+        });
+    }
 }

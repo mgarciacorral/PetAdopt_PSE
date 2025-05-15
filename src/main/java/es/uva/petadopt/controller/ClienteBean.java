@@ -6,12 +6,10 @@ import es.uva.petadopt.client.SolicitudRestClient;
 import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Solicitudadopcion;
-import es.uva.petadopt.model.Usuario;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -34,21 +32,17 @@ public class ClienteBean implements Serializable {
     private List<Mascota> mascotas;
     private List<String> especies;
     private List<String> razas;
-    private Usuario usuario;
     private Cliente cliente;
 
     
     @PostConstruct
     public void init() {
         FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
         
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         HttpSession session = request.getSession(false); // false para no crear una nueva si no existe
         
-        usuario = null;
         if (session != null) {
-            usuario = (Usuario) session.getAttribute("usuarioLogueado");
             cliente = (Cliente) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("clienteLogueado");
 
         }
@@ -80,24 +74,6 @@ public class ClienteBean implements Serializable {
             mascotas = mascotaClient.findAll();
         }
     }
-    
-    private void buscarMascotasSolicitadas() {
-        // Realiza la búsqueda con los filtros seleccionados
-        if (selectedEspecie != null && !selectedEspecie.isEmpty()) {
-            mascotas = mascotaClient.findByEspecie(selectedEspecie);
-        }
-        if (selectedRaza != null && !selectedRaza.isEmpty()) {
-            mascotas = mascotaClient.findByRaza(selectedRaza);
-        }
-        
-        // Si no se seleccionan filtros, mostramos todas las mascotas
-        if ((selectedEspecie == null || selectedEspecie.isEmpty()) && 
-            (selectedRaza == null || selectedRaza.isEmpty())) {
-            mascotas = solicitudClient.findSolicitadas(cliente.getEmail());
-        }
-        
-    }
-
     
     public void buscarPorNombre(){
         if (filtroBusqueda == null || filtroBusqueda.isEmpty()) {
@@ -162,15 +138,6 @@ public class ClienteBean implements Serializable {
     
     public String verChats(){
         return "/cliente/chat.xhtml?faces-redirect=true";
-    }
-
-    // Getters y setters
-    public Usuario getUsuario(){
-        return usuario;
-    }
-    
-    public void setUsuario(Usuario usuario){
-        this.usuario = usuario;
     }
     
     public String getSelectedEspecie() {

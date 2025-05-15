@@ -3,7 +3,6 @@ package es.uva.petadopt.controller;
 import es.uva.petadopt.client.MascotaRestClient;
 import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.model.Refugio;
-import es.uva.petadopt.model.Usuario;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -19,8 +18,8 @@ public class RefugioBean implements Serializable {
     MascotaRestClient mascotaClient = new MascotaRestClient();
     
     private List<Mascota> mascotas;
-    private Usuario usuario;
     private Refugio refugio;
+    private Mascota selectedMascota;
     
     @PostConstruct
     public void init() {
@@ -29,9 +28,7 @@ public class RefugioBean implements Serializable {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         HttpSession session = request.getSession(false);
         
-        usuario = null;
         if (session != null) {
-            usuario = (Usuario) session.getAttribute("usuarioLogueado");
             refugio = (Refugio) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("refugioLogueado");
 
         } 
@@ -46,6 +43,14 @@ public class RefugioBean implements Serializable {
     public void setMascotas(List<Mascota> mascotas) {
         this.mascotas = mascotas;
     }
+
+    public Mascota getSelectedMascota() {
+        return selectedMascota;
+    }
+
+    public void setSelectedMascota(Mascota selectedMascota) {
+        this.selectedMascota = selectedMascota;
+    }
     
     public void buscarMascotas() {
         mascotas = mascotaClient.findByRefugio(refugio.getEmail());
@@ -57,7 +62,7 @@ public class RefugioBean implements Serializable {
     }  
 
     public void verMascota(int id) {
-        System.out.println(mascotaClient.find(id));
+        this.selectedMascota = mascotaClient.find(id);
     }
     
     public String verPaginaGestion() {
