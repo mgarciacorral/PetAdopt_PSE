@@ -6,7 +6,6 @@
 package es.uva.petadopt.rest;
 
 import es.uva.petadopt.model.UserGroups;
-import es.uva.petadopt.model.UserGroups;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,26 +32,7 @@ public class UserGroupsFacadeREST extends AbstractFacade<UserGroups> {
     @PersistenceContext(unitName = "PetAdoptPU")
     private EntityManager em;
 
-    private UserGroups getPrimaryKey(PathSegment pathSegment) {
-        /*
-         * pathSemgent represents a URI path segment and any associated matrix parameters.
-         * URI path part is supposed to be in form of 'somePath;email=emailValue;grupo=grupoValue'.
-         * Here 'somePath' is a result of getPath() method invocation and
-         * it is ignored in the following code.
-         * Matrix parameters are used as field names to build a primary key instance.
-         */
-        es.uva.petadopt.model.UserGroups key = new es.uva.petadopt.model.UserGroups();
-        javax.ws.rs.core.MultivaluedMap<String, String> map = pathSegment.getMatrixParameters();
-        java.util.List<String> email = map.get("email");
-        if (email != null && !email.isEmpty()) {
-            key.setEmail(email.get(0));
-        }
-        java.util.List<String> grupo = map.get("grupo");
-        if (grupo != null && !grupo.isEmpty()) {
-            key.setGrupo(grupo.get(0));
-        }
-        return key;
-    }
+
 
     public UserGroupsFacadeREST() {
         super(UserGroups.class);
@@ -72,20 +52,7 @@ public class UserGroupsFacadeREST extends AbstractFacade<UserGroups> {
         super.edit(entity);
     }
 
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") PathSegment id) {
-        es.uva.petadopt.model.UserGroups key = getPrimaryKey(id);
-        super.remove(super.find(key));
-    }
 
-    @GET
-    @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public UserGroups find(@PathParam("id") PathSegment id) {
-        es.uva.petadopt.model.UserGroups key = getPrimaryKey(id);
-        return super.find(key);
-    }
 
     @GET
     @Override

@@ -22,9 +22,7 @@ public class UserEJB {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        UserGroups group = new UserGroups();
-        group.setEmail(user.getEmail());
-        group.setGrupo("cliente");
+        UserGroups group = new UserGroups(user.getEmail(), "cliente");
         em.persist(user);
         em.persist(group);
         em.persist(cliente);
@@ -37,9 +35,8 @@ public class UserEJB {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        UserGroups group = new UserGroups();
-        group.setEmail(user.getEmail());
-        group.setGrupo("refugio");
+        UserGroups group = new UserGroups(user.getEmail(), "refugio");
+
         em.persist(user);
         em.persist(group);
         em.persist(refugio);

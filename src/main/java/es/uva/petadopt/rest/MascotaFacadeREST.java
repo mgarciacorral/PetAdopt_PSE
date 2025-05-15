@@ -121,7 +121,7 @@ public class MascotaFacadeREST extends AbstractFacade<Mascota> {
     @Path("refugio/{refugio}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Mascota> buscarMascotasPorRefugio(@PathParam("refugio") String refugio) {
-        return em.createQuery("SELECT m FROM Mascota m WHERE LOWER(m.refugio.email) LIKE :refugio", Mascota.class)
+        return em.createQuery("SELECT m FROM Mascota m WHERE LOWER(m.emailRefugio) LIKE :refugio", Mascota.class)
                 .setParameter("refugio", "%" + refugio.toLowerCase() + "%")
                 .getResultList();
     }

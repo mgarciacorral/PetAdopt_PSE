@@ -44,9 +44,9 @@ public class ChatFacadeREST extends AbstractFacade<Chat> {
             }
 
             Chat chat = new Chat();
-            chat.setEmailCliente(cliente);
-            chat.setEmailRefugio(refugio);
-            chat.setIdSolicitud(solicitud);
+            chat.setEmailCliente(cliente.getEmail());
+            chat.setEmailRefugio(refugio.getEmail());
+            chat.setIdSolicitud(solicitud.getIdSolicitud());
 
             em.persist(chat);
 

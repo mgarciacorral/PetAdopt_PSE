@@ -6,18 +6,14 @@ import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.model.Solicitudadopcion;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -42,8 +38,8 @@ public class SolicitudadopcionFacadeREST extends AbstractFacade<Solicitudadopcio
     public void createSolicitud(SolicitudDTO dto) {
         Solicitudadopcion solicitud = new Solicitudadopcion();
         solicitud.setEstado("pendiente");
-        solicitud.setIdMascota(dto.getMascota());
-        solicitud.setEmailCliente(dto.getCliente());
+        solicitud.setIdMascota(dto.getMascota().getIdMascota());
+        solicitud.setEmailCliente(dto.getCliente().getEmail());
 
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -61,14 +57,13 @@ public class SolicitudadopcionFacadeREST extends AbstractFacade<Solicitudadopcio
     @Path("comprobar/{emailCliente}/{idMascota}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean comprobarSolicitud(@PathParam("emailCliente") String emailCliente, @PathParam("idMascota") int idMascota) {
-        Cliente cliente = em.find(Cliente.class, emailCliente);
-        Mascota mascota = em.find(Mascota.class, idMascota);
+
 
         // Consultamos las solicitudes existentes para este cliente y mascota
         List<Solicitudadopcion> solicitudes = em.createQuery(
                 "SELECT s FROM Solicitudadopcion s WHERE s.emailCliente = :cliente AND s.idMascota = :mascota", Solicitudadopcion.class)
-                .setParameter("cliente", cliente)
-                .setParameter("mascota", mascota)
+                .setParameter("cliente", emailCliente)
+                .setParameter("mascota", idMascota)
                 .getResultList();
 
         return solicitudes.isEmpty();  // Si está vacía, no existe una solicitud
@@ -96,15 +91,14 @@ public class SolicitudadopcionFacadeREST extends AbstractFacade<Solicitudadopcio
     @Path("ultima/{emailCliente}/{idMascota}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Solicitudadopcion getLastSolicitudId(@PathParam("emailCliente") String emailCliente, @PathParam("idMascota") int idMascota) {
-        Cliente cliente = em.find(Cliente.class, emailCliente);
-        Mascota mascota = em.find(Mascota.class, idMascota);
+
 
         // Consultamos la última solicitud de adopción
         Solicitudadopcion solicitud = em.createQuery(
                 "SELECT s FROM Solicitudadopcion s WHERE s.emailCliente = :cliente AND s.idMascota = :mascota ORDER BY s.idSolicitud DESC",
                 Solicitudadopcion.class)
-                .setParameter("cliente", cliente)
-                .setParameter("mascota", mascota)
+                .setParameter("cliente", emailCliente)
+                .setParameter("mascota", idMascota)
                 .setMaxResults(1)
                 .getSingleResult();
 
