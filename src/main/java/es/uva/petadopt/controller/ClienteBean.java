@@ -136,8 +136,9 @@ public class ClienteBean implements Serializable {
         return "/cliente/perfil.xhtml?faces-redirect=true";
     }
     
-    public String verChats(){
+    public String verChat(){
         return "/cliente/chat.xhtml?faces-redirect=true";
+        
     }
     
     public String getSelectedEspecie() {
