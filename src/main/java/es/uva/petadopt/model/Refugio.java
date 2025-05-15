@@ -68,6 +68,7 @@ public class Refugio implements Serializable {
     private Boolean autorizado;
     @OneToMany(mappedBy = "emailRefugio")
     private Collection<Chat> chatCollection;
+    @JsonbTransient
     @OneToMany(mappedBy = "refugio")
     private Collection<Mascota> mascotaCollection;
     @JoinColumn(name = "email", referencedColumnName = "email", insertable = false, updatable = false)

@@ -148,11 +148,4 @@ public class MascotaRestClient {
         return response.readEntity(new GenericType<List<String>>() {
         });
     }
-
-    
-    
-    
-    
-    
-    
 }

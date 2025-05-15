@@ -132,7 +132,7 @@ public class ClienteBean implements Serializable {
 
             solicitudClient.createSolicitud(cliente, selectedMascota);
             Solicitudadopcion solicitud = solicitudClient.getLastSolicitudId(cliente.getEmail(), selectedMascota.getIdMascota());
-            chatRest.createChat(cliente.getEmail(), selectedMascota.getRefugio() , solicitud.getIdSolicitud());
+            chatRest.createChat(cliente.getEmail(), selectedMascota.getRefugio().getEmail() , solicitud.getIdSolicitud());
             
         }else{
             FacesContext.getCurrentInstance().addMessage(null,

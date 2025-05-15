@@ -12,8 +12,8 @@ import javax.ws.rs.core.Response;
 public class ChatRestClient {
     
     private static final String BASE_URL = "http://localhost:8080/PetAdopt_PSE/webresources/chats";
-    private Client client;
-    private WebTarget webTarget;
+    private final Client client;
+    private final WebTarget webTarget;
 
     public ChatRestClient() {
         client = ClientBuilder.newClient();
@@ -28,7 +28,7 @@ public class ChatRestClient {
         dto.setSolicitudId(idSolicitud);
 
         Response response = webTarget
-                .path("chat/create")
+                .path("create")
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(dto, MediaType.APPLICATION_JSON));
         

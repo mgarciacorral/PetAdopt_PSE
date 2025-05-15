@@ -24,7 +24,7 @@ public class AgregarMascotaFlowBean implements Serializable {
     public String guardar() {
         Refugio refugio = (Refugio) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("refugioLogueado");
 
-        nuevaMascota.setRefugio(refugio.getEmail());
+        nuevaMascota.setRefugio(refugio);
         mascotaRestClient.crearMascota(nuevaMascota);
         return "salir";
     }

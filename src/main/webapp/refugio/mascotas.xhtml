@@ -17,14 +17,14 @@
                         <!-- Tarjetas de Mascotas -->
                         <h:panelGroup id="cards">
                             <div class="row">
-                                <ui:repeat value="#{clienteBean.mascotas}" var="mascota">
+                                <ui:repeat value="#{refugioBean.mascotas}" var="mascota">
                                     <div class="col-md-4 mb-3">
                                         <p:panel header="#{mascota.nombre}" styleClass="shadow-sm">
 
                                             <!-- Imagen de la mascota -->
-                                            <h:graphicImage value="#{clienteBean.getUrlImagenMascota(mascota.idMascota)}"
+                                            <h:graphicImage value="#{refugioBean.getUrlImagenMascota(mascota.idMascota)}"
                                                             style="width:100%; height:auto; max-height:200px; object-fit:cover; margin-bottom:10px;"
-                                                            alt="Imagen de #{mascota.nombre}" />
+                                                            alt="Imagen de #{mascota.nombre}" /><br />
 
                                             <h:outputText value="Especie: #{mascota.especie}" /><br />
                                             <h:outputText value="Raza: #{mascota.raza}" /><br />
@@ -32,8 +32,7 @@
                                             <h:outputText value="Coste: #{mascota.coste}" /><br />
 
                                             <p:commandButton value="Chat"
-                                                             actionListener="#{clienteBean.verMascota(mascota.idMascota)}"
-                                                             update=":formDialog"
+                                                             actionListener="#{refugioBean.verMascota(mascota.idMascota)}"
                                                              oncomplete="PF('dialogMascota').show()"
                                                              styleClass="btn btn-info" />
                                         </p:panel>

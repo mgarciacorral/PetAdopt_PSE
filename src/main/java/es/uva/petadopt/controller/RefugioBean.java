@@ -7,14 +7,14 @@ import es.uva.petadopt.model.Usuario;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class RefugioBean implements Serializable {
     MascotaRestClient mascotaClient = new MascotaRestClient();
     
@@ -49,6 +49,15 @@ public class RefugioBean implements Serializable {
     
     public void buscarMascotas() {
         mascotas = mascotaClient.findByRefugio(refugio.getEmail());
+    }
+    
+    public String getUrlImagenMascota(Integer idMascota) {
+        return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()
+                + "/webresources/mascota/" + idMascota + "/imagen";
+    }  
+
+    public void verMascota(int id) {
+        System.out.println(mascotaClient.find(id));
     }
     
     public String verPaginaGestion() {
