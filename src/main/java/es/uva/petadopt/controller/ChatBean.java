@@ -18,7 +18,6 @@ public class ChatBean implements Serializable{
     
     @PostConstruct
     public void init(){
-        chats = getChats();
     
     }
     

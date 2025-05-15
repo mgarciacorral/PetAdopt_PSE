@@ -134,6 +134,22 @@ public class MascotaRestClient {
                 .post(Entity.entity(mascota, MediaType.APPLICATION_JSON));
     }   
     
+    public void borrarMascota(Mascota mascota) {
+        int id = mascota.getIdMascota();
+        Response response = webTarget.path(String.valueOf(id)).request().delete();
+
+        if (response.getStatus() == 204) {
+            System.out.println("Solicitud de adopción eliminada correctamente.");
+            SolicitudRestClient solRest = new SolicitudRestClient();
+            solRest.borrarPorMascota(mascota);
+        } else {
+            System.out.println("Error al eliminar la solicitud. Código: " + response.getStatus());
+        }
+
+        response.close();
+        client.close();
+    }
+    
     public List<String> obtenerRazasPorEspecie(String especie) {
         Response response = webTarget
                 .path("razas")

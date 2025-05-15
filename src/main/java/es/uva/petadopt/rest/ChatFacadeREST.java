@@ -75,6 +75,16 @@ public class ChatFacadeREST extends AbstractFacade<Chat> {
     public void remove(@PathParam("id") Integer id) {
         super.remove(super.find(id));
     }
+    
+    @GET
+    @Path("por-solicitud/{idSolicitud}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Chat> findByMascota(@PathParam("idMascota") Integer idMascota) {
+        return getEntityManager()
+                .createQuery("SELECT s FROM Chat s WHERE s.idChat = :id", Chat.class)
+                .setParameter("id", idMascota)
+                .getResultList();
+    }
 
     @Override
     protected EntityManager getEntityManager() {

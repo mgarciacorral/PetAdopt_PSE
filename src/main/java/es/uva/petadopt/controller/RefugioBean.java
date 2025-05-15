@@ -47,6 +47,14 @@ public class RefugioBean implements Serializable {
     public Mascota getSelectedMascota() {
         return selectedMascota;
     }
+    
+    public void eliminarMascota(Mascota mascota){
+        mascotaClient.borrarMascota(mascota);
+    }
+    
+    public void editarMascota(Mascota mascota){
+        
+    }
 
     public void setSelectedMascota(Mascota selectedMascota) {
         this.selectedMascota = selectedMascota;

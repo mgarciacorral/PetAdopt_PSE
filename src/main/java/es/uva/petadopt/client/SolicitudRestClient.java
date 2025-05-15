@@ -93,8 +93,8 @@ public class SolicitudRestClient {
                 .get(Solicitudadopcion.class);
     }
     
-    public List<Mascota> findByMascota(Mascota mascota) {
-        WebTarget target = webTarget.path("por-mascota").path(mascota.getIdMascota());
+    public List<Solicitudadopcion> findByMascota(Mascota mascota) {
+        WebTarget target = webTarget.path("por-mascota").path(String.valueOf(mascota.getIdMascota()));
 
         Response response = target
                 .request(MediaType.APPLICATION_JSON)
@@ -104,7 +104,28 @@ public class SolicitudRestClient {
             throw new RuntimeException("Error al obtener las mascotas solicitadas: " + response.getStatus());
         }
 
-        return response.readEntity(new GenericType<List<Mascota>>() {
+        return response.readEntity(new GenericType<List<Solicitudadopcion>>() {
+        });
+    }
+    
+    public void borrarSolicitud(Solicitudadopcion sol) {
+        int id = sol.getIdSolicitud();
+        Response response = webTarget.path(String.valueOf(id)).request().delete();
+
+        if (response.getStatus() == 204) {
+            System.out.println("Solicitud de adopción eliminada correctamente.");
+        } else {
+            System.out.println("Error al eliminar la solicitud. Código: " + response.getStatus());
+        }
+
+        response.close();
+        client.close();
+    }
+    
+    public void borrarPorMascota(Mascota mascota){
+        List<Solicitudadopcion> solicitudes = findByMascota(mascota);
+        solicitudes.forEach(sol -> {
+            borrarSolicitud(sol);
         });
     }
 }

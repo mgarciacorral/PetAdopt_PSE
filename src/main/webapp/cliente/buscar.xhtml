@@ -64,8 +64,6 @@
 
                                             <h:outputText value="Especie: #{mascota.especie}" /><br />
                                             <h:outputText value="Raza: #{mascota.raza}" /><br />
-                                            <h:outputText value="Edad: #{mascota.edad}" /><br />
-                                            <h:outputText value="Coste: #{mascota.coste}" /><br />
 
                                             <p:commandButton value="Ver más"
                                                              actionListener="#{clienteBean.verMascota(mascota.idMascota)}"
@@ -90,6 +88,9 @@
                               styleClass="z-9999">
 
                         <h:panelGrid columns="2" cellpadding="5">
+                            <h:graphicImage value="#{clienteBean.getUrlImagenMascota(mascota.idMascota)}"
+                                                            style="width:100%; height:auto; max-height:300px; object-fit:cover; margin-bottom:10px;"
+                                                            alt="Imagen de #{mascota.nombre}" /><br />
                             <h:outputText value="Nombre:" />
                             <h:outputText value="#{clienteBean.selectedMascota.getNombre()}" />
 
@@ -102,7 +103,13 @@
                             <h:outputText value="Edad:" />
                             <h:outputText value="#{clienteBean.selectedMascota.getEdad()}" />
 
-                            <h:outputText value="Refugio:s" />
+                            <h:outputText value="Refugio:" />
+                            <h:outputText value="#{clienteBean.selectedMascota.getEmailRefugio()}" />
+                            
+                            <h:outputText value="Estado de salud:" /><br />
+                            <h:outputText value="#{clienteBean.selectedMascota.estadoSalud}" />
+                            
+                            <h:outputText value="Coste: #{mascota.coste}" /><br />
                             <h:outputText value="#{clienteBean.selectedMascota.getEmailRefugio()}" />
                             
                             

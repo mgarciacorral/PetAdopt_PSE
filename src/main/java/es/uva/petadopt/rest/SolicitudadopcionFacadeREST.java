@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -146,6 +147,23 @@ public class SolicitudadopcionFacadeREST extends AbstractFacade<Solicitudadopcio
     public String countREST() {
         return String.valueOf(super.count());
     }
+    
+    @DELETE
+    @Path("{id}")
+    public void remove(@PathParam("id") Integer id) {
+        super.remove(super.find(id));
+    }
+    
+    @GET
+    @Path("por-mascota/{idMascota}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Solicitudadopcion> findByMascota(@PathParam("idMascota") Integer idMascota) {
+        return getEntityManager()
+                .createQuery("SELECT s FROM Solicitudadopcion s WHERE s.idMascota = :id", Solicitudadopcion.class)
+                .setParameter("id", idMascota)
+                .getResultList();
+    }
+
 
     @Override
     protected EntityManager getEntityManager() {
