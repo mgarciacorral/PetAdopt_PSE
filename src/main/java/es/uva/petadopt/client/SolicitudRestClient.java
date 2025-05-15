@@ -94,7 +94,7 @@ public class SolicitudRestClient {
     }
     
     public List<Mascota> findByMascota(Mascota mascota) {
-        WebTarget target = webTarget.path("por-mascota").path(mascota.getIdMascota());
+        WebTarget target = webTarget.path("por-mascota").path(String.valueOf(mascota.getIdMascota()));
 
         Response response = target
                 .request(MediaType.APPLICATION_JSON)

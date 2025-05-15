@@ -2,6 +2,8 @@
 package es.uva.petadopt.client;
 
 import es.uva.petadopt.dto.ChatDTO;
+import es.uva.petadopt.model.Mensaje;
+import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -37,5 +39,14 @@ public class ChatRestClient {
         } else {
             System.err.println("Error al crear el chat: " + response.getStatus());
         }
+    }
+    
+    
+    public List<Mensaje> findMensajesRefugio(int idChat){
+        
+    }
+    
+    public List<Mensaje> findMensajesCliente(int idChat) {
+
     }
 }

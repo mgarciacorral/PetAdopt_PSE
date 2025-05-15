@@ -27,6 +27,7 @@ es\uva\petadopt\client\MascotaRestClient$7.class
 es\uva\petadopt\client\ClienteRestClient.class
 es\uva\petadopt\rest\ChatFacadeREST.class
 es\uva\petadopt\client\UsuarioRestClient.class
+es\uva\petadopt\client\SolicitudRestClient$2.class
 es\uva\petadopt\client\MascotaRestClient$2.class
 es\uva\petadopt\client\MascotaRestClient.class
 es\uva\petadopt\controller\ClienteBean.class
