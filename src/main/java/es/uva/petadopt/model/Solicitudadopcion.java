@@ -1,8 +1,11 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package es.uva.petadopt.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -10,21 +13,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author mgarc
+ * @author andri
  */
 @Entity
 @Table(name = "solicitudadopcion")
@@ -32,6 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Solicitudadopcion.findAll", query = "SELECT s FROM Solicitudadopcion s"),
     @NamedQuery(name = "Solicitudadopcion.findByIdSolicitud", query = "SELECT s FROM Solicitudadopcion s WHERE s.idSolicitud = :idSolicitud"),
+    @NamedQuery(name = "Solicitudadopcion.findByEmailCliente", query = "SELECT s FROM Solicitudadopcion s WHERE s.emailCliente = :emailCliente"),
+    @NamedQuery(name = "Solicitudadopcion.findByIdMascota", query = "SELECT s FROM Solicitudadopcion s WHERE s.idMascota = :idMascota"),
     @NamedQuery(name = "Solicitudadopcion.findByEstado", query = "SELECT s FROM Solicitudadopcion s WHERE s.estado = :estado"),
     @NamedQuery(name = "Solicitudadopcion.findByFechaSolicitud", query = "SELECT s FROM Solicitudadopcion s WHERE s.fechaSolicitud = :fechaSolicitud")})
 public class Solicitudadopcion implements Serializable {
@@ -42,20 +43,17 @@ public class Solicitudadopcion implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_solicitud")
     private Integer idSolicitud;
+    @Size(max = 100)
+    @Column(name = "email_cliente")
+    private String emailCliente;
+    @Column(name = "id_mascota")
+    private Integer idMascota;
     @Size(max = 20)
     @Column(name = "estado")
     private String estado;
     @Column(name = "fecha_solicitud")
     @Temporal(TemporalType.DATE)
     private Date fechaSolicitud;
-    @JoinColumn(name = "email_cliente", referencedColumnName = "email")
-    @ManyToOne
-    private Cliente emailCliente;
-    @JoinColumn(name = "id_mascota", referencedColumnName = "id_mascota")
-    @ManyToOne
-    private Mascota idMascota;
-    @OneToMany(mappedBy = "idSolicitud")
-    private Collection<Chat> chatCollection;
 
     public Solicitudadopcion() {
     }
@@ -72,6 +70,22 @@ public class Solicitudadopcion implements Serializable {
         this.idSolicitud = idSolicitud;
     }
 
+    public String getEmailCliente() {
+        return emailCliente;
+    }
+
+    public void setEmailCliente(String emailCliente) {
+        this.emailCliente = emailCliente;
+    }
+
+    public Integer getIdMascota() {
+        return idMascota;
+    }
+
+    public void setIdMascota(Integer idMascota) {
+        this.idMascota = idMascota;
+    }
+
     public String getEstado() {
         return estado;
     }
@@ -86,31 +100,6 @@ public class Solicitudadopcion implements Serializable {
 
     public void setFechaSolicitud(Date fechaSolicitud) {
         this.fechaSolicitud = fechaSolicitud;
-    }
-
-    public Cliente getEmailCliente() {
-        return emailCliente;
-    }
-
-    public void setEmailCliente(Cliente emailCliente) {
-        this.emailCliente = emailCliente;
-    }
-
-    public Mascota getIdMascota() {
-        return idMascota;
-    }
-
-    public void setIdMascota(Mascota idMascota) {
-        this.idMascota = idMascota;
-    }
-
-    @XmlTransient
-    public Collection<Chat> getChatCollection() {
-        return chatCollection;
-    }
-
-    public void setChatCollection(Collection<Chat> chatCollection) {
-        this.chatCollection = chatCollection;
     }
 
     @Override

@@ -6,29 +6,23 @@
 package es.uva.petadopt.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author mgarc
+ * @author andri
  */
 @Entity
 @Table(name = "cliente")
@@ -78,16 +72,6 @@ public class Cliente implements Serializable {
     @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
-    @JoinColumn(name = "email", referencedColumnName = "email", insertable = false, updatable = false)
-    @JsonbTransient
-    @OneToOne
-    private Usuario usuario;
-    @JsonbTransient
-    @OneToMany(mappedBy = "emailCliente")
-    private Collection<Solicitudadopcion> solicitudadopcionCollection;
-    @JsonbTransient
-    @OneToMany(mappedBy = "emailCliente")
-    private Collection<Chat> chatCollection;
 
     public Cliente() {
     }
@@ -158,32 +142,6 @@ public class Cliente implements Serializable {
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    @XmlTransient
-    public Collection<Solicitudadopcion> getSolicitudadopcionCollection() {
-        return solicitudadopcionCollection;
-    }
-
-    public void setSolicitudadopcionCollection(Collection<Solicitudadopcion> solicitudadopcionCollection) {
-        this.solicitudadopcionCollection = solicitudadopcionCollection;
-    }
-
-    @XmlTransient
-    public Collection<Chat> getChatCollection() {
-        return chatCollection;
-    }
-
-    public void setChatCollection(Collection<Chat> chatCollection) {
-        this.chatCollection = chatCollection;
     }
 
     @Override

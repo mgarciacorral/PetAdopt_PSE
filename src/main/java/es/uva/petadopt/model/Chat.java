@@ -6,32 +6,31 @@
 package es.uva.petadopt.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author mgarc
+ * @author andri
  */
 @Entity
 @Table(name = "chat")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Chat.findAll", query = "SELECT c FROM Chat c"),
-    @NamedQuery(name = "Chat.findByIdChat", query = "SELECT c FROM Chat c WHERE c.idChat = :idChat")})
+    @NamedQuery(name = "Chat.findByIdChat", query = "SELECT c FROM Chat c WHERE c.idChat = :idChat"),
+    @NamedQuery(name = "Chat.findByEmailCliente", query = "SELECT c FROM Chat c WHERE c.emailCliente = :emailCliente"),
+    @NamedQuery(name = "Chat.findByEmailRefugio", query = "SELECT c FROM Chat c WHERE c.emailRefugio = :emailRefugio"),
+    @NamedQuery(name = "Chat.findByIdSolicitud", query = "SELECT c FROM Chat c WHERE c.idSolicitud = :idSolicitud")})
 public class Chat implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,17 +39,14 @@ public class Chat implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_chat")
     private Integer idChat;
-    @JoinColumn(name = "email_cliente", referencedColumnName = "email")
-    @ManyToOne
-    private Cliente emailCliente;
-    @JoinColumn(name = "email_refugio", referencedColumnName = "email")
-    @ManyToOne
-    private Refugio emailRefugio;
-    @JoinColumn(name = "id_solicitud", referencedColumnName = "id_solicitud")
-    @ManyToOne
-    private Solicitudadopcion idSolicitud;
-    @OneToMany(mappedBy = "idChat")
-    private Collection<Mensaje> mensajeCollection;
+    @Size(max = 100)
+    @Column(name = "email_cliente")
+    private String emailCliente;
+    @Size(max = 100)
+    @Column(name = "email_refugio")
+    private String emailRefugio;
+    @Column(name = "id_solicitud")
+    private Integer idSolicitud;
 
     public Chat() {
     }
@@ -67,37 +63,28 @@ public class Chat implements Serializable {
         this.idChat = idChat;
     }
 
-    public Cliente getEmailCliente() {
+    public String getEmailCliente() {
         return emailCliente;
     }
 
-    public void setEmailCliente(Cliente emailCliente) {
+    public void setEmailCliente(String emailCliente) {
         this.emailCliente = emailCliente;
     }
 
-    public Refugio getEmailRefugio() {
+    public String getEmailRefugio() {
         return emailRefugio;
     }
 
-    public void setEmailRefugio(Refugio emailRefugio) {
+    public void setEmailRefugio(String emailRefugio) {
         this.emailRefugio = emailRefugio;
     }
 
-    public Solicitudadopcion getIdSolicitud() {
+    public Integer getIdSolicitud() {
         return idSolicitud;
     }
 
-    public void setIdSolicitud(Solicitudadopcion idSolicitud) {
+    public void setIdSolicitud(Integer idSolicitud) {
         this.idSolicitud = idSolicitud;
-    }
-
-    @XmlTransient
-    public Collection<Mensaje> getMensajeCollection() {
-        return mensajeCollection;
-    }
-
-    public void setMensajeCollection(Collection<Mensaje> mensajeCollection) {
-        this.mensajeCollection = mensajeCollection;
     }
 
     @Override

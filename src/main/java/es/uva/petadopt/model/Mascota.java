@@ -1,28 +1,29 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package es.uva.petadopt.model;
 
 import java.io.Serializable;
-import java.util.Collection;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-
-
+/**
+ *
+ * @author andri
+ */
 @Entity
 @Table(name = "mascota")
 @XmlRootElement
@@ -33,7 +34,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Mascota.findByEspecie", query = "SELECT m FROM Mascota m WHERE m.especie = :especie"),
     @NamedQuery(name = "Mascota.findByRaza", query = "SELECT m FROM Mascota m WHERE m.raza = :raza"),
     @NamedQuery(name = "Mascota.findByEdad", query = "SELECT m FROM Mascota m WHERE m.edad = :edad"),
-    @NamedQuery(name = "Mascota.findByFoto", query = "SELECT m FROM Mascota m WHERE m.foto = :foto")})
+    @NamedQuery(name = "Mascota.findByEmailRefugio", query = "SELECT m FROM Mascota m WHERE m.emailRefugio = :emailRefugio"),
+    @NamedQuery(name = "Mascota.findByCoste", query = "SELECT m FROM Mascota m WHERE m.coste = :coste"),
+    @NamedQuery(name = "Mascota.findByEstadoSalud", query = "SELECT m FROM Mascota m WHERE m.estadoSalud = :estadoSalud")})
 public class Mascota implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,20 +60,17 @@ public class Mascota implements Serializable {
     private String raza;
     @Column(name = "edad")
     private Integer edad;
-    @Size(max = 255)
-    @JsonbTransient
-    @OneToMany(mappedBy = "idMascota")
-    private Collection<Solicitudadopcion> solicitudadopcionCollection;
-    @JoinColumn(name = "email_refugio", referencedColumnName = "email")
-    @ManyToOne
-    private Refugio refugio;
     @Lob
     @Column(name = "foto")
     private byte[] foto;
+    @Size(max = 100)
+    @Column(name = "email_refugio")
+    private String emailRefugio;
     @Column(name = "coste")
-    private int coste;
+    private Integer coste;
+    @Size(max = 50)
     @Column(name = "estado_salud")
-    private String estado_salud;
+    private String estadoSalud;
 
     public Mascota() {
     }
@@ -85,14 +85,6 @@ public class Mascota implements Serializable {
         this.especie = especie;
     }
 
-    public int getCoste() {
-        return coste;
-    }
-
-    public void setCoste(int coste) {
-        this.coste = coste;
-    }
-    
     public Integer getIdMascota() {
         return idMascota;
     }
@@ -112,7 +104,7 @@ public class Mascota implements Serializable {
     public String getEspecie() {
         return especie;
     }
-    
+
     public void setEspecie(String especie) {
         this.especie = especie;
     }
@@ -124,7 +116,7 @@ public class Mascota implements Serializable {
     public void setRaza(String raza) {
         this.raza = raza;
     }
-        
+
     public Integer getEdad() {
         return edad;
     }
@@ -141,21 +133,28 @@ public class Mascota implements Serializable {
         this.foto = foto;
     }
 
-    @XmlTransient
-    public Collection<Solicitudadopcion> getSolicitudadopcionCollection() {
-        return solicitudadopcionCollection;
+    public String getEmailRefugio() {
+        return emailRefugio;
     }
 
-    public void setSolicitudadopcionCollection(Collection<Solicitudadopcion> solicitudadopcionCollection) {
-        this.solicitudadopcionCollection = solicitudadopcionCollection;
+    public void setEmailRefugio(String emailRefugio) {
+        this.emailRefugio = emailRefugio;
     }
 
-    public Refugio getRefugio() {
-        return refugio;
+    public Integer getCoste() {
+        return coste;
     }
 
-    public void setRefugio(Refugio refugio) {
-        this.refugio = refugio;
+    public void setCoste(Integer coste) {
+        this.coste = coste;
+    }
+
+    public String getEstadoSalud() {
+        return estadoSalud;
+    }
+
+    public void setEstadoSalud(String estadoSalud) {
+        this.estadoSalud = estadoSalud;
     }
 
     @Override

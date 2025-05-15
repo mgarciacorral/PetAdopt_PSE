@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package es.uva.petadopt.model;
 
 import java.io.Serializable;
@@ -9,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -22,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author mgarc
+ * @author andri
  */
 @Entity
 @Table(name = "mensaje")
@@ -30,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Mensaje.findAll", query = "SELECT m FROM Mensaje m"),
     @NamedQuery(name = "Mensaje.findByIdMensaje", query = "SELECT m FROM Mensaje m WHERE m.idMensaje = :idMensaje"),
+    @NamedQuery(name = "Mensaje.findByIdChat", query = "SELECT m FROM Mensaje m WHERE m.idChat = :idChat"),
     @NamedQuery(name = "Mensaje.findByRemitente", query = "SELECT m FROM Mensaje m WHERE m.remitente = :remitente"),
     @NamedQuery(name = "Mensaje.findByContenido", query = "SELECT m FROM Mensaje m WHERE m.contenido = :contenido"),
     @NamedQuery(name = "Mensaje.findByFechaEnvio", query = "SELECT m FROM Mensaje m WHERE m.fechaEnvio = :fechaEnvio")})
@@ -41,6 +44,8 @@ public class Mensaje implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_mensaje")
     private Integer idMensaje;
+    @Column(name = "id_chat")
+    private Integer idChat;
     @Size(max = 10)
     @Column(name = "remitente")
     private String remitente;
@@ -52,9 +57,6 @@ public class Mensaje implements Serializable {
     @Column(name = "fecha_envio")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaEnvio;
-    @JoinColumn(name = "id_chat", referencedColumnName = "id_chat")
-    @ManyToOne
-    private Chat idChat;
 
     public Mensaje() {
     }
@@ -74,6 +76,14 @@ public class Mensaje implements Serializable {
 
     public void setIdMensaje(Integer idMensaje) {
         this.idMensaje = idMensaje;
+    }
+
+    public Integer getIdChat() {
+        return idChat;
+    }
+
+    public void setIdChat(Integer idChat) {
+        this.idChat = idChat;
     }
 
     public String getRemitente() {
@@ -98,14 +108,6 @@ public class Mensaje implements Serializable {
 
     public void setFechaEnvio(Date fechaEnvio) {
         this.fechaEnvio = fechaEnvio;
-    }
-
-    public Chat getIdChat() {
-        return idChat;
-    }
-
-    public void setIdChat(Chat idChat) {
-        this.idChat = idChat;
     }
 
     @Override

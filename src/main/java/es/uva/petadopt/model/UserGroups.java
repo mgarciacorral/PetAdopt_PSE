@@ -1,62 +1,58 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package es.uva.petadopt.model;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
-
+/**
+ *
+ * @author andri
+ */
 @Entity
 @Table(name = "user_groups")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "UserGroups.findAll", query = "SELECT u FROM UserGroups u"),
+    @NamedQuery(name = "UserGroups.findByEmail", query = "SELECT u FROM UserGroups u WHERE u.userGroupsPK.email = :email"),
+    @NamedQuery(name = "UserGroups.findByGrupo", query = "SELECT u FROM UserGroups u WHERE u.userGroupsPK.grupo = :grupo")})
 public class UserGroups implements Serializable {
 
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "email")
-    @Id
-    private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "grupo")
-    private String grupo;
+    private static final long serialVersionUID = 1L;
+    @EmbeddedId
+    protected UserGroupsPK userGroupsPK;
 
     public UserGroups() {
     }
 
+    public UserGroups(UserGroupsPK userGroupsPK) {
+        this.userGroupsPK = userGroupsPK;
+    }
+
     public UserGroups(String email, String grupo) {
-        this.email = email;
-        this.grupo = grupo;
+        this.userGroupsPK = new UserGroupsPK(email, grupo);
     }
 
-    public String getEmail() {
-        return email;
+    public UserGroupsPK getUserGroupsPK() {
+        return userGroupsPK;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getGrupo() {
-        return grupo;
-    }
-
-    public void setGrupo(String grupo) {
-        this.grupo = grupo;
+    public void setUserGroupsPK(UserGroupsPK userGroupsPK) {
+        this.userGroupsPK = userGroupsPK;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (email != null ? email.hashCode() : 0);
-        hash += (grupo != null ? grupo.hashCode() : 0);
+        hash += (userGroupsPK != null ? userGroupsPK.hashCode() : 0);
         return hash;
     }
 
@@ -67,15 +63,15 @@ public class UserGroups implements Serializable {
             return false;
         }
         UserGroups other = (UserGroups) object;
-        if ((this.email == null && other.email != null) || (this.email != null && !this.email.equals(other.email))) {
-            return false;
-        }
-        if ((this.grupo == null && other.grupo != null) || (this.grupo != null && !this.grupo.equals(other.grupo))) {
+        if ((this.userGroupsPK == null && other.userGroupsPK != null) || (this.userGroupsPK != null && !this.userGroupsPK.equals(other.userGroupsPK))) {
             return false;
         }
         return true;
     }
 
-   
+    @Override
+    public String toString() {
+        return "es.uva.petadopt.model.UserGroups[ userGroupsPK=" + userGroupsPK + " ]";
+    }
     
 }
