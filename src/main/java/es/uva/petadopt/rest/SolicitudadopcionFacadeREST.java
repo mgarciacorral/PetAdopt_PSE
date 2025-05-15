@@ -7,6 +7,8 @@ import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.model.Solicitudadopcion;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -72,7 +74,7 @@ public class SolicitudadopcionFacadeREST extends AbstractFacade<Solicitudadopcio
     // Método para obtener todas las mascotas solicitadas por un cliente
     @GET
     @Path("solicitadas/{emailCliente}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON})
     public List<Mascota> findSolicitadas(@PathParam("emailCliente") String emailCliente) {
         Cliente cliente = em.find(Cliente.class, emailCliente);
 
@@ -80,11 +82,22 @@ public class SolicitudadopcionFacadeREST extends AbstractFacade<Solicitudadopcio
             throw new WebApplicationException("Cliente no encontrado", 404);
         }
 
-        Query query = em.createQuery("SELECT s.idMascota FROM Solicitudadopcion s WHERE s.emailCliente = :cliente");
-        query.setParameter("cliente", cliente);
-        return query.getResultList();
+        List<Integer> ids = em.createQuery(
+                "SELECT s.idMascota FROM Solicitudadopcion s WHERE s.emailCliente = :emailCliente", Integer.class)
+                .setParameter("emailCliente", emailCliente)
+                .getResultList();
+        
+        List<Mascota> mascotas = ids.stream()
+                .map(id -> em.find(Mascota.class, id))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        
+        return mascotas;
+        
     }
 
+    
+    
 
     // Método para obtener la última solicitud de adopción de un cliente para una mascota
     @GET
