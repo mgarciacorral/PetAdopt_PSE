@@ -31,16 +31,30 @@
                                             <h:outputText value="Especie: #{mascota.especie}" /><br />
                                             <h:outputText value="Raza: #{mascota.raza}" /><br />
 
-                                            <p:commandButton value="Eliminar"
-                                                             actionListener="#{refugioBean.eliminarMascota(mascota)}"
-                                                             oncomplete="location.reload();"
-                                                             process="@this"
-                                                             update="@none"
-                                                             styleClass="btn btn-info" />
-                                            <p:commandButton value="Editar"
-                                                             actionListener="#{refugioBean.editarMascota(mascota)}"
-                                                             oncomplete="PF('dialogMascota').show()"
-                                                             styleClass="btn btn-info" />
+                                            <h:panelGroup id="m">
+                                                <p:commandButton 
+                                                    value="Eliminar"
+                                                    actionListener="#{refugioBean.prepararConfirmacion(mascota)}"
+                                                    update="m"
+                                                    process="@this"
+                                                    rendered="#{!refugioBean.isConfirmandoEliminar(mascota.idMascota)}"
+                                                    styleClass="btn btn-info" />
+
+                                                <p:commandButton 
+                                                    value="Confirmar"
+                                                    actionListener="#{refugioBean.eliminarMascota(mascota)}"
+                                                    update="@none"
+                                                    oncomplete="location.reload();"
+                                                    process="@this"
+                                                    rendered="#{refugioBean.isConfirmandoEliminar(mascota.idMascota)}"
+                                                    styleClass="btn btn-danger" />
+                                                
+                                                <p:commandButton value="Editar"
+                                                                 actionListener="#{refugioBean.editarMascota(mascota)}"
+                                                                 oncomplete="PF('dialogMascota').show()"
+                                                                 styleClass="btn btn-info" />
+                                            </h:panelGroup>
+                                            
                                         </p:panel>
                                     </div>
                                 </ui:repeat>

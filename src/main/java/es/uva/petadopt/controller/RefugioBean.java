@@ -4,7 +4,9 @@ import es.uva.petadopt.client.MascotaRestClient;
 import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.model.Refugio;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -20,6 +22,21 @@ public class RefugioBean implements Serializable {
     private List<Mascota> mascotas;
     private Refugio refugio;
     private Mascota selectedMascota;
+    
+    private final Map<Integer, Boolean> confirmacionEliminar = new HashMap<>();
+
+    public boolean isConfirmandoEliminar(int mascotaId) {
+        return confirmacionEliminar.getOrDefault(mascotaId, false);
+    }
+
+    public void prepararConfirmacion(Mascota mascota) {
+        confirmacionEliminar.put(mascota.getIdMascota(), true);
+    }
+
+    public void eliminarMascota(Mascota mascota) {
+        confirmacionEliminar.remove(mascota.getIdMascota());
+        mascotaClient.borrarMascota(mascota);
+    }
     
     @PostConstruct
     public void init() {
@@ -46,10 +63,6 @@ public class RefugioBean implements Serializable {
 
     public Mascota getSelectedMascota() {
         return selectedMascota;
-    }
-    
-    public void eliminarMascota(Mascota mascota){
-        mascotaClient.borrarMascota(mascota);
     }
     
     public void editarMascota(Mascota mascota){
