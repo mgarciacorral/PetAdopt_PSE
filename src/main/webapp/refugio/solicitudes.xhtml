@@ -58,14 +58,14 @@
                             <h:outputText value="Edad:" />
                             <h:outputText value="#{refugioBean.selectedMascota.getEdad()}" />
 
-                            <h:outputText value="Refugio" />
-                            <h:outputText value="#{refugioBean.selectedMascota.getEmailRefugio()}" />
+                            <h:outputText value="Cliente:" />
+                            <h:outputText value="#{refugioBean.selectedSolicitud.getEmailCliente()}" />
 
 
 
                         </h:panelGrid>
                         <p:commandButton value="Chat"
-                                         actionListener="#{refugioBean.verChat()}"
+                                         action="#{refugioBean.verChat()}"
                                          update="growl"
                                          styleClass="btn btn-info"/>
                     </p:dialog>

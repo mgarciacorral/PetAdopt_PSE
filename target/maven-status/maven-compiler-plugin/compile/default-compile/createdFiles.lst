@@ -41,6 +41,7 @@ es\uva\petadopt\controller\ClienteBean.class
 es\uva\petadopt\rest\MascotaFacadeREST.class
 es\uva\petadopt\client\MensajeRestClient$2.class
 es\uva\petadopt\model\Solicitudadopcion.class
+es\uva\petadopt\dto\SolicitudMascotaDTO.class
 es\uva\petadopt\jaas\AuthenticationUtils.class
 es\uva\petadopt\rest\UsuarioFacadeREST.class
 es\uva\petadopt\client\MascotaRestClient$6.class

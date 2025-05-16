@@ -119,6 +119,27 @@ public class SolicitudadopcionFacadeREST extends AbstractFacade<Solicitudadopcio
 
     }
     
+    @GET
+    @Path("solicitadas/solicitud/{emailRefugio}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Solicitudadopcion> findSolicitudSolicitadas(@PathParam("emailRefugio") String emailRefugio) {
+        Refugio refugio = em.find(Refugio.class, emailRefugio);
+
+        if (refugio == null) {
+            throw new WebApplicationException("Cliente no encontrado", 404);
+        }
+
+        List<Solicitudadopcion> solicitudes = em.createQuery(
+                "SELECT s FROM Solicitudadopcion s WHERE s.idMascota IN "
+                + "(SELECT m.idMascota FROM Mascota m WHERE m.emailRefugio = :emailRefugio)", Solicitudadopcion.class)
+                .setParameter("emailRefugio", emailRefugio)
+                .getResultList();
+
+
+        return solicitudes;
+
+    }
+    
 
     // Método para obtener la última solicitud de adopción de un cliente para una mascota
     @GET
