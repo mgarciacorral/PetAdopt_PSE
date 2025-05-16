@@ -167,6 +167,19 @@ public class MascotaRestClient {
         client.close();
     }
     
+    public void editarMascota(Mascota mascota) {
+        Response response = webTarget
+                .path(String.valueOf(mascota.getIdMascota()))
+                .request()
+                .put(Entity.entity(mascota, MediaType.APPLICATION_JSON));
+
+        if (response.getStatus() == 200 || response.getStatus() == 204) {
+            System.out.println("Mascota editada con éxito.");
+        } else {
+            System.err.println("Error al editar la mascota: " + response.getStatus());
+        }
+    }
+    
     public List<String> obtenerRazasPorEspecie(String especie) {
         Response response = webTarget
                 .path("razas")

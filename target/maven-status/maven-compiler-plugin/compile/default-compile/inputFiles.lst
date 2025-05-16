@@ -7,6 +7,7 @@ C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\peta
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\model\UserGroupsPK.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\dto\SolicitudDTO.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\JAXRSConfiguration.java
+C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\filters\Utf8EncodingFilter.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\controller\ClienteBean.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\rest\UsuarioFacadeREST.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\controller\PerfilBean.java

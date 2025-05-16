@@ -65,8 +65,9 @@ public class RefugioBean implements Serializable {
         return selectedMascota;
     }
     
-    public void editarMascota(Mascota mascota){
-        
+    public String editarMascota(Mascota mascota) {
+        System.out.println("agregarMascota?faces-redirect=true&includeViewParams=true&mascotaId=" + mascota.getIdMascota());
+        return "agregarMascota?faces-redirect=true&includeViewParams=true&mascotaId=" + mascota.getIdMascota();
     }
 
     public void setSelectedMascota(Mascota selectedMascota) {

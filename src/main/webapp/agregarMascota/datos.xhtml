@@ -7,6 +7,10 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
+        <f:metadata>
+            <f:viewParam name="mascotaId" value="#{agregarMascotaFlowBean.mascotaId}" />
+            <f:viewAction action="#{agregarMascotaFlowBean.cargarMascota}" />
+        </f:metadata>
 
         <ui:composition template="./../templates/templateRefugio.xhtml">
 
@@ -21,27 +25,27 @@
                         <p:panelGrid columns="2" layout="grid" styleClass="mb-3">
 
                             <h:outputLabel for="nombre" value="Nombre:" />
-                            <p:inputText id="nombre" value="#{agregarMascotaFlowBean.nuevaMascota.nombre}" required="true">
+                            <p:inputText id="nombre" value="#{agregarMascotaFlowBean.mascota.nombre}" required="true">
                                 <f:validateRegex pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,30}$" />
                             </p:inputText>
 
                             <h:outputLabel for="especie" value="Especie:" />
-                            <p:inputText id="especie" value="#{agregarMascotaFlowBean.nuevaMascota.especie}" required="true">
+                            <p:inputText id="especie" value="#{agregarMascotaFlowBean.mascota.especie}" required="true">
                                 <f:validateRegex pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ]{3,30}$" />
                             </p:inputText>
 
                             <h:outputLabel for="raza" value="Raza:" />
-                            <p:inputText id="raza" value="#{agregarMascotaFlowBean.nuevaMascota.raza}" required="true">
+                            <p:inputText id="raza" value="#{agregarMascotaFlowBean.mascota.raza}" required="true">
                                 <f:validateRegex pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,30}$" />
                             </p:inputText>
 
                             <h:outputLabel for="edad" value="Edad:" />
-                            <p:inputText id="edad" value="#{agregarMascotaFlowBean.nuevaMascota.edad}" required="true">
+                            <p:inputText id="edad" value="#{agregarMascotaFlowBean.mascota.edad}" required="true">
                                 <f:validateLongRange minimum="0" maximum="99" />
                             </p:inputText>
 
                             <h:outputLabel for="coste" value="Coste (€):" />
-                            <p:inputText id="coste" value="#{agregarMascotaFlowBean.nuevaMascota.coste}" required="true">
+                            <p:inputText id="coste" value="#{agregarMascotaFlowBean.mascota.coste}" required="true">
                                 <f:validateLongRange minimum="1" maximum="10000" />
                             </p:inputText>
 

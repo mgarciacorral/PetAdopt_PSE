@@ -17,17 +17,39 @@ import org.primefaces.model.file.UploadedFile;
 @FlowScoped("agregarMascota")
 public class AgregarMascotaFlowBean implements Serializable {
 
-    private Mascota nuevaMascota = new Mascota();
+    private Mascota mascota;
+    private int mascotaId;
     private UploadedFile imagen;
     private StreamedContent imagenPreview;
     private final MascotaRestClient mascotaRestClient = new MascotaRestClient();
+    private boolean edit = false;
+    
+    public void cargarMascota() {
+        if (mascota == null) {
+            MascotaRestClient mr = new MascotaRestClient();
+           
+            mascota = mr.find(mascotaId);
+
+            if (mascota == null) {
+                mascota = new Mascota();
+            } else {
+                edit = true;
+            }
+        }
+    }
 
     public String guardar() {
-        Refugio refugio = (Refugio) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("refugioLogueado");
+        if(!edit){
+            Refugio refugio = (Refugio) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("refugioLogueado");
 
-        nuevaMascota.setEmailRefugio(refugio.getEmail());
-        mascotaRestClient.crearMascota(nuevaMascota);
+            mascota.setEmailRefugio(refugio.getEmail());
+            mascotaRestClient.crearMascota(mascota);
+        }else{
+            mascotaRestClient.editarMascota(mascota);
+        }
+        
         return "salir";
+
     }
     
     public String irAConfirmacion() {
@@ -40,7 +62,7 @@ public class AgregarMascotaFlowBean implements Serializable {
                 return null;
             }
 
-            nuevaMascota.setFoto(imagen.getContent());
+            mascota.setFoto(imagen.getContent());
         }
         return "confirmacion"; // o el nombre de la vista del flow
     }
@@ -60,12 +82,12 @@ public class AgregarMascotaFlowBean implements Serializable {
         System.out.println("Flow inicializado");
     }
 
-    public Mascota getNuevaMascota() {
-        return nuevaMascota;
+    public Mascota getMascota() {
+        return mascota;
     }
 
-    public void setNuevaMascota(Mascota nuevaMascota) {
-        this.nuevaMascota = nuevaMascota;
+    public void setMascota(Mascota mascota) {
+        this.mascota = mascota;
     }
 
     public UploadedFile getImagen() {
@@ -74,5 +96,13 @@ public class AgregarMascotaFlowBean implements Serializable {
 
     public void setImagen(UploadedFile imagen) {
         this.imagen = imagen;
+    }
+
+    public int getMascotaId() {
+        return mascotaId;
+    }
+
+    public void setMascotaId(int mascotaId) {
+        this.mascotaId = mascotaId;
     }
 }

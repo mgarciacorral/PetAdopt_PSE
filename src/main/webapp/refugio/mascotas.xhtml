@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -37,11 +38,15 @@
                                                                  update=":formDialog"
                                                                  oncomplete="PF('dialogMascota').show()"
                                                                  styleClass="btn btn-info" />
+                                                <p:button value="Editar"
+                                                          outcome="agregarMascota"
+                                                          styleClass="btn btn-info"
+                                                          includeViewParams="true">
+                                                    <f:param name="mascotaId" value="#{mascota.idMascota}" />
+                                                </p:button>
                                                 
-                                                <p:commandButton value="Editar"
-                                                                 actionListener="#{refugioBean.editarMascota(mascota)}"
-                                                                 oncomplete="PF('dialogMascota').show()"
-                                                                 styleClass="btn btn-info" />
+                                                
+
                                             </h:panelGroup>
                                             
                                         </p:panel>
