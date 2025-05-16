@@ -5,8 +5,10 @@ import es.uva.petadopt.model.Mensaje;
 import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 public class MensajeRestClient {
@@ -22,12 +24,37 @@ public class MensajeRestClient {
     }
     
     
+    public void create(Mensaje mensaje) {
+        WebTarget target = client.target(BASE_URL).path("mensaje");
+        target
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(mensaje, MediaType.APPLICATION_JSON));
+    }
+
+    
+    
     public List<Mensaje> findMensajesRefugio(int idChat, String emailRefugio) {
         
         WebTarget target = webTarget.path("mensajes").path("refugio").path(String.valueOf(idChat)).path(emailRefugio);
         
         Response response = target.request().get();
         
+        if (response.getStatus() == 200) {
+            List<Mensaje> mensajes = response.readEntity(new GenericType<List<Mensaje>>() {
+            });
+            return mensajes;
+        } else {
+            throw new RuntimeException("Error al obtener mensajes: " + response.getStatus());
+        }
+
+    }
+    
+        public List<Mensaje> findMensajesByChat(int idChat) {
+
+        WebTarget target = webTarget.path("mensajes").path(String.valueOf(idChat));
+
+        Response response = target.request().get();
+
         if (response.getStatus() == 200) {
             List<Mensaje> mensajes = response.readEntity(new GenericType<List<Mensaje>>() {
             });

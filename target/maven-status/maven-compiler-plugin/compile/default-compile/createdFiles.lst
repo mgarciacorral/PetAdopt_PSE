@@ -53,6 +53,7 @@ es\uva\petadopt\jaas\UserEJB.class
 es\uva\petadopt\controller\ChatBean.class
 es\uva\petadopt\model\Mensaje.class
 es\uva\petadopt\flow\FlowConfig.class
+es\uva\petadopt\client\MensajeRestClient$3.class
 es\uva\petadopt\model\Cliente.class
 es\uva\petadopt\client\MascotaRestClient$5.class
 es\uva\petadopt\controller\AdminBean.class

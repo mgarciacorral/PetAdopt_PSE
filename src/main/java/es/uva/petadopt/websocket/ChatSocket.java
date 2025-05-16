@@ -1,10 +1,12 @@
 package es.uva.petadopt.websocket;
 
+
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+
 
 @ServerEndpoint("/chat/{idChat}")
 public class ChatSocket {
@@ -14,7 +16,8 @@ public class ChatSocket {
     private int idChat;
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("idChat") int idChat) {
+    public void onOpen(Session session, @PathParam("idChat") int idChat) {  
+
         System.out.println("Conexión abierta para chat: " + idChat + ", sessionId: " + session.getId());
         this.idChat = idChat;
         sesionesPorChat.computeIfAbsent(idChat, k -> new HashSet<>()).add(session);
@@ -22,7 +25,7 @@ public class ChatSocket {
 
     @OnMessage
     public void onMessage(String mensaje, Session session) {
-        System.out.println("Mensaje recibido: '" + mensaje + "'");
+        
         Set<Session> sesiones = sesionesPorChat.get(idChat);
         if (sesiones == null) {
             return;
@@ -36,13 +39,11 @@ public class ChatSocket {
                 }
             }
         }
-        System.out.println("Mensaje");
 
     }
 
     @OnClose
     public void onClose(Session session) {
-        System.out.println("Cerrando");
         Set<Session> sesiones = sesionesPorChat.get(idChat);
         if (sesiones != null) {
             sesiones.remove(session);

@@ -19,10 +19,32 @@ window.addEventListener("DOMContentLoaded", function () {
         newMessage.textContent = event.data;
         panel.appendChild(newMessage);
     };
+    const emailUsuario = document.getElementById('chatForm:usuarioEmail').value;
+    socket.onmessage = function (event) {
+        const panel = document.getElementById("chatForm:mensajesPanel");
+
+        const newMessage = document.createElement("div");
+        
+
+        newMessage.style.marginBottom = "8px";
+        newMessage.style.padding = "6px 10px";
+        newMessage.style.borderRadius = "8px";
+        newMessage.style.backgroundColor = "#f0f0f0";
+        newMessage.style.maxWidth = "80%";
+        newMessage.style.wordWrap = "break-word";
+
+        newMessage.innerHTML = `<strong style="color: #2c3e50;">${emailUsuario}</strong>: ${event.data}`;
+
+        panel.appendChild(newMessage);
+    };
+
+
 
     window.enviarMensaje = function () {
         const input = document.getElementById("chatForm:mensajeInput");
         const mensaje = input.value;
+        document.getElementById("chatForm:mensajeOculto").value = mensaje;
+        guardarMensajeServidor();
         console.log("Mensaje a enviar:", mensaje);
         if (mensaje.trim() === "") {
             console.log("Mensaje vacío, no se envía.");

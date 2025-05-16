@@ -91,6 +91,16 @@ public class MensajeFacadeREST extends AbstractFacade<Mensaje> {
                 .setParameter("emailRefugio", emailRefugio)
                 .getResultList();
     }
+    
+    @GET
+    @Path("mensajes/{idChat}}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Mensaje> findMensajesByChat(@PathParam("idChat") Integer idChat) {
+        return getEntityManager()
+                .createQuery("SELECT m FROM Mensaje m WHERE m.idChat = :id ", Mensaje.class)
+                .setParameter("id", idChat)
+                .getResultList();
+    }
 
     @GET
     @Path("count")

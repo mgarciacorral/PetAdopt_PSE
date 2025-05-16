@@ -16,22 +16,29 @@
     <ui:composition template="./../templates/templateCliente.xhtml">
         <ui:define name="contenidoCliente">
 
-            <h:form id="chatForm" style="height: 80vh;">
-                <p:panelGrid columns="1" style="width: 100%; height: 100%;" columnClasses="left-panel,right-panel">
-                    <p:panel id="chatPanel" header="Conversación" style="height: 100%; display: flex; flex-direction: column;">
+            <h:form id="chatForm" style="height: 80vh;" >
+                <p:panelGrid columns="1" style="width: 100%; height: 100%;" columnClasses="left-panel,right-panel" >
+                    <p:panel id="chatPanel" header="Conversación" style="height: 100%; display: flex; flex-direction: column;" >
 
                         <!-- Mensajes -->
-                        <p:outputPanel id="mensajesPanel" style="flex: 1; overflow-y: auto; padding: 10px;">
-                            <!-- Aquí JS añadirá los mensajes -->
+                        <p:outputPanel id="mensajesPanel" style="flex: 1; overflow-y: auto; padding: 10px;" >
+                            <ui:repeat var="mensaje" value="#{chatBean.mensajes}">
+                                <div style="margin-bottom: 8px; padding: 6px 10px; border-radius: 8px; background-color: #f0f0f0; max-width: 80%; word-wrap: break-word;">
+                                    <strong style="color: #2c3e50;">#{mensaje.remitente}</strong>: #{mensaje.contenido}
+                                </div>
+                            </ui:repeat>
                         </p:outputPanel>
+
 
                         <!-- Formulario para enviar nuevo mensaje -->
                         <div style="margin-top: 10px; display: flex;">
+                            <h:inputHidden id="usuarioEmail" value="#{chatBean.usuario.getEmail()}" />
                             <p:inputText id="mensajeInput"
                                          placeholder="Escribe tu mensaje..."
                                          style="flex:1; margin-right: 5px;" />
 
                             <button type="button" onclick="enviarMensaje();">Enviar</button>
+
 
                         </div>
                     </p:panel>
@@ -41,7 +48,7 @@
         </ui:define>
     </ui:composition>
 
-    <!-- Carga el script de WebSocket al final del body -->
+
 
     
 </h:body>
