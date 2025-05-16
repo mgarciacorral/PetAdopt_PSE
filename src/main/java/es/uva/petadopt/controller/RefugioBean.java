@@ -65,9 +65,8 @@ public class RefugioBean implements Serializable {
     }
     
     public String getUrlImagenMascota(Integer idMascota) {
-        return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()
-                + "/webresources/mascota/" + idMascota + "/imagen";
-    }  
+        return "/webresources/mascotas/imagen/" + idMascota;
+    }
 
     public void verMascota(int id) {
         this.selectedMascota = mascotaClient.find(id);

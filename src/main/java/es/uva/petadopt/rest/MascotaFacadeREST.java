@@ -51,7 +51,7 @@ public class MascotaFacadeREST extends AbstractFacade<Mascota> {
     }
     
     @GET
-    @Path("{id}/imagen")
+    @Path("imagen/{id}")
     @Produces({"image/png", "image/jpeg", "image/jpg"})
     public Response obtenerImagen(@PathParam("id") Integer id) {
         Mascota mascota = super.find(id);
@@ -59,7 +59,9 @@ public class MascotaFacadeREST extends AbstractFacade<Mascota> {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(new ByteArrayInputStream(mascota.getFoto())).build();
+        return Response.ok(new ByteArrayInputStream(mascota.getFoto()))
+                .type("image/png") 
+                .build();
     }
 
     @GET

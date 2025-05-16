@@ -124,8 +124,7 @@ public class ClienteBean implements Serializable {
     }
     
     public String getUrlImagenMascota(Integer idMascota) {
-        return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()
-                + "/webresources/mascota/" + idMascota + "/imagen";
+        return "/webresources/mascotas/imagen/" + idMascota;
     }
     
     public String verPaginaBusqueda() {

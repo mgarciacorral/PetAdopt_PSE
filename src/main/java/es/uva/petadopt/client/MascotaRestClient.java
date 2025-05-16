@@ -2,6 +2,7 @@
 package es.uva.petadopt.client;
 
 import es.uva.petadopt.model.Mascota;
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
@@ -52,7 +53,23 @@ public class MascotaRestClient {
         return response.readEntity(new GenericType<List<Mascota>>() {
         });
     }
-   
+    
+    public ByteArrayInputStream getFoto(Mascota mascota) {
+        int id = mascota.getIdMascota();
+
+        Response response = webTarget
+                .path("imagen")
+                .path(String.valueOf(id))
+                .request()
+                .get(); // pedimos imagen directamente, no como JSON
+
+        if (response.getStatus() != 200) {
+            return null;
+        }
+
+        byte[] imagenBytes = response.readEntity(byte[].class);
+        return new ByteArrayInputStream(imagenBytes);
+    }   
     
     public List<Mascota> findByEspecie(String especie) {
         WebTarget target = webTarget.path("especie").path(especie);

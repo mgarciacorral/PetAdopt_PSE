@@ -22,9 +22,9 @@ public class FlowConfig {
         flowBuilder.viewNode("imagen", "/agregarMascota/imagen.xhtml");
         flowBuilder.viewNode("confirmacion", "/agregarMascota/confirmacion.xhtml");
 
-        // Salida del flujo
         flowBuilder.returnNode("salir")
-                   .fromOutcome("/refugio/mascotas.xhtml");
+                .fromOutcome("/refugio/mascotas.xhtml?faces-redirect=true");
+
 
         return flowBuilder.getFlow();
     }
