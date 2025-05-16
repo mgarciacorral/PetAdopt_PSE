@@ -8,8 +8,10 @@ es\uva\petadopt\rest\ChatFacadeREST$CreateChatRequest.class
 es\uva\petadopt\dto\SolicitudDTO.class
 es\uva\petadopt\model\UserGroupsPK.class
 es\uva\petadopt\client\RefugioRestClient.class
+es\uva\petadopt\client\MensajeRestClient.class
 es\uva\petadopt\rest\MensajeFacadeREST.class
 es\uva\petadopt\rest\UserGroupsFacadeREST.class
+es\uva\petadopt\client\MensajeRestClient$1.class
 es\uva\petadopt\resources\JavaEE8Resource.class
 es\uva\petadopt\rest\AbstractFacade.class
 es\uva\petadopt\client\MascotaRestClient$3.class
@@ -33,6 +35,7 @@ es\uva\petadopt\client\MascotaRestClient$2.class
 es\uva\petadopt\client\MascotaRestClient.class
 es\uva\petadopt\controller\ClienteBean.class
 es\uva\petadopt\rest\MascotaFacadeREST.class
+es\uva\petadopt\client\MensajeRestClient$2.class
 es\uva\petadopt\model\Solicitudadopcion.class
 es\uva\petadopt\jaas\AuthenticationUtils.class
 es\uva\petadopt\rest\UsuarioFacadeREST.class

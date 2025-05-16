@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uva.petadopt.rest;
 
+import es.uva.petadopt.model.Chat;
 import es.uva.petadopt.model.Mensaje;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -20,12 +17,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-/**
- *
- * @author mgarc
- */
+
 @Stateless
-@Path("es.uva.petadopt.model.mensaje")
+@Path("mensaje")
 public class MensajeFacadeREST extends AbstractFacade<Mensaje> {
 
     @PersistenceContext(unitName = "PetAdoptPU")
@@ -74,6 +68,28 @@ public class MensajeFacadeREST extends AbstractFacade<Mensaje> {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Mensaje> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
+    }
+    
+    @GET
+    @Path("mensajes/cliente/{idChat}/{emailCliente}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Mensaje> findMensajesCliente(@PathParam("idChat") Integer idChat, @PathParam("emailCliente") String emailCliente) {
+        return getEntityManager()
+                .createQuery("SELECT m FROM Mensaje m WHERE m.idChat = :id AND m.remitente = :emailCliente", Mensaje.class)
+                .setParameter("id", idChat)
+                .setParameter("emailCliente", emailCliente)
+                .getResultList();
+    }
+    
+    @GET
+    @Path("mensajes/refugio/{idChat}/{emailRefugio}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Mensaje> findMensajesRefugio(@PathParam("idChat") Integer idChat, @PathParam("emailRefugio") String emailRefugio) {
+        return getEntityManager()
+                .createQuery("SELECT m FROM Mensaje m WHERE m.idChat = :id AND m.remitente = :emailRefugio", Mensaje.class)
+                .setParameter("id", idChat)
+                .setParameter("emailRefugio", emailRefugio)
+                .getResultList();
     }
 
     @GET

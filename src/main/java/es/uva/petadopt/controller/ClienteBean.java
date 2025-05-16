@@ -21,7 +21,6 @@ import javax.servlet.http.HttpSession;
 public class ClienteBean implements Serializable {
     SolicitudRestClient solicitudClient = new SolicitudRestClient();
     MascotaRestClient mascotaClient = new MascotaRestClient();
-    
     private final ChatRestClient chatRest = new ChatRestClient();
     
 
@@ -107,7 +106,6 @@ public class ClienteBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud enviada", "Hemos enviado tu solicitud al refugio."));
 
             solicitudClient.createSolicitud(cliente, selectedMascota);
-            System.out.println(selectedMascota.getIdMascota());
             Solicitudadopcion solicitud = solicitudClient.getLastSolicitudId(cliente.getEmail(), selectedMascota.getIdMascota());
 
             chatRest.createChat(cliente.getEmail(), selectedMascota.getEmailRefugio() , solicitud.getIdSolicitud());
@@ -117,6 +115,12 @@ public class ClienteBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ya se ha solicitado está mascota"));
         }
         
+    }
+    
+    public int cargarChat(){
+        
+        return chatRest.findChat(cliente.getEmail(), selectedMascota.getEmailRefugio());
+  
     }
     
     public String getUrlImagenMascota(Integer idMascota) {
@@ -137,7 +141,7 @@ public class ClienteBean implements Serializable {
     }
     
     public String verChat(){
-        return "/cliente/chat.xhtml?faces-redirect=true";
+        return "/cliente/chat.xhtml?faces-redirect=true&idChat=" + cargarChat();
         
     }
     

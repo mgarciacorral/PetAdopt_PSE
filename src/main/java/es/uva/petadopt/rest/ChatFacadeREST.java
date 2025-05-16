@@ -9,13 +9,16 @@ import es.uva.petadopt.model.Solicitudadopcion;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -77,6 +80,27 @@ public class ChatFacadeREST extends AbstractFacade<Chat> {
     }
     
     @GET
+    @Path("between/{emailCliente}/{emailRefugio}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Integer findChat(@PathParam("emailCliente") String emailCliente,
+            @PathParam("emailRefugio") String emailRefugio) {
+
+        try {
+            TypedQuery<Integer> query = em.createQuery(
+                    "SELECT c.idChat FROM Chat c WHERE c.emailCliente = :emailCliente AND c.emailRefugio = :emailRefugio",
+                    Integer.class
+            );
+            query.setParameter("emailCliente", emailCliente);
+            query.setParameter("emailRefugio", emailRefugio);
+
+            return query.getSingleResult(); 
+        } catch (NoResultException e) {
+            throw new WebApplicationException("Chat no encontrado", 404);
+        }
+    }
+
+    
+    @GET
     @Path("por-solicitud/{idSolicitud}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Chat> findByMascota(@PathParam("idMascota") Integer idMascota) {
@@ -85,6 +109,7 @@ public class ChatFacadeREST extends AbstractFacade<Chat> {
                 .setParameter("id", idMascota)
                 .getResultList();
     }
+    
 
     @Override
     protected EntityManager getEntityManager() {
