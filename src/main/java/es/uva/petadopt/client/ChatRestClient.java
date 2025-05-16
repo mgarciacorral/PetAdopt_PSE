@@ -33,10 +33,8 @@ public class ChatRestClient {
         
         if (response.getStatus() == 200) {
             Chat chat = response.readEntity(Chat.class);
-            client.close();
             return chat;
         } else {
-            client.close();
             throw new RuntimeException("Error al obtener el chat: " + response.getStatus());
         }
     }
@@ -45,19 +43,16 @@ public class ChatRestClient {
         
         WebTarget target = webTarget.path("between").path(emailCliente).path(emailRefugio);
         
-        Response response = target.request().get();
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
         
         switch (response.getStatus()) {
             case 200:
                 int idChat = response.readEntity(Integer.class);
-                client.close();
                 return idChat;
             case 404:
-                client.close();
                 System.out.println("Chat no encontrado");
                 return -1;
             default:
-                client.close();
                 throw new RuntimeException("Error inesperado: " + response.getStatus());
         }
     }
@@ -107,7 +102,6 @@ public class ChatRestClient {
         }
 
         response.close();
-        client.close();
     }
     
     public void borrarPorSolicitud(Solicitudadopcion sol){

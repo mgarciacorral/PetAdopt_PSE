@@ -4,6 +4,7 @@ package es.uva.petadopt.rest;
 import es.uva.petadopt.dto.SolicitudDTO;
 import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Mascota;
+import es.uva.petadopt.model.Refugio;
 import es.uva.petadopt.model.Solicitudadopcion;
 import java.util.Calendar;
 import java.util.List;
@@ -74,7 +75,7 @@ public class SolicitudadopcionFacadeREST extends AbstractFacade<Solicitudadopcio
 
     // Método para obtener todas las mascotas solicitadas por un cliente
     @GET
-    @Path("solicitadas/{emailCliente}")
+    @Path("solicitadas/cliente/{emailCliente}")
     @Produces({ MediaType.APPLICATION_JSON})
     public List<Mascota> findSolicitadas(@PathParam("emailCliente") String emailCliente) {
         Cliente cliente = em.find(Cliente.class, emailCliente);
@@ -97,7 +98,26 @@ public class SolicitudadopcionFacadeREST extends AbstractFacade<Solicitudadopcio
         
     }
 
-    
+    @GET
+    @Path("solicitadas/refugio/{emailRefugio}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Mascota> findMascotasSolicitadas(@PathParam("emailRefugio") String emailRefugio) {
+        Refugio refugio = em.find(Refugio.class, emailRefugio);
+
+        if (refugio == null) {
+            throw new WebApplicationException("Cliente no encontrado", 404);
+        }
+
+        List<Mascota> mascotas = em.createQuery(
+                "SELECT m FROM Mascota m WHERE m.idMascota IN "
+                + "(SELECT s.idMascota FROM Solicitudadopcion s) AND m.emailRefugio = :emailRefugio", Mascota.class)
+                .setParameter("emailRefugio", emailRefugio)
+                .getResultList();
+
+
+        return mascotas;
+
+    }
     
 
     // Método para obtener la última solicitud de adopción de un cliente para una mascota

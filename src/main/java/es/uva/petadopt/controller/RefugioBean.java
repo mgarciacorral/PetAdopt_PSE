@@ -1,6 +1,9 @@
 package es.uva.petadopt.controller;
 
+import es.uva.petadopt.client.ChatRestClient;
 import es.uva.petadopt.client.MascotaRestClient;
+import es.uva.petadopt.client.SolicitudRestClient;
+import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.model.Refugio;
 import java.io.Serializable;
@@ -18,10 +21,12 @@ import javax.servlet.http.HttpSession;
 @ViewScoped
 public class RefugioBean implements Serializable {
     MascotaRestClient mascotaClient = new MascotaRestClient();
+    SolicitudRestClient solicitudClient = new SolicitudRestClient();
     
     private List<Mascota> mascotas;
     private Refugio refugio;
     private Mascota selectedMascota;
+    private final ChatRestClient chatRest = new ChatRestClient();
     
     private final Map<Integer, Boolean> confirmacionEliminar = new HashMap<>();
 
@@ -50,7 +55,13 @@ public class RefugioBean implements Serializable {
 
         } 
         
-        buscarMascotas();
+        String viewId = context.getViewRoot().getViewId();
+
+        if (viewId.contains("solicitudes.xhtml")) {
+            mascotas = solicitudClient.findMascotasSolicitadas(refugio.getEmail());
+        } else {
+            buscarMascotas();
+        }
     }
 
     public List<Mascota> getMascotas() {
@@ -68,6 +79,19 @@ public class RefugioBean implements Serializable {
     public String editarMascota(Mascota mascota) {
         System.out.println("agregarMascota?faces-redirect=true&includeViewParams=true&mascotaId=" + mascota.getIdMascota());
         return "agregarMascota?faces-redirect=true&includeViewParams=true&mascotaId=" + mascota.getIdMascota();
+    }
+    
+    public int cargarChat() {
+        
+        Cliente cliente = new Cliente();
+
+        return chatRest.findChat(cliente.getEmail(), selectedMascota.getEmailRefugio());
+
+    }
+    
+    public String verChat() {
+        return "/cliente/chat.xhtml?faces-redirect=true&idChat=" + cargarChat();
+
     }
 
     public void setSelectedMascota(Mascota selectedMascota) {

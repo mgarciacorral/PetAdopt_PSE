@@ -11,6 +11,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.ws.rs.core.Context;
 
 @Named
 @ViewScoped
@@ -23,6 +25,9 @@ public class ChatBean implements Serializable{
     private List<Mensaje> mensajesRefugio;
     private List<Mensaje> mensajesCliente;
     private ChatRestClient chatClient;
+    
+    @Context
+    private ServletContext servlet;
 
     @PostConstruct
     public void init() {
@@ -45,13 +50,21 @@ public class ChatBean implements Serializable{
         mensajesCliente = cargarMensajeCliente();
     }
         
-    private void redirigirABuscar() {
+    public void redirigirABuscar() {
         try {
             FacesContext.getCurrentInstance().getExternalContext()
                     .redirect("buscar.xhtml");
         } catch (IOException e) {
 
         }
+    }
+    
+    public void enviarMensaje(){
+    
+    }
+    
+    public String getRutaScriptSocket(){
+        return servlet.getRealPath("/resources/js/ChatSocketScript.js");
     }
 
     public List<Mensaje> cargarMensajeRefugio() {

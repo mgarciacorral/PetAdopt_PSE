@@ -31,10 +31,8 @@ public class MensajeRestClient {
         if (response.getStatus() == 200) {
             List<Mensaje> mensajes = response.readEntity(new GenericType<List<Mensaje>>() {
             });
-            client.close();
             return mensajes;
         } else {
-            client.close();
             throw new RuntimeException("Error al obtener mensajes: " + response.getStatus());
         }
 
@@ -49,10 +47,8 @@ public class MensajeRestClient {
         if (response.getStatus() == 200) {
             List<Mensaje> mensajes = response.readEntity(new GenericType<List<Mensaje>>() {
             });
-            client.close();
             return mensajes;
         } else {
-            client.close();
             throw new RuntimeException("Error al obtener mensajes: " + response.getStatus());
         }
     }

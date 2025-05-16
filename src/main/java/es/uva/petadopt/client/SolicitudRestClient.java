@@ -54,7 +54,22 @@ public class SolicitudRestClient {
     }
     
     public List<Mascota> findSolicitadas(String emailCliente) {
-        WebTarget target = webTarget.path("solicitadas").path(emailCliente);
+        WebTarget target = webTarget.path("solicitadas").path("cliente").path(emailCliente);
+
+        Response response = target
+                .request(MediaType.APPLICATION_JSON)
+                .get();
+
+        if (response.getStatus() != 200) {
+            throw new RuntimeException("Error al obtener las mascotas solicitadas: " + response.getStatus());
+        }
+
+        return response.readEntity(new GenericType<List<Mascota>>() {
+        });
+    }
+    
+    public List<Mascota> findMascotasSolicitadas(String emailRefugio) {
+        WebTarget target = webTarget.path("solicitadas").path("refugio").path(emailRefugio);
 
         Response response = target
                 .request(MediaType.APPLICATION_JSON)
