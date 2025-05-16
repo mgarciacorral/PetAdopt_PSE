@@ -140,8 +140,7 @@ public class ClienteBean implements Serializable {
     }
     
     public String verChat(){
-        return "/cliente/chat.xhtml?faces-redirect=true&idChat=" + cargarChat();
-        
+        return "/cliente/chat.xhtml?faces-redirect=true&idChat=" + cargarChat();   
     }
     
     public String getSelectedEspecie() {

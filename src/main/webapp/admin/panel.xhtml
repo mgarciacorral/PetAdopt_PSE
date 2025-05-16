@@ -1,22 +1,53 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
     <body>
 
-        <ui:composition template="/template.xhtml"
-                        xmlns="http://www.w3.org/1999/xhtml"
-                        xmlns:h="http://xmlns.jcp.org/jsf/html"
-                        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+        <ui:composition template="./../templates/templateAdmin.xhtml">
 
-            <ui:define name="content">
+            <ui:define name="contenidoadmin">
                 <div class="container">
-                    <h2>Bienvenido al panel de administración</h2>
-                    <p>Aquí puedes gestionar los usuarios, refugios y otras configuraciones.</p>
-                    <h:link value="Gestionar Usuarios" outcome="/admin/gestionUsuarios.xhtml"/>
+                    <h2>Usuarios Registrados</h2>
+                    <h:panelGroup id="cards">
+                        <div class="row">
+                            <ui:repeat value="#{adminBean.usuarios}" var="user">
+                                <div class="col-md-4 mb-3">
+                                    <p:panel styleClass="shadow-sm">
+                                        <h:panelGrid columns="1" cellpadding="5">
+
+                                            <h:outputText value="Email: #{user.email}" />
+                                            <h:outputText value="Tipo: #{user.tipo}" />
+
+                                            <h:panelGroup layout="block" style="margin-top:10px;">
+                                                <p:commandButton value="Autorizar"
+                                                                 action="#{adminBean.autorizar(user.email)}"
+                                                                 rendered="#{!adminBean.isAutorizado(user)}"
+                                                                 styleClass="btn btn-success btn-sm"
+                                                                 update="@none"
+                                                                 oncomplete="location.reload();"/>
+
+                                                <p:spacer width="10" />
+
+                                                <p:commandButton value="Eliminar"
+                                                                 action="#{adminBean.eliminar(user)}"
+                                                                 styleClass="btn btn-danger btn-sm"
+                                                                 update="@none"
+                                                                 oncomplete="location.reload();"/>
+                                            </h:panelGroup>
+
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                    </h:panelGroup>
                 </div>
             </ui:define>
+
         </ui:composition>
 
     </body>

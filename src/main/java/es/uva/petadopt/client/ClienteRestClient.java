@@ -13,9 +13,8 @@ import javax.ws.rs.core.Response;
 public class ClienteRestClient {
     
     private static final String BASE_URL = "http://localhost:8080/PetAdopt_PSE/webresources/clientes";
-    private Client client;
-    private WebTarget webTarget;
-    
+    private final Client client;
+    private final WebTarget webTarget;
     
     public ClienteRestClient(){
         client = ClientBuilder.newClient();
@@ -26,6 +25,19 @@ public class ClienteRestClient {
         Response response = webTarget
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(cliente, MediaType.APPLICATION_JSON));
+    }
+    
+    public void delete(String email){
+        Response response = webTarget.path(email).request().delete();
+
+        if (response.getStatus() == 204) {
+            System.out.println("Cliente eliminado correctamente.");
+            new SolicitudRestClient().borrarPorCliente(email);
+        } else {
+            System.out.println("Error al eliminar la solicitud. Código: " + response.getStatus());
+        }
+
+        response.close();
     }
     
     public Cliente findByEmail(String email){

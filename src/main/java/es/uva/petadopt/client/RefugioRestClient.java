@@ -34,6 +34,32 @@ public class RefugioRestClient {
                 .get(Refugio.class);
     }
     
+    public void delete(String email){
+        Response response = webTarget.path(email).request().delete();
+
+        if (response.getStatus() == 204) {
+            System.out.println("Refugio eliminado correctamente.");
+            new MascotaRestClient().eliminarPorRefugio(email);
+        } else {
+            System.out.println("Error al eliminar la solicitud. Código: " + response.getStatus());
+        }
+
+        response.close();
+    }
+    
+    public void update(Refugio refugio){
+        Response response = webTarget
+                .path(refugio.getEmail())
+                .request()
+                .put(Entity.entity(refugio, MediaType.APPLICATION_JSON));
+
+        if (response.getStatus() == 200 || response.getStatus() == 204) {
+            System.out.println("Refugio editado con éxito.");
+        } else {
+            System.err.println("Error al editar la mascota: " + response.getStatus());
+        }
+    }
+    
     public void close() {
         client.close();
     }

@@ -123,6 +123,21 @@ public class SolicitudRestClient {
         });
     }
     
+    public List<Solicitudadopcion> findByCliente(String email) {
+        WebTarget target = webTarget.path("por-cliente").path(email);
+
+        Response response = target
+                .request(MediaType.APPLICATION_JSON)
+                .get();
+
+        if (response.getStatus() != 200) {
+            throw new RuntimeException("Error al obtener las mascotas solicitadas: " + response.getStatus());
+        }
+
+        return response.readEntity(new GenericType<List<Solicitudadopcion>>() {
+        });
+    }
+    
     public void borrarSolicitud(Solicitudadopcion sol) {
         int id = sol.getIdSolicitud();
         Response response = webTarget.path(String.valueOf(id)).request().delete();
@@ -139,6 +154,13 @@ public class SolicitudRestClient {
     
     public void borrarPorMascota(Mascota mascota){
         List<Solicitudadopcion> solicitudes = findByMascota(mascota);
+        solicitudes.forEach(sol -> {
+            borrarSolicitud(sol);
+        });
+    }
+    
+    public void borrarPorCliente(String email){
+        List<Solicitudadopcion> solicitudes = findByCliente(email);
         solicitudes.forEach(sol -> {
             borrarSolicitud(sol);
         });

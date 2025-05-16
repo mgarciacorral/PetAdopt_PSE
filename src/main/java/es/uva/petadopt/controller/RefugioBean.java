@@ -43,6 +43,10 @@ public class RefugioBean implements Serializable {
         mascotaClient.borrarMascota(mascota);
     }
     
+    public boolean isAutorizado(){
+        return refugio.getAutorizado();
+    }
+    
     @PostConstruct
     public void init() {
         FacesContext context = FacesContext.getCurrentInstance();

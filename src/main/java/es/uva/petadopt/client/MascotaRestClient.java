@@ -2,6 +2,7 @@
 package es.uva.petadopt.client;
 
 import es.uva.petadopt.model.Mascota;
+import es.uva.petadopt.model.Solicitudadopcion;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 import javax.enterprise.context.Dependent;
@@ -164,7 +165,6 @@ public class MascotaRestClient {
         }
 
         response.close();
-        client.close();
     }
     
     public void editarMascota(Mascota mascota) {
@@ -178,6 +178,13 @@ public class MascotaRestClient {
         } else {
             System.err.println("Error al editar la mascota: " + response.getStatus());
         }
+    }
+    
+    public void eliminarPorRefugio(String email){
+        List<Mascota> mascotas = findByRefugio(email);
+        mascotas.forEach(mascota -> {
+            borrarMascota(mascota);
+        });
     }
     
     public List<String> obtenerRazasPorEspecie(String especie) {

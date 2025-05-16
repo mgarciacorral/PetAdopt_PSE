@@ -30,22 +30,23 @@
                             </p:inputText>
 
                             <h:outputLabel for="especie" value="Especie:" />
-                            <p:inputText id="especie" value="#{agregarMascotaFlowBean.mascota.especie}" required="true">
+                            <p:inputText id="especie" value="#{agregarMascotaFlowBean.mascota.especie}" required="true" validatorMessage="Entre 3 y 30 caracteres">
                                 <f:validateRegex pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ]{3,30}$" />
                             </p:inputText>
 
+
                             <h:outputLabel for="raza" value="Raza:" />
-                            <p:inputText id="raza" value="#{agregarMascotaFlowBean.mascota.raza}" required="true">
+                            <p:inputText id="raza" value="#{agregarMascotaFlowBean.mascota.raza}" required="true" validatorMessage="Entre 2 y 30 caracteres">
                                 <f:validateRegex pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,30}$" />
                             </p:inputText>
 
                             <h:outputLabel for="edad" value="Edad:" />
-                            <p:inputText id="edad" value="#{agregarMascotaFlowBean.mascota.edad}" required="true">
+                            <p:inputText id="edad" value="#{agregarMascotaFlowBean.mascota.edad}" required="true" validatorMessage="Entre 0 y 99">
                                 <f:validateLongRange minimum="0" maximum="99" />
                             </p:inputText>
 
                             <h:outputLabel for="coste" value="Coste (€):" />
-                            <p:inputText id="coste" value="#{agregarMascotaFlowBean.mascota.coste}" required="true">
+                            <p:inputText id="coste" value="#{agregarMascotaFlowBean.mascota.coste}" required="true" validatorMessage="Entre 1 y 10000 caracteres">
                                 <f:validateLongRange minimum="1" maximum="10000" />
                             </p:inputText>
 
