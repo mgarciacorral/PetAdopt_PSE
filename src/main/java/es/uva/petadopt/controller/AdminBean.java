@@ -5,6 +5,7 @@ import es.uva.petadopt.client.UsuarioRestClient;
 import es.uva.petadopt.model.Refugio;
 import es.uva.petadopt.model.Usuario;
 import java.io.Serializable;
+import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -33,6 +34,14 @@ public class AdminBean implements Serializable{
         }else{
             RefugioRestClient rc = new RefugioRestClient();
             return rc.findByEmail(usuario.getEmail()).getAutorizado();
+        }
+    }
+    
+    public boolean isAdmin(Usuario user){
+        if(user.getTipo().equals("admin")){
+            return TRUE;
+        }else{
+            return FALSE;
         }
     }
     

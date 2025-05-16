@@ -25,6 +25,7 @@ es\uva\petadopt\model\Usuario.class
 es\uva\petadopt\model\Chat.class
 es\uva\petadopt\client\SolicitudRestClient$1.class
 es\uva\petadopt\client\SolicitudRestClient.class
+es\uva\petadopt\client\SolicitudRestClient$5.class
 es\uva\petadopt\rest\RefugioFacadeREST.class
 es\uva\petadopt\rest\SolicitudadopcionFacadeREST.class
 es\uva\petadopt\websocket\ChatSocket.class

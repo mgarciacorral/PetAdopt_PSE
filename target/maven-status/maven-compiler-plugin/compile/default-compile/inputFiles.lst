@@ -27,6 +27,7 @@ C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\peta
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\controller\RegisterBean.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\jaas\AuthenticationUtils.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\controller\AgregarMascotaFlowBean.java
+C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\dto\SolicitudMascotaDTO.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\model\Mensaje.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\resources\JavaEE8Resource.java
 C:\Users\mgarc\Documents\NetBeansProjects\PetAdopt_PSE\src\main\java\es\uva\petadopt\client\ClienteRestClient.java
