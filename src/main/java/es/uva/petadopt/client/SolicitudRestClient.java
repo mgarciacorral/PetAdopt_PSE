@@ -83,6 +83,21 @@ public class SolicitudRestClient {
         });
     }
     
+    public List<Solicitudadopcion> findSolicitudesSolicitadas(String emailRefugio) {
+        WebTarget target = webTarget.path("solicitadas").path("solicitud").path(emailRefugio);
+
+        Response response = target
+                .request(MediaType.APPLICATION_JSON)
+                .get();
+
+        if (response.getStatus() != 200) {
+            throw new RuntimeException("Error al obtener las solicitudes solicitadas: " + response.getStatus());
+        }
+
+        return response.readEntity(new GenericType<List<Solicitudadopcion>>() {
+        });
+    }
+    
     public boolean comprobarSolicitud(String emailCliente, int idMascota) {
         Response response = webTarget
                 .path("comprobar")
