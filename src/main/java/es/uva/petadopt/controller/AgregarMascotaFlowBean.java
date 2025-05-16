@@ -19,6 +19,7 @@ public class AgregarMascotaFlowBean implements Serializable {
 
     private Mascota nuevaMascota = new Mascota();
     private UploadedFile imagen;
+    private StreamedContent imagenPreview;
     private final MascotaRestClient mascotaRestClient = new MascotaRestClient();
 
     public String guardar() {
@@ -45,15 +46,14 @@ public class AgregarMascotaFlowBean implements Serializable {
     }
     
     public StreamedContent getFotoPreview() {
-        byte[] datos = nuevaMascota.getFoto();
-        if (datos == null) {
-            return null;
+        if (imagen != null && imagen.getContent() != null) {
+            imagenPreview = DefaultStreamedContent.builder()
+                    .stream(() -> new ByteArrayInputStream(imagen.getContent()))
+                    .contentType(imagen.getContentType())
+                    .build();
         }
-
-        return DefaultStreamedContent.builder()
-                .stream(() -> new ByteArrayInputStream(datos))
-                .contentType("image/png") // o almacena el tipo y lo usas dinámico
-                .build();
+        
+        return imagenPreview;
     }
 
     public void inicializar() {

@@ -3,10 +3,15 @@ package es.uva.petadopt.rest;
 
 import es.uva.petadopt.model.Mascota;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -15,6 +20,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -25,6 +31,9 @@ public class MascotaFacadeREST extends AbstractFacade<Mascota> {
 
     @PersistenceContext(unitName = "PetAdoptPU")
     private EntityManager em;
+    
+    @Context
+    private ServletContext servletContext;
 
     public MascotaFacadeREST() {
         super(Mascota.class);
@@ -53,16 +62,27 @@ public class MascotaFacadeREST extends AbstractFacade<Mascota> {
     @GET
     @Path("imagen/{id}")
     @Produces({"image/png", "image/jpeg", "image/jpg"})
-    public Response obtenerImagen(@PathParam("id") Integer id) {
+    public Response obtenerImagen(@PathParam("id") Integer id) throws IOException {
         Mascota mascota = super.find(id);
-        if (mascota == null || mascota.getFoto() == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        byte[] imagenBytes;
+
+        if (mascota != null && mascota.getFoto() != null) {
+            imagenBytes = mascota.getFoto();
+        } else {
+            String ruta = servletContext.getRealPath("/resources/img/default.png");
+
+            File archivo = new File(ruta);
+            if (!archivo.exists()) {
+                return Response.status(Response.Status.NOT_FOUND).entity("Imagen por defecto no encontrada").build();
+            }
+            imagenBytes = Files.readAllBytes(archivo.toPath());
         }
 
-        return Response.ok(new ByteArrayInputStream(mascota.getFoto()))
-                .type("image/png") 
+        return Response.ok(new ByteArrayInputStream(imagenBytes))
+                .type("image/png") // Ajustá según el formato real
                 .build();
     }
+
 
     @GET
     @Path("{id}")

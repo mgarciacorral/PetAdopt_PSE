@@ -24,9 +24,10 @@
                             <p:outputLabel value="Edad: #{agregarMascotaFlowBean.nuevaMascota.edad}" /><br />
                             <p:outputLabel value="Coste: #{agregarMascotaFlowBean.nuevaMascota.coste}" /><br />
 
-                            <p:graphicImage value="#{agregarMascotaFlowBean.fotoPreview}"
+                            <p:graphicImage value="#{agregarMascotaFlowBean.getFotoPreview()}"
                                             cache="false"
                                             alt="Imagen previa"
+                                            rendered="#{not empty mascotaBean.getFotoPreview()}"
                                             style="max-width: 300px;" />
 
                         </p:panelGrid>
