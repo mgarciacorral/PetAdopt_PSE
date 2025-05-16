@@ -51,7 +51,7 @@
                         </h:panelGroup>
                 </div>
                 <h:form id="formDialog">
-                    <p:dialog header="Detalles de la Mascota"
+                    <p:dialog header="¿Seguro que quieres eliminar?"
                               widgetVar="dialogMascota"
                               modal="false"
                               closable="true"
@@ -61,22 +61,11 @@
                               styleClass="z-9999">
 
                         <h:panelGrid columns="2" cellpadding="5">
-                            <h:outputText value="Nombre:" />
                             <h:outputText value="#{refugioBean.selectedMascota.getNombre()}" />
-
-                            <h:outputText value="Especie:" />
-                            <h:outputText value="#{refugioBean.selectedMascota.getEspecie()}" />
-
-                            <h:outputText value="Raza:" />
-                            <h:outputText value="#{refugioBean.selectedMascota.getRaza()}" />
-
-                            <h:outputText value="Edad:" />
-                            <h:outputText value="#{refugioBean.selectedMascota.getEdad()}" />
-
-                            <h:outputText value="Refugio" />
-                            <h:outputText value="#{refugioBean.selectedMascota.getEmailRefugio()}" />
-
-
+                            
+                            <h:graphicImage value="#{refugioBean.getUrlImagenMascota(mascota.idMascota)}"
+                                                            style="width:100%; height:auto; max-height:200px; object-fit:cover; margin-bottom:10px;"
+                                                            alt="Imagen de #{mascota.nombre}" />
 
                         </h:panelGrid>
                         <h:panelGroup id="m">
