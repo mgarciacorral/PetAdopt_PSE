@@ -3,7 +3,6 @@ package es.uva.petadopt.controller;
 
 import es.uva.petadopt.client.ChatRestClient;
 import es.uva.petadopt.client.MensajeRestClient;
-import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Mensaje;
 import es.uva.petadopt.model.Usuario;
 import java.io.IOException;
@@ -22,13 +21,16 @@ import javax.inject.Named;
 public class ChatBean implements Serializable{
     
     private final MensajeRestClient mensajeClient = new MensajeRestClient();
+    private final ChatRestClient chatClient = new ChatRestClient();
     
     private int idChat;
 
     private List<Mensaje> mensajesRefugio;
     private List<Mensaje> mensajesCliente;
     private List<Mensaje> mensajes;
-    private ChatRestClient chatClient;
+
+    
+    private String receptor;
     
     private Usuario usuario;
     
@@ -39,7 +41,7 @@ public class ChatBean implements Serializable{
         FacesContext context = FacesContext.getCurrentInstance();
         if (context == null) {
             System.err.println("FacesContext es null en init(), probablemente no se está ejecutando en ciclo JSF");
-            return;  // Salimos para evitar errores
+            return;  
         }
 
         String idChatParam = context.getExternalContext().getRequestParameterMap().get("idChat");
@@ -63,6 +65,18 @@ public class ChatBean implements Serializable{
             mensajesCliente = cargarMensajeCliente();
         } catch (Exception e) {
             System.err.println("Error cargando mensajes: " + e.getMessage());
+        }
+        
+        System.out.println("Usuario: " + usuario);
+        System.out.println("idChat: " + idChat);
+        System.out.println("chatClient.getChatById(idChat): " + chatClient.getChatById(idChat));
+
+        
+        if(usuario.getEmail().equals(chatClient.getChatById(idChat).getEmailCliente())){
+
+            receptor = chatClient.getChatById(idChat).getEmailRefugio();
+        }else{
+            receptor = chatClient.getChatById(idChat).getEmailCliente();
         }
     }
 
@@ -100,6 +114,14 @@ public class ChatBean implements Serializable{
     public List<Mensaje> cargarMensajeCliente() {
         String emailRefugio = chatClient.getChatById(idChat).getEmailRefugio();
         return mensajeClient.findMensajesRefugio(idChat, emailRefugio);
+    }
+
+    public String getReceptor() {
+        return receptor;
+    }
+
+    public void setReceptor(String receptor) {
+        this.receptor = receptor;
     }
 
     public List<Mensaje> getMensajesRefugio() {
@@ -141,16 +163,6 @@ public class ChatBean implements Serializable{
 
     public void setMensajes(List<Mensaje> mensajes) {
         this.mensajes = mensajes;
-    }
-    
-    
-
-    public ChatRestClient getChatClient() {
-        return chatClient;
-    }
-
-    public void setChatClient(ChatRestClient chatClient) {
-        this.chatClient = chatClient;
     }
 
     public List<Mensaje> getMensajeRefugio() {

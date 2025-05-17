@@ -25,7 +25,7 @@
                         <p:panelGrid columns="2" layout="grid" styleClass="mb-3">
 
                             <h:outputLabel for="nombre" value="Nombre:" />
-                            <p:inputText id="nombre" value="#{agregarMascotaFlowBean.mascota.nombre}" required="true">
+                            <p:inputText id="nombre" value="#{agregarMascotaFlowBean.mascota.nombre}" required="true" validatorMessage="Entre 3 y 30 caracteres">
                                 <f:validateRegex pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,30}$" />
                             </p:inputText>
 

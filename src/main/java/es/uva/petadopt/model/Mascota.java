@@ -74,6 +74,10 @@ public class Mascota implements Serializable {
     private String estadoSalud;
 
     public Mascota() {
+        this.nombre = "";
+        this.especie = "";
+        this.raza = "";
+        this.edad = 0;
     }
 
     public Mascota(Integer idMascota) {

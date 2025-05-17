@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uva.petadopt.dto;
 
 import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.model.Solicitudadopcion;
 
-/**
- *
- * @author andri
- */
+
 public class SolicitudMascotaDTO {
 
     private Solicitudadopcion solicitud;

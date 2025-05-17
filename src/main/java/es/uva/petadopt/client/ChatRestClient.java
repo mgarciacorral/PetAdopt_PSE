@@ -3,7 +3,6 @@ package es.uva.petadopt.client;
 
 import es.uva.petadopt.dto.ChatDTO;
 import es.uva.petadopt.model.Chat;
-import es.uva.petadopt.model.Mensaje;
 import es.uva.petadopt.model.Solicitudadopcion;
 import java.util.List;
 import javax.ws.rs.client.Client;

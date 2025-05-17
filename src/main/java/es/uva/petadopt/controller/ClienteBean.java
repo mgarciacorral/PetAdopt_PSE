@@ -7,10 +7,7 @@ import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Solicitudadopcion;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
@@ -109,9 +106,13 @@ public class ClienteBean implements Serializable {
 
             solicitudClient.createSolicitud(cliente, selectedMascota);
             Solicitudadopcion solicitud = solicitudClient.getLastSolicitudId(cliente.getEmail(), selectedMascota.getIdMascota());
-
-            chatRest.createChat(cliente.getEmail(), selectedMascota.getEmailRefugio() , solicitud.getIdSolicitud());
-            System.out.println("/cliente/confirmacionSolicitud.xhtml?faces-redirect=true&mascotaId=" + selectedMascota.getIdMascota());
+            
+            if(chatRest.findChat(cliente.getEmail(), selectedMascota.getEmailRefugio()) == -1){
+                chatRest.createChat(cliente.getEmail(), selectedMascota.getEmailRefugio(), solicitud.getIdSolicitud());
+            }else{
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Ya tienes un chat con este refugio"));
+            }
             return "/cliente/confirmacionSolicitud.xhtml?faces-redirect=true&mascotaId=" + selectedMascota.getIdMascota();
             
         }else{

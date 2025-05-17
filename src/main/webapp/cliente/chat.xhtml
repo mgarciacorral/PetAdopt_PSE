@@ -18,7 +18,7 @@
 
             <h:form id="chatForm" style="height: 80vh;" >
                 <p:panelGrid columns="1" style="width: 100%; height: 100%;" columnClasses="left-panel,right-panel" >
-                    <p:panel id="chatPanel" header="Conversación" style="height: 100%; display: flex; flex-direction: column;" >
+                    <p:panel id="chatPanel" header="#{chatBean.receptor}" style="height: 100%; display: flex; flex-direction: column;" >
 
                         <!-- Mensajes -->
                         <p:outputPanel id="mensajesPanel" style="flex: 1; overflow-y: auto; padding: 10px;" >

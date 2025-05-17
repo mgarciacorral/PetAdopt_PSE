@@ -46,7 +46,7 @@ public class Mensaje implements Serializable {
     private Integer idMensaje;
     @Column(name = "id_chat")
     private Integer idChat;
-    @Size(max = 10)
+    @Size(max = 100)
     @Column(name = "remitente")
     private String remitente;
     @Basic(optional = false)

@@ -1,7 +1,6 @@
 
 package es.uva.petadopt.rest;
 
-import es.uva.petadopt.model.Chat;
 import es.uva.petadopt.model.Mensaje;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -20,6 +19,8 @@ import javax.ws.rs.core.MediaType;
 
 @Stateless
 @Path("mensaje")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class MensajeFacadeREST extends AbstractFacade<Mensaje> {
 
     @PersistenceContext(unitName = "PetAdoptPU")
@@ -31,8 +32,9 @@ public class MensajeFacadeREST extends AbstractFacade<Mensaje> {
 
     @POST
     @Override
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
     public void create(Mensaje entity) {
+        System.out.println("Recibido: " + entity);
         super.create(entity);
     }
 
