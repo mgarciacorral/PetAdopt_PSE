@@ -83,14 +83,25 @@ public class RefugioBean implements Serializable {
                 Mascota mascota = mapaMascotas.get(solicitud.getIdMascota());
                 solicitudesConMascota.add(new SolicitudMascotaDTO(solicitud, mascota));
             });
+
             
         } else {
             buscarMascotas();
         }
     }
+    
+    
 
     public SolicitudMascotaDTO getSelectedSolicitudDto() {
         return selectedSolicitudDto;
+    }
+    
+    public void aceptarSolicitud(){
+        mascotaClient.borrarMascota(selectedMascota);
+    }
+    
+    public void rechazarSolicitud(){
+        solicitudClient.borrarSolicitud(selectedSolicitud);
     }
     
     public boolean verificarUsuario(String email) {
@@ -126,7 +137,12 @@ public class RefugioBean implements Serializable {
             return false;
         }
     }
+    
+    public Mascota findMascota(int idMascota){
 
+        return mascotaClient.find(idMascota);
+    }
+    
     public void setSelectedSolicitudDto(SolicitudMascotaDTO selectedSolicitudDto) {
         this.selectedSolicitudDto = selectedSolicitudDto;
     }
@@ -212,15 +228,9 @@ public class RefugioBean implements Serializable {
         return "/webresources/mascotas/imagen/" + idMascota;
     }
 
-    public void verMascota(int id) {
-        this.selectedMascota = mascotaClient.find(id);
-        for (SolicitudMascotaDTO dto : solicitudesConMascota) {
-            if (dto.getMascota() != null && dto.getMascota().getIdMascota() == id) {
-                this.selectedSolicitudDto = dto;
-                this.selectedSolicitud = selectedSolicitudDto.getSolicitud();
-                break;
-            }
-        }
+    public void verSolicitud(int id) {
+        selectedSolicitud = solicitudClient.find(id);
+        selectedMascota = mascotaClient.find(selectedSolicitud.getIdMascota());
     }
     
     public String verPaginaGestion() {

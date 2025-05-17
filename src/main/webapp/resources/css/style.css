@@ -1,3 +1,119 @@
+
+
+.page-container {
+  min-height: 100vh; /* altura mínima toda la ventana */
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrap {
+  flex: 1; /* toma todo el espacio disponible */
+}
+
+/* Footer estilo */
+.site-footer {
+  padding: 20px 10px;
+  background-color: #212529;
+  color: #f8f9fa;
+  font-size: 0.95rem;
+}
+
+
+.site-footer a {
+    color: #f8f9fa;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+    color: #adb5bd;
+}
+
+
+/*Estilos index.xhtml*/
+
+#imgIndex{
+    width: 100vw; 
+    height: 100vh; 
+    object-fit: cover; 
+    filter: brightness(0.4); 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    z-index: 1;
+}
+
+.indexContent{
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    z-index: 2; 
+    text-align: center; 
+    color: white;
+}
+
+.buttonIndex{
+    letter-spacing: 0.5px; 
+    transition: all 0.3s ease;
+}
+
+.buttonIndex:hover{
+    background-color: #218838 !important;
+    transform: scale(1.05);
+}
+
+.h1Index{
+    color: #2e8b57; 
+    text-shadow: 5px 5px 8px rgba(0, 0, 0, 0.697);
+
+}
+
+.pIndex{
+    color: #ffffff; 
+    font-style: italic; 
+    letter-spacing: 0.5px;
+    text-shadow: 5px 5px 8px rgba(0, 0, 0, 0.697);
+}
+
+/* Menú lateral */
+.custom-sidebar-menu .ui-menu-list {
+    padding: 0.5rem 0;
+}
+
+.custom-sidebar-menu .ui-submenu-header {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #2c3e50;
+}
+
+.custom-sidebar-menu .ui-menuitem-link {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: #34495e;
+    transition: background-color 0.3s ease;
+}
+
+.custom-sidebar-menu .ui-menuitem-link:hover {
+    background-color: #dceefc;
+    color: #0d6efd;
+}
+
+/* Estilo botón cerrar sesión menos llamativo */
+.logout-menuitem .ui-menuitem-link {
+    color: #b03a2e !important;
+    font-weight: 600;
+}
+
+.logout-menuitem .ui-menuitem-link:hover {
+    background-color: #f8d7da !important;
+    color: #842029 !important;
+}
+
+
+
+
 /*estilos del modal*/
 .ui-widget-overlay {
     background: rgba(0, 0, 0, 0.5) !important; /* Fondo semitransparente negro */
@@ -43,4 +159,6 @@
     flex-direction: column;
     gap: 10px;
 }
+
+
 

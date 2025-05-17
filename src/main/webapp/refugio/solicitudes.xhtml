@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <body>
 
@@ -15,19 +16,25 @@
                     <!-- Tarjetas de Mascotas -->
                     <h:panelGroup id="cards">
                         <div class="row">
-                            <ui:repeat value="#{refugioBean.mascotas}" var="mascota">
+                            <ui:repeat value="#{refugioBean.solicitudes}" var="solicitud">
+                                <c:set var="mascota" value="#{refugioBean.findMascota(solicitud.idMascota)}" />
                                 <div class="col-md-4 mb-3">
                                     <p:panel header="#{mascota.nombre}" styleClass="shadow-sm">
                                         <h:graphicImage value="#{refugioBean.getUrlImagenMascota(mascota.idMascota)}"
-                                                            style="width:100%; height:auto; max-height:200px; object-fit:cover; margin-bottom:10px;"
-                                                            alt="Imagen de #{mascota.nombre}" /><br />
+                                                        style="width:100%; height:auto; max-height:200px; object-fit:cover; margin-bottom:10px;"
+                                                        alt="Imagen de #{mascota.nombre}" /><br />
                                         <h:outputText value="Especie: #{mascota.especie}" /><br />
                                         <h:outputText value="Raza: #{mascota.raza}" /><br />
                                         <h:outputText value="Edad: #{mascota.edad}" /><br />
                                         <p:commandButton value="Ver más"
-                                                         actionListener="#{refugioBean.verMascota(mascota.idMascota)}"
+                                                         actionListener="#{refugioBean.verSolicitud(solicitud.idSolicitud)}"
                                                          update=":formDialog"
                                                          oncomplete="PF('dialogMascota').show()"
+                                                         styleClass="btn btn-info" />
+                                        <p:commandButton value="Gestionar solicitud"
+                                                         actionListener="#{refugioBean.verSolicitud(solicitud.idSolicitud)}"
+                                                         update="formDialogSolicitud"
+                                                         oncomplete="PF('aceptarSolicitud').show()"
                                                          styleClass="btn btn-info" />
                                     </p:panel>
                                 </div>
@@ -68,6 +75,34 @@
                                          action="#{refugioBean.verChat()}"
                                          update="growl"
                                          styleClass="btn btn-info"/>
+                    </p:dialog>
+                    <p:growl id="growl" showDetail="true" life="3000" sticky="false" />
+
+                </h:form>
+                
+                <h:form id="formDialogSolicitud">
+                    <p:dialog header="⚠️ Aviso"
+                              widgetVar="aceptarSolicitud"
+                              modal="false"
+                              closable="true"
+                              resizable="false"
+                              draggable="false"
+                              width="400"
+                              styleClass="z-9999">
+
+                        <h:outputText value="¿Aceptas o rechazas la solicitud de adopción de '#{refugioBean.selectedSolicitud.getEmailCliente()}'" />
+                        <br/>
+                        <p:commandButton value="Aceptar"
+                                         action="#{refugioBean.aceptarSolicitud()}"
+                                         update="@none"
+                                         styleClass="btn btn-success"
+                                         rendered="#{refugioBean.verificarUsuario(refugioBean.selectedSolicitud.emailCliente)}"
+                                         oncomplete="location.reload();"/>
+                        <p:commandButton value="Rechazar"
+                                         action="#{refugioBean.rechazarSolicitud()}"
+                                         update="@none"
+                                         styleClass="btn btn-danger"
+                                         oncomplete="location.reload();"/>
                     </p:dialog>
                     <p:growl id="growl" showDetail="true" life="3000" sticky="false" />
 

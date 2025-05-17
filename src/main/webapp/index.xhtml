@@ -11,16 +11,25 @@
 
             <ui:define name="content">
                 <!-- Imagen de fondo -->
-                    <img src="https://estaticosgn-cdn.deia.eus/clip/37ef816f-bb07-46b0-8c6d-6887ba5b8ee6_16-9-discover-aspect-ratio_default_0.jpg"
-                         alt="Familia feliz con un perro en el parque"
-                          style="width: 100vw; height: 100vh; object-fit: cover; filter: brightness(0.4); position: absolute; top: 0; left: 0; z-index: 1;"/>
+                    <img id="imgIndex"
+                         src="./resources/img/familia_perro.jpg"
+                         alt="Familia feliz con un perro en el parque"/>
 
                     <!-- Contenido centrado -->
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; text-align: center; color: white;">
-                        <h1 class="display-4">Bienvenido a PetAdopt</h1>
-                        <p class="lead">Adopta, conecta y transforma vidas.</p>
+                    <div class="indexContent">
+                        <h1 class="display-4 fw-bold text-center mb-3 h1Index" >
+                            Bienvenido a PetAdopt
+                        </h1>
+
+                        <p class="lead text-center pIndex">
+                            Adopta, conecta y transforma vidas.
+                        </p>
+
                         <h:link outcome="/auth/login.xhtml">
-                            <button class="btn btn-lg btn-success">Iniciar sesión</button>
+                            <button class="btn btn-success px-4 py-2 fs-5 fw-semibold shadow-lg rounded-pill transition buttonIndex">
+                                Iniciar sesión
+                            </button>
+
                         </h:link>
                     </div>
             </ui:define>

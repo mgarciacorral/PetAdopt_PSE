@@ -5,170 +5,140 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
-        <ui:composition template="/template.xhtml"
+        <ui:composition template="./templates/templateAuth.xhtml"
                         xmlns="http://www.w3.org/1999/xhtml"
                         xmlns:h="http://xmlns.jcp.org/jsf/html"
                         xmlns:p="http://primefaces.org/ui"
                         xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
             <ui:define name="content">
-                <div class="container">
+                <div class="container mt-5">
                     <div class="row justify-content-center">
                         <div class="col-md-6">
 
-                            <p:panel header="Registro de usuario"
-                                     styleClass="shadow p-4 rounded"
-                                     style="margin-top: 40px;">
+                            <p:panel header="Registro de usuario" styleClass="login-panel">
 
-                                <h:form id="clientForm">
+                                <h:form id="clientForm" styleClass="login-form">
                                     <f:event listener="#{registerBean.validatePassword}" type="postValidate" />
 
                                     <h:messages globalOnly="true" styleClass="alert alert-danger" />
 
-                                    <!-- Switcher para elegir entre Cliente o Refugio -->
+                                    <!-- Tipo de usuario -->
                                     <div class="mb-3">
-                                        <p:outputLabel for="userType"/>
+                                        <p:outputLabel for="userType" value="Tipo de usuario " />
                                         <p:selectOneButton id="userType" value="#{registerBean.userType}">
                                             <f:selectItem itemLabel="Cliente" itemValue="cliente" />
                                             <f:selectItem itemLabel="Refugio" itemValue="refugio" />
                                             <p:ajax event="change" listener="#{registerBean.onUserTypeChange}" update="@form" />
                                         </p:selectOneButton>
                                     </div>
+
+                                    <!-- Email -->
                                     <div class="mb-3">
-                                        <p:outputLabel for="email" value="Email" styleClass="form-label" />
-                                        <p:inputText id="email"
-                                                     value="#{registerBean.email}"
-                                                     required="true"
-                                                     requiredMessage="Por favor, introduce tu email."
-                                                     styleClass="form-control" >
+                                        <p:outputLabel for="email" value="Email" />
+                                        <p:inputText id="email" value="#{registerBean.email}" required="true"
+                                                     requiredMessage="Por favor, introduce tu email." styleClass="form-control">
                                             <f:validator validatorId="emailValidator" />
                                         </p:inputText>
                                         <p:message for="email" />
                                     </div>
 
+                                    <!-- Contraseña -->
                                     <div class="mb-3">
-                                        <p:outputLabel for="password" value="Contraseña" styleClass="form-label" />
-                                        <p:password id="password"
-                                                    value="#{registerBean.password}"
-                                                    required="true"
+                                        <p:outputLabel for="password" value="Contraseña" />
+                                        <p:password id="password" value="#{registerBean.password}" required="true"
                                                     requiredMessage="Por favor, introduce tu contraseña."
-                                                    validatorMessage="La
-                                                    contraseña debe contener al menos un carácter en minúsculas,
-                                                    un carácter en mayúscula, un número y su longitud debe estar entre 6 y 20
-                                                    caracteres."
-                                                    feedback="true"
-                                                    styleClass="form-control">
+                                                    validatorMessage="La contraseña debe contener al menos un carácter en minúsculas, un carácter en mayúscula, un número y tener entre 6 y 20 caracteres."
+                                                    feedback="true" styleClass="form-control">
                                             <f:validateRegex pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})" />
                                         </p:password>
                                         <p:message for="password" />
                                     </div>
 
-                                    <!-- Formulario Cliente -->
+                                    <!-- Campos Cliente -->
                                     <p:outputPanel id="clienteFields" layout="block" rendered="#{registerBean.userType eq 'cliente'}">
                                         <div class="mb-3">
-                                            <p:outputLabel for="nombre" value="Nombre" styleClass="form-label" />
-                                            <p:inputText id="nombre"
-                                                         value="#{registerBean.nombre}"
-                                                         required="true"
-                                                         requiredMessage="Por favor, introduce tu nombre."
-                                                         styleClass="form-control" />
+                                            <p:outputLabel for="nombre" value="Nombre" />
+                                            <p:inputText id="nombre" value="#{registerBean.nombre}" required="true"
+                                                         requiredMessage="Por favor, introduce tu nombre." styleClass="form-control" />
                                         </div>
 
                                         <div class="mb-3">
-                                            <p:outputLabel for="apellidos" value="Apellidos" styleClass="form-label" />
-                                            <p:inputText id="apellidos"
-                                                         value="#{registerBean.apellidos}"
-                                                         required="true"
-                                                         requiredMessage="Por favor, introduce tus apellidos."
-                                                         styleClass="form-control" />
+                                            <p:outputLabel for="apellidos" value="Apellidos" />
+                                            <p:inputText id="apellidos" value="#{registerBean.apellidos}" required="true"
+                                                         requiredMessage="Por favor, introduce tus apellidos." styleClass="form-control" />
                                         </div>
 
                                         <div class="mb-3">
-                                            <p:outputLabel for="nif" value="NIF" styleClass="form-label" />
-                                            <p:inputText id="nif"
-                                                         value="#{registerBean.nif}"
-                                                         required="true"
-                                                         requiredMessage="Por favor, introduce tu nif."
-                                                         styleClass="form-control" />
+                                            <p:outputLabel for="nif" value="NIF" />
+                                            <p:inputText id="nif" value="#{registerBean.nif}" required="true"
+                                                         requiredMessage="Por favor, introduce tu NIF." styleClass="form-control" />
                                         </div>
 
                                         <div class="mb-3">
-                                            <p:outputLabel for="domicilio" value="Domicilio" styleClass="form-label" />
-                                            <p:inputText id="domicilio"
-                                                         value="#{registerBean.domicilio}"
-                                                         required="true"
-                                                         requiredMessage="Por favor, introduce tu domicilio."
-                                                         styleClass="form-control" />
+                                            <p:outputLabel for="domicilio" value="Domicilio" />
+                                            <p:inputText id="domicilio" value="#{registerBean.domicilio}" required="true"
+                                                         requiredMessage="Por favor, introduce tu domicilio." styleClass="form-control" />
                                         </div>
 
                                         <div class="mb-3">
-                                            <p:outputLabel for="fechaNacimiento" value="Fecha de Nacimiento" styleClass="form-label" />
-                                            <p:calendar id="fechaNacimiento"
-                                                        value="#{registerBean.fechaNacimiento}"
-                                                        required="true"
+                                            <p:outputLabel for="fechaNacimiento" value="Fecha de Nacimiento" />
+                                            <p:calendar id="fechaNacimiento" value="#{registerBean.fechaNacimiento}" required="true"
                                                         requiredMessage="Por favor, introduce tu fecha de nacimiento."
                                                         styleClass="form-control" />
                                         </div>
                                     </p:outputPanel>
 
-                                    <!-- Formulario Refugio -->
-                                    <p:outputPanel id="refugioFields" layout="block"  rendered="#{registerBean.userType eq 'refugio'}">
+                                    <!-- Campos Refugio -->
+                                    <p:outputPanel id="refugioFields" layout="block" rendered="#{registerBean.userType eq 'refugio'}">
                                         <div class="mb-3">
-                                            <p:outputLabel for="nombreRefugio" value="Nombre del Refugio" styleClass="form-label" />
-                                            <p:inputText id="nombreRefugio"
-                                                         value="#{registerBean.nombreRefugio}"
-                                                         required="true"
-                                                         requiredMessage="Por favor, introduce tu refugio."
-                                                         styleClass="form-control" />
+                                            <p:outputLabel for="nombreRefugio" value="Nombre del Refugio" />
+                                            <p:inputText id="nombreRefugio" value="#{registerBean.nombreRefugio}" required="true"
+                                                         requiredMessage="Por favor, introduce el nombre del refugio." styleClass="form-control" />
                                         </div>
 
                                         <div class="mb-3">
-                                            <p:outputLabel for="cif" value="CIF" styleClass="form-label" />
-                                            <p:inputText id="cif"
-                                                         value="#{registerBean.cif}"
-                                                         required="true"
-                                                         requiredMessage="Por favor, introduce tu cif."
-                                                         styleClass="form-control" />
+                                            <p:outputLabel for="cif" value="CIF" />
+                                            <p:inputText id="cif" value="#{registerBean.cif}" required="true"
+                                                         requiredMessage="Por favor, introduce el CIF." styleClass="form-control" />
                                         </div>
 
                                         <div class="mb-3">
-                                            <p:outputLabel for="direccion" value="Dirección" styleClass="form-label" />
-                                            <p:inputText id="direccion"
-                                                         value="#{registerBean.direccion}"
-                                                         required="true"
-                                                         requiredMessage="Por favor, introduce tu direccion."
-                                                         styleClass="form-control" />
+                                            <p:outputLabel for="direccion" value="Dirección" />
+                                            <p:inputText id="direccion" value="#{registerBean.direccion}" required="true"
+                                                         requiredMessage="Por favor, introduce la dirección." styleClass="form-control" />
                                         </div>
                                     </p:outputPanel>
-                                    
+
+                                    <!-- Teléfono -->
                                     <div class="mb-3">
-                                        <p:outputLabel for="telefono" value="Teléfono" styleClass="form-label" />
-                                        <p:inputText id="telefono"
-                                                     value="#{registerBean.telefono}"
-                                                     required="true"
-                                                     requiredMessage="Por favor, introduce tu telefono."
-                                                     styleClass="form-control" />
+                                        <p:outputLabel for="telefono" value="Teléfono" />
+                                        <p:inputText id="telefono" value="#{registerBean.telefono}" required="true"
+                                                     requiredMessage="Por favor, introduce tu teléfono." styleClass="form-control" />
                                     </div>
-                                    
+
                                     <!-- Botón de registro -->
-                                    <div class="d-grid gap-2">
-                                        <p:commandButton value="Registrar" action="#{registerBean.register}" process="@form" update="@form" />
-
+                                    <div class="d-grid">
+                                        <p:commandButton value="Registrar" action="#{registerBean.register}" process="@form"
+                                                         update="@form" styleClass="btn btn-primary" />
                                     </div>
 
+                                    <!-- Link de login -->
                                     <div class="text-center mt-3">
-                                        <h:outputLink value="login.xhtml" styleClass="link-primary">
+                                        <h:outputLink value="login.xhtml" styleClass="btn btn-link">
                                             ¿Ya tienes cuenta? Inicia sesión aquí
                                         </h:outputLink>
                                     </div>
+
                                 </h:form>
 
                             </p:panel>
-
                         </div>
                     </div>
                 </div>
             </ui:define>
+
+
         </ui:composition>
     </body>
 </html>

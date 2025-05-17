@@ -13,13 +13,12 @@
             <ui:define name="content">
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-lg-5">
 
                             <p:panel header="Iniciar sesión en PetAdopt"
-                                     styleClass="shadow p-4 rounded"
-                                     style="margin-top: 40px;">
+                                     styleClass="login-panel">
 
-                                <h:form>
+                                <h:form styleClass="login-form">
                                     <h:messages styleClass="alert alert-danger" />
 
                                     <div class="mb-3">
@@ -39,7 +38,7 @@
                                                     requiredMessage="Por favor, introduce tu contraseña."
                                                     styleClass="form-control" />
                                     </div>
-                                    
+
                                     <div class="g-recaptcha" data-sitekey="6LdbHz4rAAAAACntSpLJR79zjmJi0t6Ja_UENVDK"></div>
 
                                     <div class="d-grid gap-2">
@@ -64,6 +63,7 @@
                     </div>
                 </div>
             </ui:define>
+
         </ui:composition>
         <script>
   function checkCaptchaBeforeSubmit(event) {

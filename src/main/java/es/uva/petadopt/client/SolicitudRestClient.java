@@ -45,10 +45,10 @@ public class SolicitudRestClient {
         }
     }
 
-    public Solicitudadopcion find(String email) {
+    public Solicitudadopcion find(int id) {
         return client
                 .target(BASE_URL)
-                .path(email)
+                .path(String.valueOf(id))
                 .request(MediaType.APPLICATION_JSON)
                 .get(Solicitudadopcion.class);
     }
