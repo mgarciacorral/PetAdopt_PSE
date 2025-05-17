@@ -92,37 +92,38 @@
                                                             style="width:100%; height:auto; max-height:300px; object-fit:cover; margin-bottom:10px;"
                                                             alt="Imagen de #{mascota.nombre}" /><br />
                             <h:outputText value="Nombre:" />
-                            <h:outputText value="#{clienteBean.selectedMascota.getNombre()}" />
+                            <h:outputText value="#{clienteBean.selectedMascota.nombre}" />
 
                             <h:outputText value="Especie:" />
-                            <h:outputText value="#{clienteBean.selectedMascota.getEspecie()}" />
+                            <h:outputText value="#{clienteBean.selectedMascota.especie}" />
 
                             <h:outputText value="Raza:" />
-                            <h:outputText value="#{clienteBean.selectedMascota.getRaza()}" />
+                            <h:outputText value="#{clienteBean.selectedMascota.raza}" />
 
                             <h:outputText value="Edad:" />
-                            <h:outputText value="#{clienteBean.selectedMascota.getEdad()}" />
+                            <h:outputText value="#{clienteBean.selectedMascota.edad}" />
 
                             <h:outputText value="Refugio:" />
-                            <h:outputText value="#{clienteBean.selectedMascota.getEmailRefugio()}" />
+                            <h:outputText value="#{clienteBean.selectedMascota.emailRefugio}" />
                             
                             <h:outputText value="Estado de salud:" /><br />
                             <h:outputText value="#{clienteBean.selectedMascota.estadoSalud}" />
                             
                             <h:outputText value="Coste:"/><br />
-                            <h:outputText value="#{clienteBean.selectedMascota.getCoste()}" />
+                            <h:outputText value="#{clienteBean.selectedMascota.coste}" />
                             
                             
 
                         </h:panelGrid>
-                        <p:commandButton value="Solicitar adopción"
-                                         actionListener="#{clienteBean.solicitarMascota()}"
-                                         update="growl"
-                                         styleClass="btn btn-info"/>
+                        <p:commandButton value="Solicitar Mascota"
+                                         action="#{clienteBean.solicitarMascota}"
+                                         styleClass="btn btn-info"
+                                         process="@this"
+                                         update="@none">
+                        </p:commandButton>
                     </p:dialog>
-                    <p:growl id="growl" showDetail="true" life="3000" sticky="false" />
-
                 </h:form>
+                <p:growl id="growl" showDetail="true" life="3000" sticky="false" />
             </ui:define>
         </ui:composition>
     </body>

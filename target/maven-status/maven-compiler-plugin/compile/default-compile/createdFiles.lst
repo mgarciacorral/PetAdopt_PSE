@@ -30,6 +30,7 @@ es\uva\petadopt\rest\RefugioFacadeREST.class
 es\uva\petadopt\rest\SolicitudadopcionFacadeREST.class
 es\uva\petadopt\websocket\ChatSocket.class
 es\uva\petadopt\client\MascotaRestClient$7.class
+es\uva\petadopt\controller\ConfirmarSolicitudBean.class
 es\uva\petadopt\client\ClienteRestClient.class
 es\uva\petadopt\rest\ChatFacadeREST.class
 es\uva\petadopt\client\UsuarioRestClient.class

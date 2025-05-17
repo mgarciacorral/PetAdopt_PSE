@@ -93,7 +93,7 @@ public class MensajeFacadeREST extends AbstractFacade<Mensaje> {
     }
     
     @GET
-    @Path("mensajes/{idChat}}")
+    @Path("mensajes/{idChat}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Mensaje> findMensajesByChat(@PathParam("idChat") Integer idChat) {
         return getEntityManager()

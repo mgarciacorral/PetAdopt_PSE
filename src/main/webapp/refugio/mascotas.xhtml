@@ -15,7 +15,7 @@
                     <h2>Gestion De Mascotas</h2>
                     <h:form>
                         <h:commandButton value="Agregar Mascota" action="agregarMascota" rendered="#{refugioBean.isAutorizado()}" styleClass="btn btn-success" style="margin: 20px;" />
-                        <h:outputText value="Tu refugion no esta autorizado!!!"  rendered="#{!refugioBean.isAutorizado()}" style="color: red"/>
+                        <h:outputText value="¡¡¡Tu refugion no esta autorizado!!!"  rendered="#{!refugioBean.isAutorizado()}" style="color: red"/>
                     </h:form>
 
                         <!-- Tarjetas de Mascotas -->
@@ -67,29 +67,29 @@
                               styleClass="z-9999">
 
                         <h:panelGrid columns="2" cellpadding="5">
-                            <h:outputText value="#{refugioBean.selectedMascota.getNombre()}" /><br />
+                            <h:outputText value="#{refugioBean.selectedMascota.nombre}"/><br />
                             
-                            <h:graphicImage value="#{refugioBean.getUrlImagenMascota(mascota.idMascota)}"
+                            <h:graphicImage value="#{refugioBean.getUrlImagenMascota(refugioBean.selectedMascota.idMascota)}"
                                                             style="width:100%; height:auto; max-height:200px; object-fit:cover; margin-bottom:10px;"
-                                                            alt="Imagen de #{mascota.nombre}" />
+                                                            alt="Imagen de #{refugioBean.selectedMascota.nombre}" />
 
                         </h:panelGrid>
                         <h:panelGroup id="m">
                         <p:commandButton 
                             value="Eliminar"
-                            actionListener="#{refugioBean.prepararConfirmacion(mascota)}"
+                            actionListener="#{refugioBean.prepararConfirmacion(refugioBean.selectedMascota)}"
                             update="m"
                             process="@this"
-                            rendered="#{!refugioBean.isConfirmandoEliminar(mascota.idMascota)}"
+                            rendered="#{!refugioBean.isConfirmandoEliminar(refugioBean.selectedMascota.idMascota)}"
                             styleClass="btn btn-info" />
 
                         <p:commandButton 
                             value="Confirmar"
-                            actionListener="#{refugioBean.eliminarMascota(mascota)}"
+                            actionListener="#{refugioBean.eliminarMascota(refugioBean.selectedMascota)}"
                             update="@none"
                             oncomplete="location.reload();"
                             process="@this"
-                            rendered="#{refugioBean.isConfirmandoEliminar(mascota.idMascota)}"
+                            rendered="#{refugioBean.isConfirmandoEliminar(refugioBean.selectedMascota.idMascota)}"
                             styleClass="btn btn-danger" />
                         </h:panelGroup>
                     </p:dialog>

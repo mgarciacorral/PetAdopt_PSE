@@ -4,7 +4,6 @@ import es.uva.petadopt.client.ChatRestClient;
 import es.uva.petadopt.client.MascotaRestClient;
 import es.uva.petadopt.client.SolicitudRestClient;
 import es.uva.petadopt.dto.SolicitudMascotaDTO;
-import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.model.Refugio;
 import es.uva.petadopt.model.Solicitudadopcion;
@@ -76,10 +75,10 @@ public class RefugioBean implements Serializable {
             Map<Integer, Mascota> mapaMascotas = mascotas.stream()
                     .collect(Collectors.toMap(Mascota::getIdMascota, m -> m));
             
-            for (Solicitudadopcion solicitud : solicitudes) {
+            solicitudes.forEach(solicitud -> {
                 Mascota mascota = mapaMascotas.get(solicitud.getIdMascota());
                 solicitudesConMascota.add(new SolicitudMascotaDTO(solicitud, mascota));
-            }
+            });
             
         } else {
             buscarMascotas();
@@ -176,10 +175,10 @@ public class RefugioBean implements Serializable {
     }
 
     public void verMascota(int id) {
+        this.selectedMascota = mascotaClient.find(id);
         for (SolicitudMascotaDTO dto : solicitudesConMascota) {
             if (dto.getMascota() != null && dto.getMascota().getIdMascota() == id) {
                 this.selectedSolicitudDto = dto;
-                this.selectedMascota = dto.getMascota();
                 this.selectedSolicitud = selectedSolicitudDto.getSolicitud();
                 break;
             }

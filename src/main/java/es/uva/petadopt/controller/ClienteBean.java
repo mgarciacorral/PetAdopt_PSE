@@ -7,7 +7,10 @@ import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.model.Cliente;
 import es.uva.petadopt.model.Solicitudadopcion;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
@@ -99,8 +102,7 @@ public class ClienteBean implements Serializable {
         this.selectedMascota = mascotaClient.find(id);
     }
     
-    public void solicitarMascota(){
-        
+    public String solicitarMascota(){
         if(solicitudClient.comprobarSolicitud(cliente.getEmail(), selectedMascota.getIdMascota())){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud enviada", "Hemos enviado tu solicitud al refugio."));
@@ -109,12 +111,18 @@ public class ClienteBean implements Serializable {
             Solicitudadopcion solicitud = solicitudClient.getLastSolicitudId(cliente.getEmail(), selectedMascota.getIdMascota());
 
             chatRest.createChat(cliente.getEmail(), selectedMascota.getEmailRefugio() , solicitud.getIdSolicitud());
+            System.out.println("/cliente/confirmacionSolicitud.xhtml?faces-redirect=true&mascotaId=" + selectedMascota.getIdMascota());
+            return "/cliente/confirmacionSolicitud.xhtml?faces-redirect=true&mascotaId=" + selectedMascota.getIdMascota();
             
         }else{
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ya se ha solicitado está mascota"));
+            return null;
         }
-        
+    }
+    
+    public Solicitudadopcion getLastSolicitud(){
+        return solicitudClient.getLastSolicitudId(cliente.getEmail(), selectedMascota.getIdMascota());
     }
     
     public int cargarChat(){

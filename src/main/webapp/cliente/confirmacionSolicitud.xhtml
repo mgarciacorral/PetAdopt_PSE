@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+        
+
+        <ui:composition template="./../templates/templateCliente.xhtml">
+            <f:metadata>
+                <f:viewParam name="mascotaId" value="#{confirmarSolicitudBean.mascotaId}" />
+                <f:viewAction action="#{confirmarSolicitudBean.cargarMascota}" />
+            </f:metadata>
+            
+            <ui:define name="contenidoCliente">
+                <h2>
+                    <h:outputText value="¡¡¡Solicitud confirmada!!!" />
+                </h2>
+                <h:form>
+                    <p:panelGrid id="print" columns="1">
+                        <p:panelGrid id="info" columns="3">
+                            <h:outputText value="Mascota: #{confirmarSolicitudBean.mascota.nombre}" />
+                            <h:outputText value="Hora de solicitud: #{confirmarSolicitudBean.getTime()}" />
+                            <h:outputText value="Refugio: #{confirmarSolicitudBean.mascota.emailRefugio}" />
+                        </p:panelGrid>
+                        <p:panelGrid columns="2">
+                            <h:outputText value="Coste:" />
+                            <h:outputText value="#{confirmarSolicitudBean.mascota.coste}">
+                                <f:convertNumber type="currency" />
+                            </h:outputText>
+                            <h:outputText value="Especie" />
+                            <h:outputText value="#{confirmarSolicitudBean.mascota.especie}" />
+                            <h:outputText value="Raza:" />
+                            <h:outputText value="#{confirmarSolicitudBean.mascota.raza}">
+                            </h:outputText>
+                        </p:panelGrid>
+                        <p:panelGrid columns="2">
+                            <h:outputText value="Código QR con tu solicitud:" />
+                            <p:barcode value="Solicitud para adoptar a #{confirmarSolicitudBean.mascota.nombre} con un coste de #{confirmarSolicitudBean.mascota.coste}€" type="qr"/>
+                        </p:panelGrid>  
+                    </p:panelGrid>
+                    <p:commandButton value="Ver Solicitudes" action="#{confirmarSolicitudBean.verSolicitudes()}" icon="ui-icon-home" />
+                    <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">
+                        <p:printer target="print"/>
+                    </p:commandButton>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -5,6 +5,7 @@ import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.model.Refugio;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.flow.FlowScoped;
@@ -18,23 +19,25 @@ import org.primefaces.model.file.UploadedFile;
 public class AgregarMascotaFlowBean implements Serializable {
 
     private Mascota mascota;
-    private int mascotaId;
+    private int mascotaId = -1;
     private UploadedFile imagen;
     private StreamedContent imagenPreview;
     private final MascotaRestClient mascotaRestClient = new MascotaRestClient();
     private boolean edit = false;
     
+    @PostConstruct
+    public void init() {
+        cargarMascota();
+    }
+    
     public void cargarMascota() {
-        if (mascota == null) {
+        if (mascotaId == -1) {
+            mascota = new Mascota();
+        }else{
             MascotaRestClient mr = new MascotaRestClient();
            
             mascota = mr.find(mascotaId);
-
-            if (mascota == null) {
-                mascota = new Mascota();
-            } else {
-                edit = true;
-            }
+            edit = true;
         }
     }
 
