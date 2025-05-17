@@ -7,7 +7,11 @@ import es.uva.petadopt.dto.SolicitudMascotaDTO;
 import es.uva.petadopt.model.Mascota;
 import es.uva.petadopt.model.Refugio;
 import es.uva.petadopt.model.Solicitudadopcion;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +91,40 @@ public class RefugioBean implements Serializable {
 
     public SolicitudMascotaDTO getSelectedSolicitudDto() {
         return selectedSolicitudDto;
+    }
+    
+    public boolean verificarUsuario(String email) {
+        try {
+            String urlString = "http://serpis.infor.uva.es:80/darklist/api/validar_adoptante/" + email;
+            URL url = new URL(urlString);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+
+            if (status == 404) {
+                return true;
+            }
+
+            if (status == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = in.readLine()) != null) {
+                    response.append(line);
+                }
+                in.close();
+
+                String json = response.toString();
+                return json.contains("\"listaNegra\":\"no\"");
+            }
+
+            return false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public void setSelectedSolicitudDto(SolicitudMascotaDTO selectedSolicitudDto) {

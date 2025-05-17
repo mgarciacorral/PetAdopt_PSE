@@ -39,11 +39,14 @@
                                                     requiredMessage="Por favor, introduce tu contraseña."
                                                     styleClass="form-control" />
                                     </div>
+                                    
+                                    <div class="g-recaptcha" data-sitekey="6LdbHz4rAAAAACntSpLJR79zjmJi0t6Ja_UENVDK"></div>
 
                                     <div class="d-grid gap-2">
                                         <p:commandButton value="Iniciar sesión"
                                                          action="#{loginBean.login}"
                                                          update="@form"
+                                                         onclick="checkCaptchaBeforeSubmit(event)"
                                                          process="@form"
                                                          styleClass="btn btn-primary" />
                                     </div>
@@ -62,5 +65,25 @@
                 </div>
             </ui:define>
         </ui:composition>
+        <script>
+  function checkCaptchaBeforeSubmit(event) {
+    event.preventDefault(); // Evita envío inmediato
+
+    grecaptcha.ready(function () {
+      grecaptcha.execute('6LdbHz4rAAAAACntSpLJR79zjmJi0t6Ja_UENVDK', { action: 'submit' }).then(function (token) {
+        // Añade el token como input hidden
+        let form = event.target.closest("form");
+        let input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "g-recaptcha-response";
+        input.value = token;
+        form.appendChild(input);
+
+        // Ahora sí: enviar formulario manualmente
+        form.submit();
+      });
+    });
+  }
+        </script>
     </body>
 </html>
