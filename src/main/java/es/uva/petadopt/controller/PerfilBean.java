@@ -11,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.file.UploadedFile;
 
 @Named
 @RequestScoped
@@ -22,6 +23,7 @@ public class PerfilBean {
     private Refugio refugio;
     
     private String email;
+    private UploadedFile imagen;
     
     private String nombreCliente;
     private String apellidosCliente;
@@ -37,6 +39,15 @@ public class PerfilBean {
     @PostConstruct
     public void init(){
         setDataUsuario();
+    }
+    
+    public String eliminarCuenta(){
+        new UsuarioRestClient().delete(usuario);
+        return new LoginBean().logout();
+    }
+    
+    public String getUrlImagenPerfil(String email) {
+        return "/webresources/usuarios/imagen/" + email;
     }
     
     public void setDataUsuario(){
@@ -109,6 +120,21 @@ public class PerfilBean {
     
     public String getNombreRefugio() {
         return nombreRefugio;
+    }
+
+    public UploadedFile getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(UploadedFile imagen) {
+        this.imagen = imagen;
+    }
+    
+    public void cambiarFotoPerfil(){
+        if (imagen != null) {
+            usuario.setFoto(imagen.getContent());
+            usuarioRest.update(usuario);
+        }
     }
 
     public void setNombreRefugio(String nombreRefugio) {

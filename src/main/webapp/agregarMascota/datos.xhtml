@@ -39,6 +39,11 @@
                             <p:inputText id="raza" value="#{agregarMascotaFlowBean.mascota.raza}" required="true" validatorMessage="Entre 2 y 30 caracteres">
                                 <f:validateRegex pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,30}$" />
                             </p:inputText>
+                            
+                            <h:outputLabel for="estadoSalud" value="Estado de salud:" />
+                            <p:inputText id="estadoSalud" value="#{agregarMascotaFlowBean.mascota.estadoSalud}" required="true" validatorMessage="Entre 2 y 30 caracteres">
+                                <f:validateRegex pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,30}$" />
+                            </p:inputText>
 
                             <h:outputLabel for="edad" value="Edad:" />
                             <p:inputText id="edad" value="#{agregarMascotaFlowBean.mascota.edad}" required="true" validatorMessage="Entre 0 y 99">

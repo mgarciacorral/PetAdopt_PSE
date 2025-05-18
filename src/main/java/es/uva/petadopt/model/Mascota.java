@@ -62,7 +62,6 @@ public class Mascota implements Serializable {
     private Integer edad;
     @Lob
     @Column(name = "foto")
-    
     private byte[] foto;
     @Size(max = 100)
     @Column(name = "email_refugio")

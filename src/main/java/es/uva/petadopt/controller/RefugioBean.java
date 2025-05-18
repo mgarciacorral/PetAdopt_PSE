@@ -241,6 +241,10 @@ public class RefugioBean implements Serializable {
         return "/refugio/solicitudes.xhtml?faces-redirect=true";
     }
     
+    public void verMascota(int id) {
+        this.selectedMascota = mascotaClient.find(id);
+    }
+    
     public String verPerfil() {
         return "/refugio/perfil.xhtml?faces-redirect=true";
     }

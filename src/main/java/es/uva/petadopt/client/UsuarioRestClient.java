@@ -29,6 +29,12 @@ public class UsuarioRestClient {
                 .get(Usuario.class);
     }
     
+    public void update(Usuario usuario){
+        webTarget.path(usuario.getEmail())
+                .request()
+                .put(Entity.entity(usuario, MediaType.APPLICATION_JSON));
+    }
+    
     public List<Usuario> findAll() {
         Response response = webTarget
                 .request(MediaType.APPLICATION_JSON)
@@ -65,6 +71,7 @@ public class UsuarioRestClient {
     
     public void delete(Usuario user){
         Response response = webTarget.path(user.getEmail()).request().delete();
+        client.target("http://localhost:8080/PetAdopt_PSE/webresources/es.uva.petadopt.model.usergroups").path(user.getEmail()).request("text/plain").delete();
 
         if (response.getStatus() == 204) {
             System.out.println("Usuario eliminado correctamente.");

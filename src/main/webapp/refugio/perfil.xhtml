@@ -15,6 +15,27 @@
 
                     <!-- Panel con los datos del usuario -->
                     <p:panel header="Mi Refugio" styleClass="shadow p-4 rounded">
+                        <h:form enctype="multipart/form-data">
+                            <h:graphicImage value="#{perfilBean.getUrlImagenPerfil(perfilBean.email)}"
+                                            style="width:100%; height:auto; object-fit: cover; max-height:100px; max-width: 100px; object-fit:cover; margin-bottom:10px; border: 1px solid #e0e0e0; border-radius: 50%"
+                                            alt="Imagen de #{perfilBean.nombreCliente}" /><br />
+                            <p:fileUpload value="#{perfilBean.imagen}"
+                                          mode="simple"
+                                          accept=".jpg,.jpeg,.png"
+                                          allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                          sizeLimit="1048576"
+                                          invalidSizeMessage="La imagen no debe superar 1 MB."
+                                          invalidFileMessage="Solo se permiten imágenes JPG o PNG." /><br />
+
+                            <p:commandButton value="Actualizar foto perfil"
+                                             action="#{perfilBean.cambiarFotoPerfil}"
+                                             process="@form"
+                                             update="@none"
+                                             oncomplete="location.reload()"
+                                             styleClass="btn btn-info"
+                                             ajax="false" /><br />
+                        </h:form>
+
                         <h:form>
                             <div class="mb-3">
                                 <p:outputLabel value="Nombre" styleClass="form-label" />

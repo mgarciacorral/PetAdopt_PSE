@@ -22,22 +22,13 @@ public class ClienteRestClient {
     }
     
     public void createCliente(Cliente cliente) {
-        Response response = webTarget
-                .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(cliente, MediaType.APPLICATION_JSON));
+        webTarget.request(MediaType.APPLICATION_JSON).post(Entity.entity(cliente, MediaType.APPLICATION_JSON));
     }
     
     public void delete(String email){
-        Response response = webTarget.path(email).request().delete();
-
-        if (response.getStatus() == 204) {
-            System.out.println("Cliente eliminado correctamente.");
-            new SolicitudRestClient().borrarPorCliente(email);
-        } else {
-            System.out.println("Error al eliminar la solicitud. Código: " + response.getStatus());
-        }
-
-        response.close();
+        webTarget.path(email).request().delete();
+        System.out.println("Cliente eliminado correctamente.");
+        new SolicitudRestClient().borrarPorCliente(email);
     }
     
     public Cliente findByEmail(String email){

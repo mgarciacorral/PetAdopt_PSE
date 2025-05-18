@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.uva.petadopt.rest;
 
 import es.uva.petadopt.model.UserGroups;
@@ -43,6 +38,16 @@ public class UserGroupsFacadeREST extends AbstractFacade<UserGroups> {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(UserGroups entity) {
         super.create(entity);
+    }
+    
+    @DELETE
+    @Path("{email}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public void delete(@PathParam("email") String email) {
+        em.createQuery(
+                "DELETE FROM UserGroups ug WHERE ug.userGroupsPK.email = :mail")
+                .setParameter("mail", email)
+                .executeUpdate();
     }
 
     @PUT

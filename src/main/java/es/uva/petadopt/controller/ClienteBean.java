@@ -117,7 +117,7 @@ public class ClienteBean implements Serializable {
             
         }else{
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ya se ha solicitado está mascota"));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Ya has solicitado está mascota"));
             return null;
         }
     }

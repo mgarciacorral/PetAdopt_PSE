@@ -6,6 +6,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -21,7 +22,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
     @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email"),
     @NamedQuery(name = "Usuario.findByPassword", query = "SELECT u FROM Usuario u WHERE u.password = :password"),
-    @NamedQuery(name = "Usuario.findByFotoPerfil", query = "SELECT u FROM Usuario u WHERE u.fotoPerfil = :fotoPerfil"),
     @NamedQuery(name = "Usuario.findByTipo", query = "SELECT u FROM Usuario u WHERE u.tipo = :tipo")})
 public class Usuario implements Serializable {
 
@@ -38,9 +38,9 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "password")
     private String password;
-    @Size(max = 255)
-    @Column(name = "foto_perfil")
-    private String fotoPerfil;
+    @Lob
+    @Column(name = "foto")
+    private byte[] foto;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
@@ -76,12 +76,12 @@ public class Usuario implements Serializable {
         this.password = password;
     }
 
-    public String getFotoPerfil() {
-        return fotoPerfil;
+    public byte[] getFoto() {
+        return foto;
     }
 
-    public void setFotoPerfil(String fotoPerfil) {
-        this.fotoPerfil = fotoPerfil;
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
     }
 
     public String getTipo() {
