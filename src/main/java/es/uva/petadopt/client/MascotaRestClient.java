@@ -20,8 +20,8 @@ import javax.ws.rs.core.Response;
 public class MascotaRestClient {
     
     private static final String BASE_URL = "http://localhost:8080/PetAdopt_PSE/webresources/mascotas";
-    private Client client;
-    private WebTarget webTarget;
+    private final Client client;
+    private final WebTarget webTarget;
 
     public MascotaRestClient() {
         client = ClientBuilder.newClient();
