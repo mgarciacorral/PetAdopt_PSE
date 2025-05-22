@@ -6,6 +6,8 @@ import es.uva.petadopt.model.Refugio;
 import es.uva.petadopt.model.Usuario;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -93,6 +95,11 @@ public class RegisterBean implements Serializable {
             facesContext.addMessage(uiInputPassword.getClientId(), msg);
             facesContext.renderResponse();
         }
+    }
+    
+    public Date getFechaMaximaNacimiento() {
+        LocalDate hoyMenos18 = LocalDate.now().minusYears(18);
+        return Date.from(hoyMenos18.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
     
     public void onUserTypeChange() {
